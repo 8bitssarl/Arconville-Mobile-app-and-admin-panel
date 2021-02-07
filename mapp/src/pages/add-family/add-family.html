@@ -1,0 +1,27 @@
+<ion-header class="blue-header">
+    <ion-navbar>
+        <ion-title>
+            Add Family Member
+        </ion-title>
+        <!--<ion-buttons end>
+            <button ion-button icon-only (tap)="saveClick()">
+                <ion-icon name="md-checkmark"></ion-icon>
+            </button>
+        </ion-buttons>-->
+    </ion-navbar>
+</ion-header>
+<ion-content no-padding has-header class="has-header gray-screen">
+    <div class="after-header-drop">
+        <div class="input-fields-container">
+            <div class="input-label">
+                Phone Number
+            </div>
+            <ion-item class="input-field field-below-label">
+                <ion-input type="tel" [(ngModel)]="phoneNumber" maxlength="20" placeholder="018xxxxx"></ion-input>
+            </ion-item>
+        </div>
+        <div class="signup-button">
+            <button ion-button class="common-button primary-button padded-button" (tap)="saveClick()">Add</button>
+        </div>
+    </div>
+</ion-content>

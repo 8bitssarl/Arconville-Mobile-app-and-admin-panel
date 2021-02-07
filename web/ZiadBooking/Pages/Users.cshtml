@@ -1,0 +1,70 @@
+﻿@page
+@model ZiadBooking.Pages.UsersModel
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h2>Users</h2>
+
+@{ 
+    List<Models.User> users = (List<Models.User>)ViewData["Users"];
+}
+
+<div class="add-new-container" style="margin-bottom: 15px;text-align: right">
+    <a href="User">+Add New User</a>
+</div>
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var u in users)
+            {
+                <tr>
+                    <td>@u.Name</td>
+                    <td>@u.Email</td>
+                    <td>@u.PhoneNumber</td>
+                    <td>
+                        <a href="#" id="anchorMoreDetails@(u.Id)" onclick="loadMoreDetails('@(u.Id)');">More Details</a>
+                        &nbsp;&nbsp;
+                        <a href="/Subscription?user_id=@u.Id">Subscriptions</a>
+                        &nbsp;&nbsp;
+                        <a href="/User?id=@u.Id">Edit</a>
+                        &nbsp;&nbsp;
+                        <a href="/User?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;">Delete</a>
+                    </td>
+                </tr>
+                <tr id="moreDetailsRow@(u.Id)" style="display:none;">
+                    <td colspan="4" id="moreDetails@(u.Id)"></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function loadMoreDetails(userId) {
+        if ($("#moreDetailsRow" + userId).css("display") != "none") {
+            $("#moreDetailsRow" + userId).css("display", "none");
+            $("#anchorMoreDetails" + userId).text("More Details");
+            return;
+        }
+        $("#anchorMoreDetails" + userId).text("Loading...");
+        var pageUrl = '/UserMoreDetails?user_id=' + userId;
+        console.log(pageUrl);
+        $.ajax({
+            url: pageUrl,
+        }).done(function (result) {
+            $("#moreDetailsRow" + userId).css("display", "table-row");
+            $("#moreDetails" + userId).html(result);
+            $("#anchorMoreDetails" + userId).text("Hide Details");
+        });
+    }
+</script>

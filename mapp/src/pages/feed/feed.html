@@ -1,0 +1,50 @@
+<ion-header class="blue-header">
+    <ion-navbar>
+        <ion-title>
+            My Reservations
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-padding has-header class="has-header gray-screen">
+    <ion-fab bottom right edge>
+        <button ion-fab mini (tap)="addReservationClick()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon="arrow-dropdown"
+            pullingText="Pull to refresh"
+            refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <div class="after-header-drop">
+        <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
+            <ion-segment-button value="upcoming">
+                Upcoming
+            </ion-segment-button>
+            <ion-segment-button value="previous">
+                Previous
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+    <div class="all-items-container">
+        <div *ngFor="let st of items" class="item-single" (press)="itemPress(st)" (tap)="itemClick(st)">
+            <div class="full-item-info">
+                <div class="item-title">
+                    {{st.service_name}}&nbsp;(for {{st.num_hours}} hours)
+                </div>
+                <div class="item-date">
+                    {{st.date_display_text}}
+                </div>
+                <div class="item-time">
+                    {{st.time_display_text}}
+                </div>
+            </div>
+            <div class="forward-icon">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+            </div>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,47 @@
+page-login {
+    .signup-input-container {
+        margin-top: 40px;
+    }
+
+    .signup-with-text {
+        text-align: center;
+        color:#787878;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    .or-text {
+        margin-top: 10px;
+        text-align: center;
+        color:#787878;
+        font-weight: 400;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .google-button {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .google-button img {
+        width: 40px;
+    }
+
+    .login-button {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .no-account-text {
+        margin-top: 50px;
+        text-align: center;
+        font-size: 1.7rem;
+        color:#e18137;
+    }
+
+    .no-account-text .signup-text {
+        font-weight: 600;
+        color: #e18137;
+    }
+}

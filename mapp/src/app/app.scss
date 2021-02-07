@@ -1,0 +1,200 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+@font-face {
+    font-family: 'ZiadRegular';
+    src: url('../assets/Poppins-Regular.ttf') format('truetype');
+}
+
+$common-font-family: 'Roboto';
+$bg-gradient-top: #dae9f4;
+$bg-gradient-bottom: #dae9f4;
+$gradient-stop-point: 950px;
+$light-blue-background: #dae9f4;
+$theme-color-1:#0c68b3;
+$theme-color-2:#e18137;
+$button-text-color:#FFFFFF;
+$button-background-color:#e18137;
+
+$common-font-family: 'ZiadRegular';
+
+.header {
+    background-color: $light-blue-background;
+}
+
+.header::after {
+    height: 0 !important;
+}
+
+.toolbar-background {
+    background-color: $light-blue-background;
+    border-width: 0px;
+}
+
+.toolbar-title {
+    padding-left: 0 !important;
+}
+
+.header.blue-header {
+    background-color:$theme-color-1;
+    color:#FFFFFF;
+}
+
+.header.blue-header .toolbar-background {
+    background-color:$theme-color-1;
+}
+
+.header.blue-header .toolbar-title {
+    font-family: $common-font-family !important;
+    color:#FFFFFF;
+}
+
+.header.blue-header .bar-button {
+    color:#FFFFFF;
+}
+
+.common-screen {
+    font-family: $common-font-family !important;
+    background: linear-gradient($bg-gradient-top,$bg-gradient-bottom $gradient-stop-point);
+    background-color:$bg-gradient-bottom;
+}
+
+.gray-screen {
+    font-family: $common-font-family !important;
+    background-color:#eaeaea;
+}
+
+.white-screen {
+    font-family: $common-font-family !important;
+    background-color:#FFFFFF;
+}
+
+.person-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align:right;
+    padding-right: 10px;
+    width: 100%;
+    z-index: -1;
+}
+
+.person-bottom img {
+    max-width: 75%;
+}
+
+.button-bottom {
+    position: absolute;
+    bottom: 11%;
+    left: 0;
+    text-align:center;
+    width: 100%;
+    z-index: -1;
+}
+
+.common-button {
+    width: 100%;
+    border-radius: 5px;
+    font-size: 1.65rem;
+    font-weight: 600;
+    height: 45px;
+}
+
+.common-button.padded-button{
+    width: 90%;
+}
+
+.primary-button {
+    background-color:#e18137;
+    color:#FFFFFF;
+}
+
+.top-logo {
+    margin-top: 0px;
+    text-align: center;
+}
+
+.top-logo img {
+    width: 45%;
+}
+
+.input-label {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color:#000000;
+}
+
+.input-field {
+    //padding: 0 !important;
+    border-radius: 5px;
+    border-width: 2px !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    border-style: solid !important;
+}
+
+.input-field .item-inner {
+    padding: 0 !important;
+}
+
+.input-field .text-input {
+    color:#000000;
+}
+
+.field-below-label {
+    margin-top: 5px;
+}
+
+.input-below {
+    margin-top: 15px;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.fixed-header-drop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color:#0c68b3;
+    z-index: 1;
+}
+
+.after-header-drop {
+    position: relative;
+    padding-top: 10px;
+}
+
+.after-header-drop::before {
+    color:#000000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color:#0c68b3;
+    z-index: -1;
+    content:" ";
+    border-bottom-left-radius:50%;
+    border-bottom-right-radius:50%;
+}
+
+.after-header-drop .segment {
+    z-index: 3 !important;
+}

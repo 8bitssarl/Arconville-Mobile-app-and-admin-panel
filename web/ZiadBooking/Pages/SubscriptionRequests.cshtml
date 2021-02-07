@@ -1,0 +1,44 @@
+﻿@page
+@model ZiadBooking.Pages.SubscriptionRequestsModel
+@{
+    ViewData["Title"] = "Subscription Requests";
+}
+
+<h2>Packages</h2>
+
+@{
+    List<Models.SubscriptionRequest> packages = (List<Models.SubscriptionRequest>)ViewData["Packages"];
+    if (packages == null)
+    {
+        packages = new List<Models.SubscriptionRequest>();
+    }
+}
+
+<!--<div class="add-new-container" style="margin-bottom: 15px;text-align: right">
+    <a href="Package">+Add New Package</a>
+</div>-->
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Package</th>
+            <th>DateTime</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var u in packages)
+            {
+                <tr>
+                    <td>@u.UserName</td>
+                    <td>@u.PackageName</td>
+                    <td>@u.RequestDt</td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

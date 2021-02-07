@@ -1,0 +1,29 @@
+﻿@page
+@{ 
+    Layout = "_LayoutNL";
+}
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="border-box login-box">
+    <form method="POST">
+        <div class="form-group">
+            @{ 
+                if (ViewData["Message"] != null) {
+                    <div class="login-error-msg">@ViewData["Message"]</div>
+                }
+            }
+            <div>
+                <input type="text" autocomplete="off" class="form-control" placeholder="Username" name="username" value="">
+            </div>
+            <div style="margin-top: 10px;">
+                <input type="password" class="form-control" placeholder="Password" name="password" value="">
+            </div>
+        </div>
+        <div style="margin-top: 30px;">
+            <button type="submit" class="btn btn-primary btn-common" style="width: 100%;">Login</button>
+        </div>
+    </form>
+</div>

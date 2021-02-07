@@ -1,0 +1,62 @@
+page-family {
+
+    ion-fab {
+        margin-bottom: 40px;
+    }
+
+    .input-fields-container {
+        margin-top: 20px;
+    }
+
+    .all-items-container {
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .item-single {
+        -webkit-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        -moz-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        margin-bottom: 15px;
+        position: relative;
+        background-color:#FFFFFF;
+        border-radius: 5px;
+    }
+
+    .full-item-info {
+        padding: 15px;
+    }
+
+    .full-item-info .item-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .full-item-info .item-date {
+        margin-top: 5px;
+        color:#000000;
+        font-size: 1.4rem;
+    }
+
+    .status-box {
+        border-radius: 3px;
+        width: 90px;
+        font-size: 0.95rem;
+        color:#FFFFFF;
+        font-weight: 600;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 10px;
+        text-align: center;
+    }
+
+    .status-box.approved {
+        background-color:#00df9c;
+    }
+
+    .status-box.pending {
+        background-color:#f53d3d;
+    }
+}

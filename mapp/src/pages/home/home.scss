@@ -1,0 +1,17 @@
+page-home {
+    .menu-list {
+        margin-top: 25px;
+    }
+
+    .menu-list button {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color:#676767;
+    }
+
+    .menu-list button.logout {
+        color:#d9000f;
+        margin-top: 20px;
+        font-weight: 600;
+    }
+}

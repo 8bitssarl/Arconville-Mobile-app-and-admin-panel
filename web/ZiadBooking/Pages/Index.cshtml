@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@{
+    List<Models.ReportRow> reportData = (List<Models.ReportRow>)ViewData["SubsEnding"];
+    if (reportData == null)
+    {
+        reportData = new List<Models.ReportRow>();
+    }
+}
+
+@{
+    int endingIn = 12;
+    <h2>Subscriptions Ending In 12 Months</h2>
+    <div style="height: 20px;"></div>
+    <table class="table table-bordered table-success table-striped">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Service</th>
+                <th>Months</th>
+                <th>Started On</th>
+                <th>Expires On</th>
+                <th>Amount Paid</th>
+                <th>Ending In</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (dynamic x in reportData)
+                {
+                    <tr>
+                        <td>@x.GetItem("UserName")</td>
+                        <td>@x.GetItem("ServiceName")</td>
+                        <td>@x.GetItem("NumMonths")</td>
+                        <td>@x.GetItem("StartDate")</td>
+                        <td>@x.GetItem("ExpiredAt")</td>
+                        <td>@x.GetItem("AmountPaid")</td>
+                        <td>@x.GetItem("EndingIn") days</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

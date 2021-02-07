@@ -1,0 +1,39 @@
+<!--<ion-tabs tabsPlacement="bottom">
+    <ion-tab [root]="tabPackages" tabIcon="md-cash" tabTitle=""></ion-tab>
+    <ion-tab [root]="tabFeed" tabIcon="md-alarm" tabTitle=""></ion-tab>
+    <ion-tab [root]="tabFamily" tabIcon="ios-people" tabTitle=""></ion-tab>
+    <ion-tab [root]="tabProfile" tabIcon="md-settings" tabTitle=""></ion-tab>
+</ion-tabs>-->
+
+<ion-menu [content]="content">
+    <!--<ion-header class="blue-header">
+        <ion-toolbar>
+            <ion-title></ion-title>
+        </ion-toolbar>
+    </ion-header>-->
+    <ion-content>
+        <div class="top-logo">
+            <img src="assets/imgs/logo.png" />
+        </div>
+        <ion-list class="menu-list">
+            <button ion-item (click)="openPage(tabFeed)">
+                <ion-icon name="md-alarm"></ion-icon>
+                &nbsp;Reservations
+            </button>
+            <button ion-item (click)="openPage(tabFamily)">
+                <ion-icon name="ios-people"></ion-icon>
+                &nbsp;Family
+            </button>
+            <button ion-item (click)="openPage(tabProfile)">
+                <ion-icon name="md-person"></ion-icon>
+                &nbsp;Profile
+            </button>
+            <button ion-item class="logout" (click)="logoutClick()">
+                <ion-icon name="md-log-out"></ion-icon>
+                &nbsp;Logout
+            </button>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  
+  <ion-nav id="nav" #content [root]="rootPage"></ion-nav>

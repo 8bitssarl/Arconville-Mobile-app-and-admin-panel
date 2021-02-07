@@ -1,0 +1,21 @@
+<ion-content no-padding class="white-screen">
+    <div class="top-logo" style="margin-top: 20px;">
+        <img src="assets/imgs/logo.png" />
+    </div>
+    <div class="settings-container">
+        <div class="setting" (tap)="settingClick('profile');">
+            <span class="setting-text">Edit Profile</span>
+            <div class="forward-icon">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+            </div>
+        </div>
+        <div class="setting-separator"></div>
+        <div class="setting" (tap)="settingClick('logout');">
+            <span class="setting-text logout">Logout</span>
+            <div class="forward-icon">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+            </div>
+        </div>
+        <div class="setting-separator"></div>
+    </div>
+</ion-content>

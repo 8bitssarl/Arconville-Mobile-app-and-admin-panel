@@ -1,0 +1,13 @@
+page-add-family {
+    .after-header-drop::before {
+        height: 80px !important;
+    }
+    .input-fields-container {
+        margin-top: 90px;
+        padding: 20px;
+    }
+    .signup-button {
+        margin-top: 10px;
+        text-align: center;
+    }
+}

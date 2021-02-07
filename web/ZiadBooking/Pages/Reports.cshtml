@@ -1,0 +1,282 @@
+﻿@page
+@model ZiadBooking.Pages.ReportsModel
+@{
+    ViewData["Title"] = "Reports";
+    string reportTitle = "";
+    string reportType = "";
+    if (ViewData["ReportTitle"] != null)
+    {
+        reportTitle = (string)ViewData["ReportTitle"];
+    }
+    if (ViewData["ReportType"] != null)
+    {
+        reportType = (string)ViewData["ReportType"];
+    }
+}
+
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+
+@{
+    List<Models.ReportRow> reportData = (List<Models.ReportRow>)ViewData["Data"];
+    if (reportData == null)
+    {
+        reportData = new List<Models.ReportRow>();
+    }
+}
+
+<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        <li><a href="Reports?type=allreservations">All Reservations</a></li>
+        <li><a href="Reports?type=noshow">No Show</a></li>
+        <li><a href="/Reports?type=cancellations">Cancellations</a></li>
+        <li><a href="/Reports?type=clientsinside">Clients Inside</a></li>
+        <li><a href="/Reports?type=subsended">Subscriptions Ended</a></li>
+        <li><a href="/Reports?type=subsending">Subscriptions Ending</a></li>
+    </ul>
+</div>
+
+<h2>@reportTitle</h2>
+
+@{
+    if (ViewData["Data"] != null)
+    {
+        @if (reportType == "allreservations")
+        {
+            <table class="table table-bordered table-success table-striped">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>User</th>
+                        <th>From</th>
+                        <th>Till</th>
+                        <th>Hours</th>
+                        <th>Location</th>
+                        <th>Reserved On</th>
+                        <th>Checkin</th>
+                        <th>Checkout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var x in reportData)
+                        {
+                            <tr>
+                                <td>@x.GetItem("ServiceName")</td>
+                                <td>@x.GetItem("UserName")</td>
+                                <td>@x.GetItem("StartDate")</td>
+                                <td>@x.GetItem("EndDate")</td>
+                                <td>@x.GetItem("NumHours")</td>
+                                <td>
+                                    <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@(x.GetItem("Latitude")),@(x.GetItem("Longitude"))">
+                                        @(x.GetItem("Latitude")),@(x.GetItem("Longitude"))
+                                    </a>
+                                </td>
+                                <td>@x.GetItem("ReserveDate")</td>
+                                <td>@x.GetItem("CheckinAtDate")</td>
+                                <td>@x.GetItem("CheckoutAtDate")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+
+            @if (reportType == "noshow")
+            {
+                <table class="table table-bordered table-success table-striped">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>From</th>
+                            <th>Till</th>
+                            <th>Hours</th>
+                            <th>Reserved On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("EndDate")</td>
+                                    <td>@x.GetItem("NumHours")</td>
+                                    <td>@x.GetItem("ReserveDate")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+
+            @if (reportType == "cancellations")
+            {
+                <table class="table table-bordered table-success table-striped">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>From</th>
+                            <th>Till</th>
+                            <th>Hours</th>
+                            <th>Reserved On</th>
+                            <th>Cancelled On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("EndDate")</td>
+                                    <td>@x.GetItem("NumHours")</td>
+                                    <td>@x.GetItem("ReserveDate")</td>
+                                    <td>@x.GetItem("CancelDate")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+
+            @if (reportType == "clientsinside")
+            {
+                <table class="table table-bordered table-success table-striped">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>From</th>
+                            <th>Till</th>
+                            <th>Hours</th>
+                            <th>Reserved On</th>
+                            <th>Checkin At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("EndDate")</td>
+                                    <td>@x.GetItem("NumHours")</td>
+                                    <td>@x.GetItem("ReserveDate")</td>
+                                    <td>@x.GetItem("CheckinDate")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+
+            @if (reportType == "subsended")
+            {
+                <table class="table table-bordered table-success table-striped">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Service</th>
+                            <th>Months</th>
+                            <th>Started On</th>
+                            <th>Expired On</th>
+                            <th>Amount Paid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("NumMonths")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("ExpiredAt")</td>
+                                    <td>@x.GetItem("AmountPaid")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+
+            @if (reportType == "subsending")
+            {
+                int endingIn = int.Parse(ViewData["EndingIn"].ToString());
+
+                <h2>Ending In</h2>
+                <form method="get">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+                            <input type="hidden" name="type" value="@reportType" />
+                            <select name="end_months" class="form-control">
+                                @{
+                                    for (int a = 1; a <= 12; a++)
+                                    {
+                                        @if (a != endingIn)
+                                        {
+                                            <option value="@a">@a Month(s)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@a" selected>@a Month(s)</option>
+                                        }
+
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                            <button class="btn btn-success btn-block">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div style="height: 20px;"></div>
+                <table class="table table-bordered table-success table-striped">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Service</th>
+                            <th>Months</th>
+                            <th>Started On</th>
+                            <th>Expires On</th>
+                            <th>Amount Paid</th>
+                            <th>Ending In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("NumMonths")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("ExpiredAt")</td>
+                                    <td>@x.GetItem("AmountPaid")</td>
+                                    <td>@x.GetItem("EndingIn") days</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+    }

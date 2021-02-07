@@ -1,0 +1,11 @@
+<ion-content no-padding class="common-screen">
+    <div class="top-logo">
+        <img src="assets/imgs/logo.png" />
+    </div>
+    <div class="person-bottom">
+        <img src="assets/imgs/player.png" />
+    </div>
+    <div class="button-bottom" *ngIf="showGetStartedButton">
+        <button ion-button class="common-button padded-button primary-button" (click)="moveForward()">GET STARTED</button>
+    </div>
+</ion-content>

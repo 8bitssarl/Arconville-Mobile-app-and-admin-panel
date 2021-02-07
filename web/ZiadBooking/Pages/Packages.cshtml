@@ -1,0 +1,47 @@
+﻿@page
+@model ZiadBooking.Pages.PackagesModel
+@{
+    ViewData["Title"] = "Packages";
+}
+
+<h2>Packages</h2>
+
+@{ 
+    List<Models.Package> packages = (List<Models.Package>)ViewData["Packages"];
+    if (packages == null)
+    {
+        packages = new List<Models.Package>();
+    }
+}
+
+<div class="add-new-container" style="margin-bottom: 15px;text-align: right">
+    <a href="Package">+Add New Package</a>
+</div>
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var u in packages)
+            {
+                <tr>
+                    <td>@u.Title</td>
+                    <td>@(u.NumMonths) month(s)</td>
+                    <td>@u.Amount</td>
+                    <td>
+                        <a href="/Package?id=@u.Id">Edit</a>
+                        &nbsp;&nbsp;
+                        <a href="/Package?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

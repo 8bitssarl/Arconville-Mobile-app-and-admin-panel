@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-navbar>
+    </ion-navbar>
+</ion-header>
+<ion-content padding class="common-screen">
+    <div class="input-section">
+        <div class="signup-input-container">
+            <ion-item class="input-container">
+                <ion-input type="tel" maxlength="20" [(ngModel)]="loginData.code" placeholder="Verification code"></ion-input>
+            </ion-item>
+            <div class="login-button">
+                <button ion-button full large class="common-button" (tap)="loginClick()">VERIFY</button>
+            </div>
+        </div>
+    </div>
+</ion-content>

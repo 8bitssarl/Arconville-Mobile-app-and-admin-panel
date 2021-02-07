@@ -1,0 +1,141 @@
+﻿@page
+@model ZiadBooking.Pages.UserMoreDetailsModel
+@{
+    Layout = null;
+}
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+@{
+    List<Models.Reservation> reservations = (List<Models.Reservation>)ViewData["Reservations"];
+    if (reservations == null)
+    {
+        reservations = new List<Models.Reservation>();
+    }
+    List<Models.UserSubscription> subscriptions = (List<Models.UserSubscription>)ViewData["Subscriptions"];
+    if (subscriptions == null)
+    {
+        subscriptions = new List<Models.UserSubscription>();
+    }
+    List<Models.GenericModel> family = (List<Models.GenericModel>)ViewData["Family"];
+    if (family == null)
+    {
+        family = new List<Models.GenericModel>();
+    }
+    List<Models.UserPayment> payments = (List<Models.UserPayment>)ViewData["Payments"];
+    if (payments == null)
+    {
+        payments = new List<Models.UserPayment>();
+    }
+}
+
+<h4>Reservations</h4>
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>Service</th>
+            <th>User</th>
+            <th>From</th>
+            <th>Till</th>
+            <th>Hours</th>
+            <th>Reserved On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var x in reservations)
+            {
+                <tr>
+                    <td>@x.ServiceName</td>
+                    <td>@x.UserName</td>
+                    <td>@x.StartDate</td>
+                    <td>@x.EndDate</td>
+                    <td>@x.NumHours</td>
+                    <td>@x.ReserveDate</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h4>Family</h4>
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var x in family)
+            {
+                <tr>
+                    <td>@x.values["name"].ToString()</td>
+                    <td>@x.values["email"].ToString()</td>
+                    <td>@x.values["phone_number"].ToString()</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h4>Subscriptions</h4>
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>Service/Package</th>
+            <th>Start (YYYY-MM-DD)</th>
+            <th>Months</th>
+            <th>Expires At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var x in subscriptions)
+            {
+                <tr>
+                    <td>@x.ServiceName</td>
+                    <td>@x.StartDate</td>
+                    <td>@x.NumMonths</td>
+                    <td>@x.ExpiredAt</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h4>Previous Payments</h4>
+
+<table class="table table-bordered table-success table-striped">
+    <thead>
+        <tr>
+            <th>Service</th>
+            <th>Amount</th>
+            <th>Date(YYYY-MM-DD)</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var x in payments)
+            {
+                <tr>
+                    <td>@x.ServiceName</td>
+                    <td>@x.AmountPaid</td>
+                    <td>@x.PaymentDate</td>
+                    <td>@x.PaymentDetails</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,74 @@
+<ion-header class="blue-header">
+    <ion-navbar>
+        <button ion-button menuToggle icon-only >
+            <ion-icon name='menu'></ion-icon>
+        </button>
+        <ion-title>
+            My Subscription
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-padding has-header class="has-header gray-screen">
+    <!--<ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon="arrow-dropdown"
+            pullingText="Pull to refresh"
+            refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>-->
+    <div class="after-header-drop">
+        <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
+            <ion-segment-button value="upcoming">
+                Packages
+            </ion-segment-button>
+            <ion-segment-button value="previous">
+                On Going
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+    <ion-scroll padding class="scrollable-featured" scrollX="true" scrollY="false" *ngIf="feedType=='upcoming' && featuredPackages.length>0">
+        <div class="single-featured" nowrap [ngStyle]="{'background' : f.background_image}" *ngFor="let f of featuredPackages" (click)="itemClick(f)">
+            <div class="featured-info">
+                <div class="item-title">
+                    {{f.title}}
+                </div>
+                <div class="item-months">
+                    {{f.num_months}} Month(s)
+                </div>
+                <div class="item-time">
+                    ${{f.amount}}
+                </div>
+            </div>
+            <div class="diamond-image">
+                <img src="assets/imgs/diamond.png" />
+            </div>
+        </div>
+    </ion-scroll>
+    <div class="all-items-container">
+        <div *ngFor="let st of items" class="item-single" (tap)="itemClick(st)">
+            <div class="item-image" *ngIf="st.image_url!=''">
+                <img [src]="st.image_url" />
+            </div>
+            <div class="full-item-info">
+                <div class="item-title">
+                    {{st.title}}
+                </div>
+                <div class="item-months">
+                    {{st.num_months}} Month(s)
+                </div>
+                <div class="item-time">
+                    ${{st.amount}}
+                </div>
+                <div class="item-date" *ngIf="st.date_display_text!=''">
+                    {{st.date_display_text}}
+                    <div class="exp-display-text">Expires {{st.exp_display_text}}</div>
+                </div>
+            </div>
+            <div class="forward-icon" *ngIf="feedType!='previous'">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</ion-content>

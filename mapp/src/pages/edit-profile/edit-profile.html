@@ -1,0 +1,82 @@
+<ion-header class="blue-header">
+    <ion-navbar>
+        <ion-title>My Profile</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-padding class="gray-screen">
+    <div class="after-header-drop">
+    <div class="profile-pic-container">
+        <div class="profile-pic" (tap)="profilePicClick()">
+            <img [src]="loginData.profile_pic_url" *ngIf="loginData.profile_pic_url!=''" />
+        </div>
+    </div>
+    
+    <div class="input-fields-container">
+        <div class="input-label">
+            Name
+        </div>
+        <ion-item class="input-field field-below-label">
+            <ion-input type="text" [(ngModel)]="loginData.name" maxlength="100" placeholder="Your name"></ion-input>
+        </ion-item>
+        <!--<div class="input-label input-below">
+            Email
+        </div>
+        <ion-item class="input-field field-below-label">
+            <ion-input readonly="true" type="email" [(ngModel)]="loginData.email" maxlength="255" placeholder="youremail@domain.com"></ion-input>
+        </ion-item>-->
+        <!--<div class="input-label input-below">
+            Age
+        </div>
+        <ion-item class="input-field field-below-label">
+            <ion-input type="tel" [(ngModel)]="loginData.age" maxlength="3" placeholder="18"></ion-input>
+        </ion-item>-->
+        <div class="input-label input-below">
+            Date of birth
+        </div>
+        <ion-row class="field-below-label">
+            <ion-col col-4>
+                <ion-item class="input-field">
+                    <ion-select [(ngModel)]="loginData.dob_month">
+                        <ion-option *ngFor="let x of dobMonths;" [value]="x.value">{{x.name}}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col col-3>
+                <ion-item class="input-field">
+                    <ion-select [(ngModel)]="loginData.dob_day">
+                        <ion-option *ngFor="let x of dobDays;" [value]="x.value">{{x.name}}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col col-5>
+                <ion-item class="input-field">
+                    <ion-select [(ngModel)]="loginData.dob_year">
+                        <ion-option *ngFor="let x of dobYears;" [value]="x.value">{{x.name}}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <!--<ion-item class="family-checkbox input-below">
+            <ion-label>Family</ion-label>
+            <ion-checkbox [(ngModel)]="loginData.is_family_bool"></ion-checkbox>
+        </ion-item>-->
+        <div class="input-label input-below">
+            Gender
+        </div>
+        <ion-item class="input-field field-below-label">
+            <ion-select [(ngModel)]="loginData.gender">
+                <ion-option *ngFor="let x of genders;" [value]="x.value">{{x.name}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <div class="input-label input-below">
+            Password (Enter if want to update)
+        </div>
+        <ion-item class="input-field field-below-label">
+            <ion-input type="password" [(ngModel)]="loginData.password" maxlength="100" placeholder=""></ion-input>
+        </ion-item>
+    </div>
+    </div>
+    <div class="signup-button">
+        <button ion-button class="common-button primary-button padded-button" (tap)="signupClick()">Update</button>
+    </div>
+</ion-content>
