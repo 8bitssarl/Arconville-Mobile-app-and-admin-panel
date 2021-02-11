@@ -18,8 +18,10 @@
                 {{package.num_months}} Month(s)
             </div>
             <div class="item-location">
-                <ion-icon name="pin"></ion-icon>
-                {{package.location_text}}
+                <span (tap)="locationClick(package)">
+                    <ion-icon name="pin"></ion-icon>
+                    {{package.location_text}}
+                </span>
             </div>
             <div class="item-amount">
                 ${{package.amount}}

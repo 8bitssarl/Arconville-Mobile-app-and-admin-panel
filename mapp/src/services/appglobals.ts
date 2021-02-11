@@ -12,6 +12,8 @@ import { UiHelper } from "./uihelper";
     public currentLocation:any = null;
     public currentUser:any=null;
 
+    public packages:any[]=[];
+    //public ongoingPackages:any[]=[];
     public packageServices:any[]=[];
     
     constructor(public server: AppServer,public uiHelper: UiHelper,public platform: Platform){

@@ -47,6 +47,26 @@
 @{
     if (ViewData["Data"] != null)
     {
+        @if(reportType=="allreservations" || reportType== "noshow" || reportType== "cancellations" || reportType == "clientsinside")
+        {
+            <div style="margin-top: 10px;margin-bottom: 20px;">
+                <form method="get">
+                    <input type="hidden" value="@reportType" name="type" />
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <select class="form-control" name="service">
+                                <option value="0">All Services</option>
+                                <option value="1">Tennis</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <button class="btn btn-primary" type="submit">UPDATE</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+
         @if (reportType == "allreservations")
         {
             <table class="table table-bordered table-success table-striped">

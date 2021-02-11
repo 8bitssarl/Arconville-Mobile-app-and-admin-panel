@@ -1,5 +1,6 @@
 import { Component,NgZone } from '@angular/core';
 import { NavController, Events, Platform } from 'ionic-angular';
+import { Response } from '@angular/http';
 import { LoginPage } from '../login/login';
 import { AppGlobals } from '../../services/appglobals';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -27,9 +28,11 @@ export class SplashPage {
         that.doLocationThing();
         that.hasCalendarReadWritePermissions();
         if (!this.showGetStartedButton){
-            setTimeout(function(){
+            /*setTimeout(function(){
                 that.moveForward();
-            },2000);
+            },2000);*/
+            //load packages
+            this.getStores();
         }
     }
 
@@ -119,5 +122,66 @@ export class SplashPage {
         }catch(e){
             console.error(e.message);
         }
+    }
+
+    storesSuccess(res: Response){
+        console.log("storesSuccess");
+        let jsonRes=res.json();
+        if (jsonRes.status!=200){
+            this.uiHelper.showMessageBox('Error',jsonRes.msg);
+        }else{
+            this.globals.packages=[];
+            this.globals.packageServices=[];
+            let items=jsonRes.data.upcoming;
+            for (let a=0;a<items.length;a++){
+                let st=items[a];
+                st.is_upcoming=true;
+                st.date_display_text="";
+                st.exp_display_text="";
+                if (!st.image_url || st.image_url==''){
+                    st.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }
+                st.background_image="url('"+st.image_url+"')";
+                this.globals.packages.push(st);
+            }
+            items=jsonRes.data.previous;
+            for (let a=0;a<items.length;a++){
+                let st=items[a];
+                st.is_upcoming=false;
+                st.date_display_text=this.uiHelper.getMealDisplayOnlyDate(st.start_ts*1000,new Date().getTime());
+                st.exp_display_text=this.uiHelper.getMealDisplayOnlyDate(st.exp_ts*1000,new Date().getTime());
+                if (!st.image_url || st.image_url==''){
+                    st.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }
+                st.background_image="url('"+st.image_url+"')";
+                this.globals.packages.push(st);
+            }
+            items=jsonRes.data.services;
+            for (let a=0;a<items.length;a++){
+                let st=items[a];
+                this.globals.packageServices.push(st);
+            }
+            this.moveForward();
+        }
+    }
+
+    storesFailure(error: any){
+        console.log("storesFailure");
+        this.uiHelper.showMessageBox('Error',JSON.stringify(error));
+    }
+
+    getStores(){
+        console.log("getStores");
+        let that=this;
+        let uid=this.globals.currentUser.id;
+        that.server.getPackages({user_id: uid}).subscribe(
+            res=>that.storesSuccess(res),err=>that.storesFailure(err)
+        );
     }
 }

@@ -9,7 +9,7 @@ namespace ZiadBooking.Pages
 {
     public class ReportsModel : PageModel
     {
-        private void GenerateDataModel(string reportType,DatabaseHelper db)
+        private void GenerateDataModel(string reportType,string serviceType,DatabaseHelper db)
         {
             IDbCommand comm = db.Connection.CreateCommand();
             string query = "";
@@ -18,6 +18,10 @@ namespace ZiadBooking.Pages
             {
                 ViewData["ReportTitle"] = "Report - All Reservations";
                 query = "SELECT u.name AS user_name,s.name AS service_name,r.* FROM reservation r,bookingservice s,user u WHERE r.service_id=s.id AND r.user_id=u.id";
+                if (serviceType.CompareTo("0") != 0)
+                {
+                    query += " AND s.id=" + serviceType;
+                }
                 query += " AND UNIX_TIMESTAMP()<r.start_ts ORDER BY r.start_ts ASC";
                 comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
@@ -69,6 +73,10 @@ namespace ZiadBooking.Pages
                 ViewData["ReportTitle"] = "Report - No Show";
 
                 query = "SELECT u.name AS user_name,s.name AS service_name,r.* FROM reservation r,bookingservice s,user u WHERE r.service_id=s.id AND r.user_id=u.id";
+                if (serviceType.CompareTo("0") != 0)
+                {
+                    query += " AND s.id=" + serviceType;
+                }
                 query += " AND UNIX_TIMESTAMP()>r.start_ts AND r.is_cancel=0 AND r.checkin_at IS NULL ORDER BY r.start_ts DESC";
                 comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
@@ -114,6 +122,10 @@ namespace ZiadBooking.Pages
                 ViewData["ReportTitle"] = "Report - Cancellations";
 
                 query = "SELECT u.name AS user_name,s.name AS service_name,r.* FROM reservation r,bookingservice s,user u WHERE r.service_id=s.id AND r.user_id=u.id";
+                if (serviceType.CompareTo("0") != 0)
+                {
+                    query += " AND s.id=" + serviceType;
+                }
                 query += " AND r.is_cancel=1 ORDER BY r.start_ts DESC";
                 comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
@@ -153,6 +165,10 @@ namespace ZiadBooking.Pages
                 ViewData["ReportTitle"] = "Report - Clients Inside";
 
                 query = "SELECT u.name AS user_name,s.name AS service_name,r.* FROM reservation r,bookingservice s,user u WHERE r.service_id=s.id AND r.user_id=u.id";
+                if (serviceType.CompareTo("0") != 0)
+                {
+                    query += " AND s.id=" + serviceType;
+                }
                 query += " AND UNIX_TIMESTAMP()>r.start_ts AND r.is_cancel=0 AND r.checkin_at IS NOT NULL AND r.checkout_at IS NULL ORDER BY r.start_ts DESC";
                 comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
@@ -301,14 +317,19 @@ namespace ZiadBooking.Pages
             try
             {
                 string reportType = Request.Query["type"];
+                string serviceType = Request.Query["service"];
                 if (reportType == null)
                 {
                     reportType = "allreservations";
                 }
+                if (serviceType == null)
+                {
+                    serviceType = "0";
+                }
                 ViewData["ReportType"] = reportType;
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
-                GenerateDataModel(reportType, db);
+                GenerateDataModel(reportType,serviceType, db);
                 db.Close();
             }
             catch(Exception ex)

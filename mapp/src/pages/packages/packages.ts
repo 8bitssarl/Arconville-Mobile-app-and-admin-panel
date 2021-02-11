@@ -4,7 +4,6 @@ import { Response } from '@angular/http';
 import { UiHelper } from '../../services/uihelper';
 import { AppServer } from '../../services/appserver';
 import { AppGlobals } from '../../services/appglobals';
-import { ReservationPage } from '../reservation/reservation';
 import { PackageDetailPage } from '../package-detail/package-detail';
 
 @Component({
@@ -28,18 +27,34 @@ export class PackagesPage {
     }
 
     ionViewDidLoad(){
-        this.getStores();
+        //this.getStores();
+        this.processGlobalPackages();
+        this.filterItems();
     }
 
     doRefresh(evt){
         console.log("doRefresh");
         this.refresher=evt;
-        this.getStores(false);
     }
 
     feedTypeChanged(evt){
         console.log("feedTypeChanged: "+this.feedType);
         this.filterItems();
+    }
+
+    processGlobalPackages(){
+        this.items=[];
+        this.allItems=[];
+        this.featuredPackages=[];
+        let items=this.globals.packages;
+        for (let a=0;a<items.length;a++){
+            let st=items[a];
+            this.allItems.push(st);
+            if (st.featured=="1"){
+                //console.log("Yes featured");
+                this.featuredPackages.push(st);
+            }
+        }
     }
 
     processIndividualItem(st,allFavs=[]){
@@ -56,7 +71,7 @@ export class PackagesPage {
     filterItems(){
         console.log("filterItems");
         this.items=[];
-        let allFavs=this.globals.getFavorites();
+        let allFavs=[];//this.globals.getFavorites();
         for (let a=0;a<this.allItems.length;a++){
             let st=JSON.parse(JSON.stringify(this.allItems[a]));
             if (this.feedType=="upcoming" && !st.is_upcoming){
@@ -67,94 +82,6 @@ export class PackagesPage {
             st=this.processIndividualItem(st,allFavs);
             this.items.push(st);
         }
-    }
-
-    storesSuccess(res: Response){
-        console.log("storesSuccess");
-        if (this.loader!=null){
-            this.loader.dismiss();
-        }
-        if (this.refresher!=null){
-            this.refresher.complete();
-        }
-        let jsonRes=res.json();
-        if (jsonRes.status!=200){
-            this.uiHelper.showMessageBox('Error',jsonRes.msg);
-        }else{
-            this.items=[];
-            this.allItems=[];
-            this.featuredPackages=[];
-            this.globals.packageServices=[];
-            let items=jsonRes.data.upcoming;
-            for (let a=0;a<items.length;a++){
-                let st=items[a];
-                st.is_upcoming=true;
-                st.date_display_text="";
-                st.exp_display_text="";
-                st.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
-                if (a==1){
-                    st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
-                }
-                st.background_image="url('"+st.image_url+"')";
-                st.location_text="Ahmedabad";
-                this.allItems.push(st);
-                if (st.featured=="1"){
-                    console.log("Yes featured");
-                    this.featuredPackages.push(st);
-                }
-            }
-            items=jsonRes.data.previous;
-            for (let a=0;a<items.length;a++){
-                let st=items[a];
-                st.is_upcoming=false;
-                st.date_display_text=this.uiHelper.getMealDisplayOnlyDate(st.start_ts*1000,new Date().getTime());
-                st.exp_display_text=this.uiHelper.getMealDisplayOnlyDate(st.exp_ts*1000,new Date().getTime());
-                st.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
-                if (a==1){
-                    st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
-                }
-                st.location_text="Ahmedabad";
-                this.allItems.push(st);
-            }
-            this.filterItems();
-
-            items=jsonRes.data.services;
-            for (let a=0;a<items.length;a++){
-                let st=items[a];
-                this.globals.packageServices.push(st);
-            }
-
-            /*setTimeout(()=>{
-                let elem=document.getElementById("allFeaturedContainer");
-                elem.className='all-featured-container';
-            },300);*/
-        }
-    }
-
-    storesFailure(error: any){
-        console.log("storesFailure");
-        if (this.loader!=null){
-            this.loader.dismiss();
-        }
-        if (this.refresher!=null){
-            this.refresher.complete();
-        }
-        this.uiHelper.showMessageBox('Error',JSON.stringify(error));
-    }
-
-    getStores(showLoader: boolean = true){
-        console.log("getStores");
-        let that=this;
-        this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
-        });
-        if (showLoader){
-            this.loader.present();
-        }
-        let uid=this.globals.currentUser.id;
-        that.server.getPackages({user_id: uid}).subscribe(
-            res=>that.storesSuccess(res),err=>that.storesFailure(err)
-        );
     }
 
     itemClick(st){

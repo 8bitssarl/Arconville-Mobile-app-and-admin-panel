@@ -57,4 +57,10 @@ export class PackageDetailPage {
             }
         );
     }
+
+    locationClick(st){
+        console.log("locationClick: "+st.location_text);
+        let mapsUrl="https://www.google.com/maps/search/?api=1&query="+st.latitude+","+st.longitude;
+        window.open(mapsUrl,"_blank");
+    }
 }
