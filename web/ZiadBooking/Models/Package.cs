@@ -16,6 +16,8 @@ namespace ZiadBooking.Models
         public string NumMonths;
         public string Amount;
         public string Featured;
+        public string LocationText,Latitude,Longitude;
+        public string ImageUrl;
         
         public static Package GetById(string id, IDbConnection conn)
         {
@@ -37,6 +39,10 @@ namespace ZiadBooking.Models
                         NumMonths = reader["num_months"].ToString(),
                         Amount = reader["amount"].ToString(),
                         Featured = reader["is_featured"].ToString(),
+                        LocationText = reader["location_text"].ToString(),
+                        Latitude = reader["latitude"].ToString(),
+                        Longitude = reader["longitude"].ToString(),
+                        ImageUrl = reader["image_url"].ToString(),
                     };
 
                 }

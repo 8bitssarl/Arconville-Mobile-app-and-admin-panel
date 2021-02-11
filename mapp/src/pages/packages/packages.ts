@@ -96,6 +96,7 @@ export class PackagesPage {
                     st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
                 }
                 st.background_image="url('"+st.image_url+"')";
+                st.location_text="Ahmedabad";
                 this.allItems.push(st);
                 if (st.featured=="1"){
                     console.log("Yes featured");
@@ -112,6 +113,7 @@ export class PackagesPage {
                 if (a==1){
                     st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
                 }
+                st.location_text="Ahmedabad";
                 this.allItems.push(st);
             }
             this.filterItems();

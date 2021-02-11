@@ -1,0 +1,57 @@
+﻿@page
+@model ZiadBooking.Pages.BookingServiceModel
+@{
+    ViewData["Title"] = "Service";
+}
+
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+
+@{
+    Models.GenericModel user = null;
+    if (ViewData["Service"] != null)
+    {
+        user = (Models.GenericModel)ViewData["Service"];
+    }
+}
+
+@if (user != null)
+{
+    <h2>Edit Service</h2>
+}
+else
+{
+    <h2>Add New Service</h2>
+}
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Name</b>
+                <input type="text" class="form-control" name="name" value="@(user == null ? "" : user.values["name"])" />
+            </div>
+            
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <b>Can Book Online</b>
+                <div style="margin-top: 5px;">
+                    @{
+                        string checkedStr = (user!=null && user.values["can_book_online"] != null && user.values["can_book_online"].ToString() == "1") ? "checked" : "";
+                    }
+                    <input type="checkbox" name="can_book_online" @checkedStr />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-success btn-block" type="submit">SAVE</button>
+            </div>
+        </div>
+    </form>

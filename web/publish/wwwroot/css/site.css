@@ -10,3 +10,20 @@ body {
     padding: 10px;
     margin-top: 50px;
 }
+
+.login-box {
+    background-color:#ffffff;
+    width: 380px;
+    margin: auto;
+    padding: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color:rgba(0,0,0,0.20);
+    margin-top: 50px;
+}
+
+.login-error-msg {
+    padding: 10px;
+    text-align: center;
+    color:#ff0000;
+}

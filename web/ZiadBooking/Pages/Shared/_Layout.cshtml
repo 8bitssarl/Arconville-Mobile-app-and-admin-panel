@@ -27,13 +27,19 @@
                     @{
                         if (Models.SessionHelper.CanSeePage(Context, "users"))
                         {
-                            <li><a asp-page="/Users">Reservations</a></li>
+                            <li><a asp-page="/BookingServices">Services</a></li>
                         }
                     }
                     @{
                         if (Models.SessionHelper.CanSeePage(Context, "packages"))
                         {
                             <li><a asp-page="/Packages">Packages</a></li>
+                        }
+                    }
+                    @{
+                        if (Models.SessionHelper.CanSeePage(Context, "users"))
+                        {
+                            <li><a asp-page="/Users">Reservations</a></li>
                         }
                     }
                     @{

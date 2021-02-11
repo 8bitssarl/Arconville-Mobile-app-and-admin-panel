@@ -14,8 +14,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class AppServer {
     
-    public BASE_URL="https://localhost:44322/api/";
-    //public BASE_URL="http://eightbitssarl-001-site1.atempurl.com/api/";
+    //public BASE_URL="https://localhost:44322/api/";
+    public BASE_URL="http://eightbitssarl-001-site1.atempurl.com/api/";
     //public BASE_URL="http://ziadabboud-001-site1.itempurl.com/api/";
     
     constructor (private http: Http) {}

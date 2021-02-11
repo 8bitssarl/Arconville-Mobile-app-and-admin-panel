@@ -46,7 +46,6 @@ D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\bin\Debug\netcoreapp2.1\ZiadB
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\bin\Debug\netcoreapp2.1\ZiadBooking.pdb
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\bin\Debug\netcoreapp2.1\ZiadBooking.Views.dll
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\bin\Debug\netcoreapp2.1\ZiadBooking.Views.pdb
-D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.csprojAssemblyReference.cache
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.csproj.CoreCompileInputs.cache
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.RazorAssemblyInfo.cache
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.RazorAssemblyInfo.cs
@@ -82,3 +81,5 @@ D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadB
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.dll
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.pdb
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.csproj.CopyComplete
+D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\Razor\Pages\BookingServices.g.cshtml.cs
+D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\Razor\Pages\BookingService.g.cshtml.cs

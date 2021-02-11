@@ -56,7 +56,7 @@ export class ReservationPage {
             this.hours.push({id: a,name: txt+' hr(s)'});
         }
 
-        for (let a=day;a<=31;a++){
+        for (let a=dt.getDate();a<=31;a++){
             this.days.push({value: a,selected: false});
         }
 
@@ -136,9 +136,45 @@ export class ReservationPage {
 
     saveClick(){
         console.log("saveClick");
+
+        let rDay=-1;
+        for (let a=0;a<this.days.length;a++){
+            if (this.days[a].selected){
+                rDay=this.days[a].value;
+                break;
+            }
+        }
+        if (rDay==-1){
+            this.uiHelper.showMessageBox("Error","Please select date");
+            return;
+        }
+
+        let rDate="";
+        let numHours=0;
+        for (let a=0;a<this.times.length;a++){
+            if (this.times[a].selected){
+                let dt=new Date();
+                rDate=dt.getFullYear().toString();
+                rDate+="-"+(dt.getMonth()+1).toString();
+                rDate+="-"+rDay;
+                rDate+="T"+this.times[a].start;
+                numHours=this.times[a].num_hours;
+                break;
+            }
+        }
+
+        if (rDate==""){
+            this.uiHelper.showMessageBox("Error","Please select time");
+            return;
+        }
+
+        console.log(rDate);
+
         for (let a=0;a<this.items.length;a++){
             let it=this.items[a];
-            it.start_ts=this.uiHelper.getDbTimestampFromIonicDate(it.date);
+            //it.start_ts=this.uiHelper.getDbTimestampFromIonicDate(it.date);
+            it.start_ts=this.uiHelper.getDbTimestampFromIonicDate(rDate);
+            it.num_hours=numHours;
             this.items[a]=it;
         }
         console.log(this.items);
@@ -195,5 +231,9 @@ export class ReservationPage {
                 this.times[x].selected=false;
             }
         }
+    }
+
+    serviceClick(s){
+        console.log("serviceClick");
     }
 }

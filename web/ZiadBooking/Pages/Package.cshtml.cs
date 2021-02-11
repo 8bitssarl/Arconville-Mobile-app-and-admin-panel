@@ -70,6 +70,9 @@ namespace ZiadBooking.Pages
                 string duration = Request.Form["duration"];
                 string service = Request.Form["service[]"];
                 string featured = Request.Form["featured"];
+                string location_text = Request.Form["location_text"];
+                string latitude = Request.Form["latitude"];
+                string longitude = Request.Form["longitude"];
                 if (service == null)
                 {
                     service = "";
@@ -97,6 +100,9 @@ namespace ZiadBooking.Pages
                 }
                 Models.Package user = new Models.Package();
                 user.Title = title;
+                user.LocationText = location_text;
+                user.Latitude = latitude;
+                user.Longitude = longitude;
                 if (serviceVals.Length >= 1 && serviceVals[0].Trim().CompareTo("") != 0)
                 {
                     user.ServiceId = serviceVals[0].Trim();
@@ -110,7 +116,7 @@ namespace ZiadBooking.Pages
                 user.Featured = featured;
                 if (id.CompareTo("0") == 0)
                 {
-                    string query = "INSERT INTO `package`(title,service_id,num_months,amount,is_featured) VALUES(@Title,@ServiceId,@NumMonths,@Amount,@Featured)";
+                    string query = "INSERT INTO `package`(title,service_id,num_months,amount,is_featured,location_text,latitude,longitude) VALUES(@Title,@ServiceId,@NumMonths,@Amount,@Featured,@LocationText,@Latitude,@Longitude)";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Title", user.Title);
@@ -118,6 +124,9 @@ namespace ZiadBooking.Pages
                     comm.Parameters.AddWithValue("@NumMonths", user.NumMonths);
                     comm.Parameters.AddWithValue("@Amount", user.Amount);
                     comm.Parameters.AddWithValue("@Featured", user.Featured);
+                    comm.Parameters.AddWithValue("@LocationText", location_text);
+                    comm.Parameters.AddWithValue("@Latitude", latitude);
+                    comm.Parameters.AddWithValue("@Longitude", longitude);
                     comm.ExecuteNonQuery();
 
                     query = "SELECT * FROM package WHERE title=@Title";
@@ -134,7 +143,7 @@ namespace ZiadBooking.Pages
                 }
                 else
                 {
-                    string query = "UPDATE `package` SET title=@Title,service_id=@ServiceId,num_months=@NumMonths,amount=@Amount,is_featured=@Featured WHERE id=@Id";
+                    string query = "UPDATE `package` SET title=@Title,service_id=@ServiceId,num_months=@NumMonths,amount=@Amount,is_featured=@Featured,location_text=@LocationText,latitude=@Latitude,longitude=@Longitude WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
@@ -143,6 +152,9 @@ namespace ZiadBooking.Pages
                     comm.Parameters.AddWithValue("@NumMonths", user.NumMonths);
                     comm.Parameters.AddWithValue("@Amount", user.Amount);
                     comm.Parameters.AddWithValue("@Featured", user.Featured);
+                    comm.Parameters.AddWithValue("@LocationText", location_text);
+                    comm.Parameters.AddWithValue("@Latitude", latitude);
+                    comm.Parameters.AddWithValue("@Longitude", longitude);
                     comm.ExecuteNonQuery();
 
                     query = "DELETE FROM packageservice WHERE package_id=" + id;
