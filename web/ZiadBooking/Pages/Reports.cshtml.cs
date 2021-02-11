@@ -309,6 +309,25 @@ namespace ZiadBooking.Pages
                 ViewData["Data"] = data;
             }
             comm.Dispose();
+
+            List<Models.BookingService> services = new List<Models.BookingService>();
+            query = "SELECT p.* FROM bookingservice p ORDER BY p.name";
+            comm = db.Connection.CreateCommand();
+            comm.CommandText = query;
+            reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.BookingService x = new Models.BookingService()
+                {
+                    Id = reader["id"].ToString(),
+                    Name = reader["name"].ToString(),
+                    CanBookOnline = reader["can_book_online"].ToString(),
+                };
+                services.Add(x);
+            }
+            reader.Close();
+            comm.Dispose();
+            ViewData["Services"] = services;
         }
 
         public void OnGet()
@@ -327,6 +346,7 @@ namespace ZiadBooking.Pages
                     serviceType = "0";
                 }
                 ViewData["ReportType"] = reportType;
+
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
                 GenerateDataModel(reportType,serviceType, db);
