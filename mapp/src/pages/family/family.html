@@ -39,6 +39,14 @@
             <ion-input type="text" [(ngModel)]="name" maxlength="50" placeholder=""></ion-input>
         </ion-item>
         <div class="input-label input-below">
+            Relation
+        </div>
+        <ion-item class="input-field field-below-label relation-item">
+            <ion-select [(ngModel)]="relation">
+                <ion-option *ngFor="let r of relations" [value]="r.value">{{r.title}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <div class="input-label input-below">
             Phone Number
         </div>
         <ion-item class="input-field field-below-label">

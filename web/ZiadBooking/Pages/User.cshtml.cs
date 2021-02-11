@@ -65,7 +65,9 @@ namespace ZiadBooking.Pages
                 string phone_number = Request.Form["phone_number"];
                 string phone_verified = Request.Form["phone_verified"].Count<=0 ? "0" : "1";
                 string can_add_member = Request.Form["can_add_member"].Count <= 0 ? "0" : "1";
-                string age = Request.Form["age"];
+                string date_of_birth = Request.Form["date_of_birth"];
+                string[] vals = date_of_birth.Split("-");
+                string age = vals[0].Trim();
                 string profile_pic_url = GetProfilePicImageUrl();
                 profile_pic_url=profile_pic_url.Replace('\\', '/');
 
@@ -101,6 +103,7 @@ namespace ZiadBooking.Pages
                 user.PhoneVerified = phone_verified;
                 user.CanAddMember = can_add_member;
                 user.Age = age;
+                user.DateOfBirth = date_of_birth;
                 user.ProfilePicUrl = profile_pic_url;
                 user.RegisterDt = Models.Helper.GetDatabaseDateTime(DateTime.Now);
                 ViewData["User"] = user;
@@ -116,7 +119,7 @@ namespace ZiadBooking.Pages
                     }
                     if (user.ProfilePicUrl=="")
                         user.ProfilePicUrl = editUser.ProfilePicUrl;
-                    string query = "UPDATE `user` SET name=@Name,email=@Email,password=@Password,profile_pic_url=@ProfilePicUrl,can_add_member=@CanAddMember,phone_number=@PhoneNumber,phone_verified=@PhoneVerified,age=@Age WHERE id=@Id";
+                    string query = "UPDATE `user` SET name=@Name,email=@Email,password=@Password,profile_pic_url=@ProfilePicUrl,can_add_member=@CanAddMember,phone_number=@PhoneNumber,phone_verified=@PhoneVerified,age=@Age,date_of_birth=@DateOfBirth WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id",id);
@@ -124,6 +127,7 @@ namespace ZiadBooking.Pages
                     comm.Parameters.AddWithValue("@Email", user.Email);
                     comm.Parameters.AddWithValue("@Password", user.Password);
                     comm.Parameters.AddWithValue("@Age", user.Age);
+                    comm.Parameters.AddWithValue("@DateOfBirth", user.DateOfBirth);
                     comm.Parameters.AddWithValue("@ProfilePicUrl", user.ProfilePicUrl);
                     comm.Parameters.AddWithValue("@CanAddMember", user.CanAddMember);
                     comm.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);

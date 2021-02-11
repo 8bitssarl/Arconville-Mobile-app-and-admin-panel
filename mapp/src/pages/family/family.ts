@@ -23,6 +23,9 @@ export class FamilyPage {
 
     private phoneNumber:string = '';
     private name: string = '';
+    private relation: string = 'father';
+
+    private relations:any[]=[];
 
     constructor(public alertCtrl: AlertController, public modalCtrl: ModalController, public navCtrl: NavController,public events: Events,public loadingCtrl: LoadingController,public uiHelper: UiHelper,public server: AppServer,public globals: AppGlobals,public navParams: NavParams, public platform: Platform) {
         this.myself=this;
@@ -30,6 +33,12 @@ export class FamilyPage {
             console.log("request_sent");
             this.myself.getStores();
         });
+        this.relations.push({value:'father',title:'Father'});
+        this.relations.push({value:'mother',title:'Mother'});
+        this.relations.push({value:'daughter',title:'Daughter'});
+        this.relations.push({value:'son',title:'Son'});
+        this.relations.push({value:'brother',title:'Brother'});
+        this.relations.push({value:'sister',title:'Sister'});
     }
 
     ionViewDidLoad(){

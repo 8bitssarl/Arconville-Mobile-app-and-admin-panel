@@ -17,13 +17,14 @@ namespace ZiadBooking.Models
         public string RegisterDt;
         public string CanAddMember;
         public string Age;
+        public string DateOfBirth;
         
         public void Insert(IDbConnection conn)
         {
             try
             {
-                string query = "INSERT INTO `user`(name,email,password,profile_pic_url,phone_number,phone_verified,register_dt,can_add_member,age)";
-                query += " VALUES(@Name,@Email,@Password,@ProfilePicUrl,@PhoneNumber,@PhoneVerified,@RegisterDt,@CanAddMember,@Age)";
+                string query = "INSERT INTO `user`(name,email,password,profile_pic_url,phone_number,phone_verified,register_dt,can_add_member,age,date_of_birth)";
+                query += " VALUES(@Name,@Email,@Password,@ProfilePicUrl,@PhoneNumber,@PhoneVerified,@RegisterDt,@CanAddMember,@Age,@DateOfBirth)";
                 //SqlCommand comm = (SqlCommand)conn.CreateCommand();
                 MySqlCommand comm = (MySqlCommand)conn.CreateCommand();
                 comm.CommandText = query;
@@ -36,6 +37,7 @@ namespace ZiadBooking.Models
                 comm.Parameters.AddWithValue("@RegisterDt", RegisterDt);
                 comm.Parameters.AddWithValue("@CanAddMember", CanAddMember);
                 comm.Parameters.AddWithValue("@Age", Age);
+                comm.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
                 comm.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -66,7 +68,7 @@ namespace ZiadBooking.Models
         {
             try
             {
-                string query = "UPDATE `user` SET name=@Name,password=@Password,profile_pic_url=@ProfilePicUrl,can_add_member=@CanAddMember,age=@Age WHERE id=@Id";
+                string query = "UPDATE `user` SET name=@Name,password=@Password,profile_pic_url=@ProfilePicUrl,can_add_member=@CanAddMember,age=@Age,date_of_birth=@DateOfBirth WHERE id=@Id";
                 MySqlCommand comm = (MySqlCommand)conn.CreateCommand();
                 comm.CommandText = query;
                 comm.Parameters.AddWithValue("@Id", Id);
@@ -75,6 +77,7 @@ namespace ZiadBooking.Models
                 comm.Parameters.AddWithValue("@ProfilePicUrl", ProfilePicUrl);
                 comm.Parameters.AddWithValue("@CanAddMember", CanAddMember);
                 comm.Parameters.AddWithValue("@Age", Age);
+                comm.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
                 comm.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -107,6 +110,7 @@ namespace ZiadBooking.Models
                         RegisterDt = reader["register_dt"].ToString(),
                         CanAddMember = reader["can_add_member"].ToString(),
                         Age = reader["age"].ToString(),
+                        DateOfBirth = reader["date_of_birth"].ToString(),
                     };
 
                 }
@@ -144,6 +148,7 @@ namespace ZiadBooking.Models
                         RegisterDt = reader["register_dt"].ToString(),
                         CanAddMember = reader["can_add_member"].ToString(),
                         Age = reader["age"].ToString(),
+                        DateOfBirth = reader["date_of_birth"].ToString(),
                     };
 
                 }
@@ -180,6 +185,7 @@ namespace ZiadBooking.Models
                         RegisterDt = reader["register_dt"].ToString(),
                         CanAddMember = reader["can_add_member"].ToString(),
                         Age = reader["age"].ToString(),
+                        DateOfBirth = reader["date_of_birth"].ToString(),
                     };
 
                 }
@@ -215,6 +221,7 @@ namespace ZiadBooking.Models
                         RegisterDt = reader["register_dt"].ToString(),
                         CanAddMember = reader["can_add_member"].ToString(),
                         Age = reader["age"].ToString(),
+                        DateOfBirth = reader["date_of_birth"].ToString(),
                     };
                     users.Add(cntr);
                 }

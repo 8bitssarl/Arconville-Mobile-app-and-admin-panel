@@ -59,4 +59,13 @@ page-family {
     .status-box.pending {
         background-color:#f53d3d;
     }
+
+    .select {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .relation-item {
+        padding-left: 0 !important;
+    }
 }
