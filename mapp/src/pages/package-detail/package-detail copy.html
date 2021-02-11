@@ -6,27 +6,29 @@
 <ion-content no-padding has-header class="has-header gray-screen">
     <div class="after-header-drop">
     </div>
-    <div class="package-image">
-        <img [src]="package.image_url" />
-    </div>
     <div class="package-detail">
         <div class="single-featured">
             <div class="item-title">
                 {{package.title}}
             </div>
+            <div class="package-image">
+                <img [src]="package.image_url" />
+            </div>
             <div class="item-months">
                 {{package.num_months}} Month(s)
             </div>
-            <div class="item-location">
-                <ion-icon name="pin"></ion-icon>
-                {{package.location_text}}
-            </div>
-            <div class="item-amount">
+            <div class="item-time">
                 ${{package.amount}}
             </div>
         </div>
-        <div class="login-button">
-            <button ion-button class="common-button primary-button" (tap)="saveClick()">SUBSCRIBE</button>
-        </div>
+        <!--<div class="services">
+            <div class="services-heading">Services</div>
+            <div *ngFor="let x of services;">
+                <div class="service-name">{{x.service_name}}</div>
+            </div>
+        </div>-->
+    </div>
+    <div class="login-button">
+        <button ion-button class="common-button primary-button" (tap)="saveClick()">SUBSCRIBE</button>
     </div>
 </ion-content>

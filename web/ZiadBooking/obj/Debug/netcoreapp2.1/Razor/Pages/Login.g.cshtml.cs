@@ -62,7 +62,7 @@ using ZiadBooking;
             WriteLiteral("\r\n<div class=\"border-box login-box\">\r\n    ");
             EndContext();
             BeginContext(144, 765, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f32c206adf8f4cb5a646c9a175602b86", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cd5606c446044baeb93c7784dad56374", async() => {
                 BeginContext(164, 36, true);
                 WriteLiteral("\r\n        <div class=\"form-group\">\r\n");
                 EndContext();

@@ -52,16 +52,16 @@ namespace ZiadBooking.Pages
                 db.Open();
                 if (id.CompareTo("0") != 0)
                 {
-                    string query = "SELECT id FROM bookingservice id=@Id";
+                    string query = "SELECT id FROM bookingservice WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
                     IDataReader reader = comm.ExecuteReader();
-                    if (reader.Read())
+                    if (!reader.Read())
                     {
                         reader.Close();
                         db.Close();
-                        ViewData["Message"] = "User not found";
+                        ViewData["Message"] = "Service not found";
                         return;
                     }
                     reader.Close();
@@ -77,7 +77,6 @@ namespace ZiadBooking.Pages
                     query += " VALUES(@Name,@CanBookOnline)";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
-                    comm.Parameters.AddWithValue("@Id", id);
                     comm.Parameters.AddWithValue("@Name",name);
                     comm.Parameters.AddWithValue("@CanBookOnline", can_book_online);
                     comm.ExecuteNonQuery();

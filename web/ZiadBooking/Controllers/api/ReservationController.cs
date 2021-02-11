@@ -154,6 +154,9 @@ namespace ZiadBooking.Controllers.api
                         num_months = reader["num_months"].ToString(),
                         amount = reader["amount"].ToString(),
                         featured = reader["is_featured"].ToString(),
+                        location_text = reader["location_text"].ToString(),
+                        latitude = reader["latitude"].ToString(),
+                        longitude = reader["longitude"].ToString(),
                     };
                     upcoming.Add(x);
                 }
