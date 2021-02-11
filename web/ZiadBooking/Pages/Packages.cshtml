@@ -24,6 +24,8 @@
             <th>Title</th>
             <th>Duration</th>
             <th>Amount</th>
+            <th>Location</th>
+            <th>Lat/Lng</th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +37,12 @@
                     <td>@u.Title</td>
                     <td>@(u.NumMonths) month(s)</td>
                     <td>@u.Amount</td>
+                    <td>@u.LocationText</td>
+                    <td>
+                        <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@(u.Latitude),@(u.Longitude)">
+                            @(u.Latitude),@(u.Longitude)
+                        </a>
+                    </td>
                     <td>
                         <a href="/Package?id=@u.Id">Edit</a>
                         &nbsp;&nbsp;

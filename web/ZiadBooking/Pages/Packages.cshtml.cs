@@ -26,6 +26,9 @@ namespace ZiadBooking.Pages
                     NumMonths = reader["num_months"].ToString(),
                     Title = reader["title"].ToString(),
                     Amount = reader["amount"].ToString(),
+                    LocationText = reader["location_text"].ToString(),
+                    Latitude = reader["latitude"].ToString(),
+                    Longitude = reader["longitude"].ToString(),
                 };
                 packages.Add(x);
             }

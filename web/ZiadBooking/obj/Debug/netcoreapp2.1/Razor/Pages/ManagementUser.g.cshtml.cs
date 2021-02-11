@@ -147,7 +147,7 @@ else
             WriteLiteral("\r\n    ");
             EndContext();
             BeginContext(1317, 4600, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5fc58378400d41a1825dfd33d0e17553", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1be9d06395a84950b5b2e55dc69e3a8b", async() => {
                 BeginContext(1367, 189, true);
                 WriteLiteral("\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                <b>Name</b>\r\n                <input type=\"text\" class=\"form-control\" name=\"name\"");
                 EndContext();
@@ -195,7 +195,7 @@ WriteAttributeValue("", 1792, user == null ? "" : user.Email, 1792, 33, false);
                 WriteLiteral("                                ");
                 EndContext();
                 BeginContext(2489, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f0270f5eaf3c41eba79ce413f4bdb124", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3e4f9b7ad72347bdac38432aa492ddff", async() => {
                     BeginContext(2512, 7, false);
 #line 78 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\ManagementUser.cshtml"
                                                  Write(m.label);
@@ -238,7 +238,7 @@ WriteAttributeValue("", 1792, user == null ? "" : user.Email, 1792, 33, false);
                 WriteLiteral("                                ");
                 EndContext();
                 BeginContext(2658, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6485da426fb344e193c8f8f835f31da3", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c24215703e104d428d2fdd8f6b958afd", async() => {
                     BeginContext(2690, 7, false);
 #line 82 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\ManagementUser.cshtml"
                                                           Write(m.label);
