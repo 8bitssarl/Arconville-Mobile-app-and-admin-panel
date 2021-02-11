@@ -56,7 +56,7 @@ export class ReservationPage {
             this.hours.push({id: a,name: txt+' hr(s)'});
         }
 
-        for (let a=dt.getDate();a<=31;a++){
+        for (let a=dt.getDate()+2;a<=31;a++){
             this.days.push({value: a,selected: false});
         }
 
@@ -89,6 +89,7 @@ export class ReservationPage {
             this.services=[];
             for (let a=0;a<services.length;a++){
                 let srv=services[a];
+                srv.selected=false;
                 if (srv.can_book_online!=1)
                     continue;
                 srv.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
@@ -235,5 +236,10 @@ export class ReservationPage {
 
     serviceClick(s){
         console.log("serviceClick");
+        for (let x=0;x<this.services.length;x++){
+            this.services[x].selected=false;
+        }
+        s.selected=true;
+        this.items[0].service_id=s.id;
     }
 }

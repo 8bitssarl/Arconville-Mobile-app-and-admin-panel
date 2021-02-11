@@ -14,6 +14,7 @@ page-reservation {
         width: 100%;
         height: 170px;
         white-space: nowrap;
+        margin-top: 20px;
     }
 
     .single-featured {
@@ -24,6 +25,17 @@ page-reservation {
         background-color:#FFFFFF;
         margin-right: 15px;
         display: inline-block;
+    }
+
+    .single-featured .reserved-mark {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+        font-size: 2.5rem;
+        color:color($colors,orange);
+        //background-color:#012344;
     }
 
     .single-featured .featured-info {
@@ -93,6 +105,8 @@ page-reservation {
         margin-top: 15px;
         display: block;
         position: relative;
+        height: 185px;
+        overflow: scroll;
     }
 
     .times-container .pick-heading {
