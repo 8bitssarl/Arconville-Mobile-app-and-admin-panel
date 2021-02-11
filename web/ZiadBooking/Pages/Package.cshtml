@@ -52,19 +52,19 @@ else
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Title</b>
-                <input type="text" class="form-control" name="title" value="@(package==null?"":package.Title)" />
+                <input type="text" autocomplete="off" class="form-control" name="title" value="@(package==null?"":package.Title)" />
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Location</b>
-                <input type="text" class="form-control" name="location_text" value="@(package == null ? "" : package.LocationText)" />
+                <input type="text" autocomplete="off" class="form-control" name="location_text" value="@(package == null ? "" : package.LocationText)" />
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Latitude</b>
-                <input type="text" class="form-control" name="latitude" value="@(package == null ? "" : package.Latitude)" />
+                <input type="text" autocomplete="off" class="form-control" name="latitude" value="@(package == null ? "" : package.Latitude)" />
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Longitude</b>
-                <input type="text" class="form-control" name="longitude" value="@(package == null ? "" : package.Longitude)" />
+                <input type="text" autocomplete="off" class="form-control" name="longitude" value="@(package == null ? "" : package.Longitude)" />
             </div>
         </div>
         <div class="row" style="margin-top: 15px;">

@@ -34,7 +34,7 @@ else
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Name</b>
-                <input type="text" class="form-control" name="name" value="@(user == null ? "" : user.values["name"])" />
+                <input type="text" autocomplete="off" class="form-control" name="name" value="@(user == null ? "" : user.values["name"])" />
             </div>
             
         </div>
@@ -45,7 +45,7 @@ else
                     @{
                         string checkedStr = (user!=null && user.values["can_book_online"] != null && user.values["can_book_online"].ToString() == "1") ? "checked" : "";
                     }
-                    <input type="checkbox" name="can_book_online" @checkedStr />
+                    <input type="checkbox" value="1" name="can_book_online" @checkedStr />
                 </div>
             </div>
         </div>

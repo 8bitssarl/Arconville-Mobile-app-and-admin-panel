@@ -73,7 +73,7 @@ namespace ZiadBooking.Pages
                 ViewData["Service"] = gmd;
                 if (id.CompareTo("0") == 0)
                 {
-                    string query = "INSERT INTO `package`(name,can_book_online)";
+                    string query = "INSERT INTO `bookingservice`(name,can_book_online)";
                     query += " VALUES(@Name,@CanBookOnline)";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
@@ -84,7 +84,7 @@ namespace ZiadBooking.Pages
                 }
                 else
                 {
-                    string query = "UPDATE `package` SET name=@Name,can_book_online=@CanBookOnline WHERE id=@Id";
+                    string query = "UPDATE `bookingservice` SET name=@Name,can_book_online=@CanBookOnline WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
