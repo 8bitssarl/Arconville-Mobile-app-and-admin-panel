@@ -36,7 +36,15 @@ else
                 <b>Name</b>
                 <input type="text" autocomplete="off" class="form-control" name="name" value="@(user == null ? "" : user.values["name"])" />
             </div>
-            
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Image</b>
+                <input type="file" name="profile_pic" />
+                @if (user != null && user.values.ContainsKey("image_url") && user.values["image_url"].ToString().CompareTo("")!=0)
+                {
+                    <span>&nbsp;&nbsp;</span>
+                    <img src="@user.values["image_url"]" style="width: 60px;" />
+                }
+            </div>
         </div>
         <div class="row" style="margin-top: 15px;">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

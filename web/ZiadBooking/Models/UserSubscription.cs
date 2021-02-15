@@ -33,7 +33,7 @@ namespace ZiadBooking.Models
 
     public class BookingService
     {
-        public string Id, Name, CanBookOnline;
+        public string Id, Name, CanBookOnline,ImageUrl;
     }
 
     public class BookingPackage

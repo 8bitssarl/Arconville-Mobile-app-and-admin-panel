@@ -48,7 +48,7 @@ else
     <h2>Add New Package</h2>
 }
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Title</b>
@@ -93,6 +93,17 @@ else
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <b>Amount</b>
                 <input type="tel" class="form-control" name="amount" value="@(package==null?"":package.Amount)" />
+            </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Image</b>
+                <input type="file" name="profile_pic" />
+                @if (package != null && package.ImageUrl != "")
+                {
+                    <span>&nbsp;&nbsp;</span>
+                    <img src="@package.ImageUrl" style="width: 60px;" />
+                }
             </div>
         </div>
         <div class="row" style="margin-top: 15px;">

@@ -21,6 +21,7 @@ namespace ZiadBooking.Pages
                     Id = reader["id"].ToString(),
                     Name = reader["name"].ToString(),
                     CanBookOnline = reader["can_book_online"].ToString(),
+                    ImageUrl = reader["image_url"].ToString(),
                 };
                 packages.Add(x);
             }

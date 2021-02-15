@@ -112,7 +112,7 @@ using ZiadBooking;
             WriteLiteral("\r\n<h2>Search User</h2>\r\n");
             EndContext();
             BeginContext(1003, 223, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ac7bce7f4126407c81b72bb279439551", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60367dfb553f4beaa129f57ae6345780", async() => {
                 BeginContext(1023, 57, true);
                 WriteLiteral("\r\n    <input type=\"text\" class=\"form-control\" name=\"name\"");
                 EndContext();
@@ -391,7 +391,7 @@ WriteAttributeValue("", 2804, color, 2804, 8, false);
             WriteLiteral("</td>\r\n                            <td>\r\n                                ");
             EndContext();
             BeginContext(4049, 416, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4d04de9610e34e6d9ad3a33cb0daf98d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fb90d8a9619c4259934a3d60ffa59a1a", async() => {
                 BeginContext(4069, 58, true);
                 WriteLiteral("\r\n                                    <input type=\"hidden\"");
                 EndContext();
@@ -435,7 +435,7 @@ WriteAttributeValue("", 4323, usr.Name, 4323, 9, false);
             WriteLiteral("\r\n                            </td>\r\n                            <td>\r\n                                ");
             EndContext();
             BeginContext(4568, 418, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7a2389b0c8ed442da1ec70a4e411787a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "209762cefd7e4a50acf0177ddc058859", async() => {
                 BeginContext(4588, 58, true);
                 WriteLiteral("\r\n                                    <input type=\"hidden\"");
                 EndContext();

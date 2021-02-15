@@ -54,6 +54,37 @@ namespace ZiadBooking.Pages
             ViewData["PackageServices"] = packageServices;
         }
 
+        private string GetProfilePicImageUrl()
+        {
+            var folderName = Path.Combine("wwwroot", "ProfileImages");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            if (Request.Form.Files == null || Request.Form.Files.Count == 0)
+            {
+                return "";
+            }
+            IFormFile file = Request.Form.Files[0];
+            try
+            {
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    //var dbPath = Path.Combine(folderName, fileName);
+                    var dbPath = Path.Combine("ProfileImages", fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    string url = dbPath;
+                    return url;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return "";
+        }
+
         public void OnPost()
         {
             Models.SessionHelper.RedirectIfNotLoggedIn(HttpContext);
@@ -85,6 +116,9 @@ namespace ZiadBooking.Pages
 
                 string[] serviceVals = service.Split(',');
 
+                string profile_pic_url = GetProfilePicImageUrl();
+                profile_pic_url = profile_pic_url.Replace('\\', '/');
+
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
                 Models.Package editUser = null;
@@ -96,6 +130,11 @@ namespace ZiadBooking.Pages
                         db.Close();
                         ViewData["Message"] = "Package not found";
                         return;
+                    }
+
+                    if (string.IsNullOrEmpty(profile_pic_url))
+                    {
+                        profile_pic_url = editUser.ImageUrl;
                     }
                 }
                 Models.Package user = new Models.Package();
@@ -114,9 +153,10 @@ namespace ZiadBooking.Pages
                 user.NumMonths = duration;
                 user.Amount = amount;
                 user.Featured = featured;
+                user.ImageUrl = profile_pic_url;
                 if (id.CompareTo("0") == 0)
                 {
-                    string query = "INSERT INTO `package`(title,service_id,num_months,amount,is_featured,location_text,latitude,longitude) VALUES(@Title,@ServiceId,@NumMonths,@Amount,@Featured,@LocationText,@Latitude,@Longitude)";
+                    string query = "INSERT INTO `package`(title,service_id,num_months,amount,is_featured,location_text,latitude,longitude,image_url) VALUES(@Title,@ServiceId,@NumMonths,@Amount,@Featured,@LocationText,@Latitude,@Longitude,@ImageUrl)";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Title", user.Title);
@@ -127,6 +167,7 @@ namespace ZiadBooking.Pages
                     comm.Parameters.AddWithValue("@LocationText", location_text);
                     comm.Parameters.AddWithValue("@Latitude", latitude);
                     comm.Parameters.AddWithValue("@Longitude", longitude);
+                    comm.Parameters.AddWithValue("@ImageUrl", user.ImageUrl);
                     comm.ExecuteNonQuery();
 
                     query = "SELECT * FROM package WHERE title=@Title";
@@ -143,7 +184,7 @@ namespace ZiadBooking.Pages
                 }
                 else
                 {
-                    string query = "UPDATE `package` SET title=@Title,service_id=@ServiceId,num_months=@NumMonths,amount=@Amount,is_featured=@Featured,location_text=@LocationText,latitude=@Latitude,longitude=@Longitude WHERE id=@Id";
+                    string query = "UPDATE `package` SET title=@Title,service_id=@ServiceId,num_months=@NumMonths,amount=@Amount,is_featured=@Featured,location_text=@LocationText,latitude=@Latitude,longitude=@Longitude,image_url=@ImageUrl WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
@@ -155,6 +196,7 @@ namespace ZiadBooking.Pages
                     comm.Parameters.AddWithValue("@LocationText", location_text);
                     comm.Parameters.AddWithValue("@Latitude", latitude);
                     comm.Parameters.AddWithValue("@Longitude", longitude);
+                    comm.Parameters.AddWithValue("@ImageUrl", user.ImageUrl);
                     comm.ExecuteNonQuery();
 
                     query = "DELETE FROM packageservice WHERE package_id=" + id;

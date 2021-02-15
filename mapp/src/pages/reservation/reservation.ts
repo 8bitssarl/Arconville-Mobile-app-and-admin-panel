@@ -92,9 +92,13 @@ export class ReservationPage {
                 srv.selected=false;
                 if (srv.can_book_online!=1)
                     continue;
-                srv.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
-                if (a==1){
-                    srv.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                if (!srv.image_url || srv.image_url==''){
+                    srv.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        srv.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }else{
+                    srv.image_url=this.server.BASE_URL+"../"+srv.image_url;
                 }
                 srv.background_image="url('"+srv.image_url+"')";
                 this.services.push(srv);

@@ -29,6 +29,7 @@ namespace ZiadBooking.Pages
                     LocationText = reader["location_text"].ToString(),
                     Latitude = reader["latitude"].ToString(),
                     Longitude = reader["longitude"].ToString(),
+                    ImageUrl = reader["image_url"].ToString(),
                 };
                 packages.Add(x);
             }

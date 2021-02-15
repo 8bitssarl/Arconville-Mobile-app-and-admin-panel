@@ -143,6 +143,8 @@ export class SplashPage {
                     if (a==1){
                         st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
                     }
+                }else{
+                    st.image_url=this.server.BASE_URL+"../"+st.image_url;
                 }
                 st.background_image="url('"+st.image_url+"')";
                 this.globals.packages.push(st);

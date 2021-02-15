@@ -31,6 +31,37 @@ namespace ZiadBooking.Pages
             reader.Close();
         }
 
+        private string GetProfilePicImageUrl()
+        {
+            var folderName = Path.Combine("wwwroot", "ProfileImages");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            if (Request.Form.Files == null || Request.Form.Files.Count == 0)
+            {
+                return "";
+            }
+            IFormFile file = Request.Form.Files[0];
+            try
+            {
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    //var dbPath = Path.Combine(folderName, fileName);
+                    var dbPath = Path.Combine("ProfileImages", fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    string url = dbPath;
+                    return url;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return "";
+        }
+
         public void OnPost()
         {
             Models.SessionHelper.RedirectIfNotLoggedIn(HttpContext);
@@ -48,11 +79,13 @@ namespace ZiadBooking.Pages
                 {
                     can_book_online = "0";
                 }
+                string profile_pic_url = GetProfilePicImageUrl();
+                profile_pic_url = profile_pic_url.Replace('\\', '/');
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
                 if (id.CompareTo("0") != 0)
                 {
-                    string query = "SELECT id FROM bookingservice WHERE id=@Id";
+                    string query = "SELECT id,image_url FROM bookingservice WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
@@ -64,6 +97,10 @@ namespace ZiadBooking.Pages
                         ViewData["Message"] = "Service not found";
                         return;
                     }
+                    if (string.IsNullOrEmpty(profile_pic_url))
+                    {
+                        profile_pic_url = reader["image_url"].ToString();
+                    }
                     reader.Close();
                 }
                 Models.GenericModel gmd = new Models.GenericModel();
@@ -73,22 +110,24 @@ namespace ZiadBooking.Pages
                 ViewData["Service"] = gmd;
                 if (id.CompareTo("0") == 0)
                 {
-                    string query = "INSERT INTO `bookingservice`(name,can_book_online)";
-                    query += " VALUES(@Name,@CanBookOnline)";
+                    string query = "INSERT INTO `bookingservice`(name,can_book_online,image_url)";
+                    query += " VALUES(@Name,@CanBookOnline,@ImageUrl)";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Name",name);
                     comm.Parameters.AddWithValue("@CanBookOnline", can_book_online);
+                    comm.Parameters.AddWithValue("@ImageUrl", profile_pic_url);
                     comm.ExecuteNonQuery();
                 }
                 else
                 {
-                    string query = "UPDATE `bookingservice` SET name=@Name,can_book_online=@CanBookOnline WHERE id=@Id";
+                    string query = "UPDATE `bookingservice` SET name=@Name,can_book_online=@CanBookOnline,image_url=@ImageUrl WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
                     comm.Parameters.AddWithValue("@Name", name);
                     comm.Parameters.AddWithValue("@CanBookOnline", can_book_online);
+                    comm.Parameters.AddWithValue("@ImageUrl", profile_pic_url);
                     comm.ExecuteNonQuery();
                 }
                 db.Close();

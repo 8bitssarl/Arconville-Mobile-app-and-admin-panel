@@ -31,6 +31,7 @@ namespace ZiadBooking.Controllers.api
                         id = reader["id"].ToString(),
                         name = reader["name"].ToString(),
                         can_book_online = reader["can_book_online"].ToString(),
+                        image_url = reader["image_url"].ToString(),
                     };
                     services.Add(x);
                 }
@@ -157,6 +158,7 @@ namespace ZiadBooking.Controllers.api
                         location_text = reader["location_text"].ToString(),
                         latitude = reader["latitude"].ToString(),
                         longitude = reader["longitude"].ToString(),
+                        image_url = reader["image_url"].ToString(),
                     };
                     upcoming.Add(x);
                 }
