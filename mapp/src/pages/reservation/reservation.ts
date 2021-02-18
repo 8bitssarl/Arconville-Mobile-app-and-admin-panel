@@ -56,9 +56,23 @@ export class ReservationPage {
             this.hours.push({id: a,name: txt+' hr(s)'});
         }
 
-        for (let a=dt.getDate()+2;a<=31;a++){
-            this.days.push({value: a,selected: false});
+        dt=new Date();
+        dt.setHours(0,0,0);
+        let currDate=dt.getDate();
+        let currTs=dt.getTime();
+        while(true){
+            this.days.push({value: currDate,selected: false});
+            //0=sunday
+            if (dt.getDay()==0){
+                break;
+            }
+            currTs+=(1000*60*60*24);
+            dt.setTime(currTs);
+            currDate=dt.getDate();
         }
+        /*for (let a=currDate;;){
+            this.days.push({value: a,selected: false});
+        }*/
 
         for (let a=1;a<=10;a++){
             this.seats.push({value: a});

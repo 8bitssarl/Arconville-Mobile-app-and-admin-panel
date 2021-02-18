@@ -1,13 +1,9 @@
-<ion-header class="blue-header">
-    <ion-navbar>
-        <ion-title>Package Details</ion-title>
-    </ion-navbar>
-</ion-header>
 <ion-content no-padding has-header class="has-header gray-screen">
-    <div class="after-header-drop">
-    </div>
     <div class="package-image">
         <img [src]="package.image_url" />
+    </div>
+    <div class="back-icon" (tap)="navCtrl.pop()">
+        <ion-icon name="md-arrow-back"></ion-icon>
     </div>
     <div class="package-detail">
         <div class="single-featured">

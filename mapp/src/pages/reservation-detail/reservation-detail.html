@@ -1,0 +1,24 @@
+<ion-content no-padding has-header class="has-header gray-screen">
+    <div class="package-image">
+        <img [src]="reservation.image_url" />
+    </div>
+    <div class="back-icon" (tap)="navCtrl.pop()">
+        <ion-icon name="md-arrow-back"></ion-icon>
+    </div>
+    <div class="package-detail">
+        <div class="single-featured">
+            <div class="item-title">
+                {{reservation.service_name}}&nbsp;(for {{reservation.num_hours}} hours)
+            </div>
+            <div class="item-date">
+                {{reservation.date_display_text}}
+            </div>
+            <div class="item-time">
+                {{reservation.time_display_text}}
+            </div>
+        </div>
+        <div class="login-button" *ngIf="reservation.is_upcoming">
+            <button ion-button class="common-button" color="danger" (tap)="cancelClick(reservation)">CANCEL</button>
+        </div>
+    </div>
+</ion-content>

@@ -37,11 +37,15 @@
     </div>
     <div class="all-items-container" *ngIf="feedType=='family'">
         <div *ngFor="let st of family" class="item-single">
+            <div class="profile-pic">
+                <img [src]="st.profile_pic_url" />
+            </div>
             <div class="full-item-info">
                 <div class="item-title">
                     {{st.name}}
                 </div>
             </div>
+            <div class="clearfix"></div>
             <div class="status-box approved" *ngIf="st.is_pending=='0'">
                 APPROVED
             </div>

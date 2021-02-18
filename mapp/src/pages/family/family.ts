@@ -82,11 +82,27 @@ export class FamilyPage {
             for (let a=0;a<pending.length;a++){
                 let st=pending[a];
                 st.date_display_text=this.uiHelper.getMealDisplayDate(st.request_ts*1000,new Date().getTime());
+                if (!st.profile_pic_url || st.profile_pic_url==''){
+                    st.profile_pic_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        st.profile_pic_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }else{
+                    st.profile_pic_url=this.server.BASE_URL+"../"+st.profile_pic_url;
+                }
                 this.pending.push(st);
             }
             let family=jsonRes.data.family;
             for (let a=0;a<family.length;a++){
                 let st=family[a];
+                if (!st.profile_pic_url || st.profile_pic_url==''){
+                    st.profile_pic_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        st.profile_pic_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }else{
+                    st.profile_pic_url=this.server.BASE_URL+"../"+st.profile_pic_url;
+                }
                 this.family.push(st);
             }
         }

@@ -5,6 +5,7 @@ import { UiHelper } from '../../services/uihelper';
 import { AppServer } from '../../services/appserver';
 import { AppGlobals } from '../../services/appglobals';
 import { ReservationPage } from '../reservation/reservation';
+import { ReservationDetailPage } from '../reservation-detail/reservation-detail';
 
 @Component({
     selector: 'page-feed',
@@ -158,9 +159,10 @@ export class FeedPage {
 
     itemClick(st){
         console.log("itemClick: "+st.service_name);
-        if (this.feedType=='upcoming'){
-            this.navCtrl.push(ReservationPage,{item: st});
-        }
+        //if (this.feedType=='upcoming'){
+            //this.navCtrl.push(ReservationPage,{item: st});
+        //}
+        this.navCtrl.push(ReservationDetailPage,{reservation: st});
     }
 
     onCancelReservation(st){
