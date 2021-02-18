@@ -21,16 +21,25 @@ export class FeedPage {
 
     private myself: any = null;
 
+    private savedEvent:any=null;
+
     constructor(public alertCtrl: AlertController, public modalCtrl: ModalController, public navCtrl: NavController,public events: Events,public loadingCtrl: LoadingController,public uiHelper: UiHelper,public server: AppServer,public globals: AppGlobals,public navParams: NavParams, public platform: Platform,public actionSheetCtrl: ActionSheetController) {
         this.myself=this;
-        this.events.subscribe('reservation_saved',()=>{
+        this.savedEvent=()=>{
             console.log("reservation_saved");
             this.getStores();
-        });
+        };
+        this.events.subscribe('reservation_saved',this.savedEvent);
     }
 
     ionViewDidLoad(){
         this.getStores();
+    }
+
+    ionViewWillUnload(){
+        console.log("willunload");
+        this.events.unsubscribe('reservation_saved',this.savedEvent);
+        this.savedEvent=null;
     }
 
     doRefresh(evt){

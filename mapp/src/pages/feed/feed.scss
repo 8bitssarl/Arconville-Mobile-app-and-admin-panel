@@ -34,9 +34,9 @@ page-feed {
     }
 
     .item-single {
-        -webkit-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
-        -moz-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
-        box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        //-webkit-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        //-moz-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        //box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
         margin-bottom: 15px;
         position: relative;
         background-color:#FFFFFF;
@@ -44,8 +44,26 @@ page-feed {
         overflow: hidden;
     }
 
+    .item-single .item-image {
+        float:left;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        margin: 10px;
+        border-radius: 10px;
+        margin-right: 0px;
+    }
+
+    .item-single .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
     .full-item-info {
         padding: 15px;
+        float:left;
     }
 
     .full-item-info .item-title {

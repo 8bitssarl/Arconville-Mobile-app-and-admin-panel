@@ -18,20 +18,21 @@ export class FamilyPage {
     private family: any[] = [];
     private pending: any[] = [];
 
-    private myself: any = null;
-
     private phoneNumber:string = '';
     private name: string = '';
     private relation: string = 'friend';
 
     private relations:any[]=[];
 
+    private requestSentEvent:any=null;
+
     constructor(public alertCtrl: AlertController, public modalCtrl: ModalController, public navCtrl: NavController,public events: Events,public loadingCtrl: LoadingController,public uiHelper: UiHelper,public server: AppServer,public globals: AppGlobals,public navParams: NavParams, public platform: Platform) {
-        this.myself=this;
-        this.events.subscribe('request_sent',()=>{
+        this.requestSentEvent=()=>{
             console.log("request_sent");
-            this.myself.getStores();
-        });
+            this.getStores();
+        };
+        this.events.subscribe('request_sent',this.requestSentEvent);
+
         this.relations.push({value:'friend',title:'Friend'});
         this.relations.push({value:'parent',title:'Parent'});
         this.relations.push({value:'child',title:'Child'});
@@ -40,6 +41,12 @@ export class FamilyPage {
 
     ionViewDidLoad(){
         this.getStores();
+    }
+
+    ionViewWillUnload(){
+        console.log("willunload");
+        this.events.unsubscribe('request_sent',this.requestSentEvent);
+        this.requestSentEvent=null;
     }
 
     doRefresh(evt){

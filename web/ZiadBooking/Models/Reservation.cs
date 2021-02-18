@@ -74,7 +74,7 @@ namespace ZiadBooking.Models
         {
             try
             {
-                string query = "SELECT s.name AS service_name,r.* FROM bookingservice s,reservation r WHERE r.user_id=@UserId";
+                string query = "SELECT s.name AS service_name,s.image_url,r.* FROM bookingservice s,reservation r WHERE r.user_id=@UserId";
                 query += " AND UNIX_TIMESTAMP()<r.start_ts AND r.service_id=s.id AND r.is_cancel=0 ORDER BY r.start_ts ASC";
                 MySqlCommand comm = (MySqlCommand)conn.CreateCommand();
                 comm.CommandText = query;
@@ -96,6 +96,7 @@ namespace ZiadBooking.Models
                         checkout_at = reader["checkout_at"].ToString(),
                         cancel_at = reader["cancel_at"].ToString(),
                         is_cancel = reader["is_cancel"].ToString(),
+                        image_url = reader["image_url"].ToString(),
                     };
                     reservations.Add(x);
                 }
@@ -112,7 +113,7 @@ namespace ZiadBooking.Models
         {
             try
             {
-                string query = "SELECT s.name AS service_name,r.* FROM bookingservice s,reservation r WHERE r.user_id=@UserId";
+                string query = "SELECT s.name AS service_name,s.image_url,r.* FROM bookingservice s,reservation r WHERE r.user_id=@UserId";
                 query += " AND UNIX_TIMESTAMP()>=r.start_ts AND r.service_id=s.id ORDER BY r.start_ts DESC LIMIT 0,30";
                 MySqlCommand comm = (MySqlCommand)conn.CreateCommand();
                 comm.CommandText = query;
@@ -134,6 +135,7 @@ namespace ZiadBooking.Models
                         checkout_at = reader["checkout_at"].ToString(),
                         cancel_at = reader["cancel_at"].ToString(),
                         is_cancel=reader["is_cancel"].ToString(),
+                        image_url = reader["image_url"].ToString(),
                     };
                     reservations.Add(x);
                 }

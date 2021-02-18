@@ -11,14 +11,6 @@
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
-    <!--<ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content
-            pullingIcon="arrow-dropdown"
-            pullingText="Pull to refresh"
-            refreshingSpinner="circles"
-            refreshingText="Refreshing...">
-        </ion-refresher-content>
-    </ion-refresher>-->
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">
@@ -31,6 +23,9 @@
     </div>
     <div class="all-items-container">
         <div *ngFor="let st of items" class="item-single" (press)="itemPress(st)" (tap)="itemClick(st)">
+            <div class="item-image" *ngIf="st.image_url!=''">
+                <img [src]="st.image_url" />
+            </div>
             <div class="full-item-info">
                 <div class="item-title">
                     {{st.service_name}}&nbsp;(for {{st.num_hours}} hours)
