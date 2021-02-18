@@ -25,7 +25,6 @@ import { ReservationPage } from '../pages/reservation/reservation';
 import { VerifyPhonePage } from '../pages/verify-phone/verify-phone';
 import { VerifyCodePage } from '../pages/verify-code/verify-code';
 import { FamilyPage } from '../pages/family/family';
-import { AddFamilyPage } from '../pages/add-family/add-family';
 import { EditProfilePage } from '../pages/edit-profile/edit-profile';
 import { PackagesPage } from '../pages/packages/packages';
 import { SettingsPage } from '../pages/settings/settings';
@@ -46,7 +45,6 @@ import { PackageDetailPage } from '../pages/package-detail/package-detail';
         FeedPage,
         ReservationPage,
         FamilyPage,
-        AddFamilyPage,
         SettingsPage,
         EditProfilePage,
     ],
@@ -70,7 +68,6 @@ import { PackageDetailPage } from '../pages/package-detail/package-detail';
         FeedPage,
         ReservationPage,
         FamilyPage,
-        AddFamilyPage,
         SettingsPage,
         EditProfilePage,
     ],

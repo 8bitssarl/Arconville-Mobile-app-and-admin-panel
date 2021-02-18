@@ -4,7 +4,6 @@ import { Response } from '@angular/http';
 import { UiHelper } from '../../services/uihelper';
 import { AppServer } from '../../services/appserver';
 import { AppGlobals } from '../../services/appglobals';
-import { AddFamilyPage } from '../add-family/add-family';
 
 @Component({
     selector: 'page-family',
@@ -117,7 +116,7 @@ export class FamilyPage {
 
     addFamilyClick(){
         console.log("addFamilyClick");
-        this.navCtrl.push(AddFamilyPage,{});
+        //this.navCtrl.push(AddFamilyPage,{});
     }
 
     actionClick(st,action){
