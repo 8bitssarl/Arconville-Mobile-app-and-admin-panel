@@ -30,6 +30,7 @@ import { PackagesPage } from '../pages/packages/packages';
 import { SettingsPage } from '../pages/settings/settings';
 import { PackageDetailPage } from '../pages/package-detail/package-detail';
 import { ReservationDetailPage } from '../pages/reservation-detail/reservation-detail';
+import { FamilyDetailPage } from '../pages/family-detail/family-detail';
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { ReservationDetailPage } from '../pages/reservation-detail/reservation-d
         ReservationDetailPage,
         ReservationPage,
         FamilyPage,
+        FamilyDetailPage,
         SettingsPage,
         EditProfilePage,
     ],
@@ -71,6 +73,7 @@ import { ReservationDetailPage } from '../pages/reservation-detail/reservation-d
         ReservationDetailPage,
         ReservationPage,
         FamilyPage,
+        FamilyDetailPage,
         SettingsPage,
         EditProfilePage,
     ],

@@ -36,7 +36,7 @@
         <button ion-button class="common-button primary-button" (tap)="saveClick()">ENROLL</button>
     </div>
     <div class="all-items-container" *ngIf="feedType=='family'">
-        <div *ngFor="let st of family" class="item-single">
+        <div *ngFor="let st of family" class="item-single" (tap)="familyClick(st)">
             <div class="profile-pic">
                 <img [src]="st.profile_pic_url" />
             </div>

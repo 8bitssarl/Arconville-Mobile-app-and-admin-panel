@@ -1,0 +1,34 @@
+<ion-header class="blue-header">
+    <ion-navbar>
+        <ion-title>Family</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-padding class="gray-screen">
+    <div class="after-header-drop">
+        <div class="profile-pic-container">
+            <div class="profile-pic">
+                <img [src]="loginData.profile_pic_url" *ngIf="loginData.profile_pic_url!=''" />
+            </div>
+        </div>
+        <div class="input-fields-container">
+            <div class="input-label">
+                Name
+            </div>
+            <ion-item class="input-field field-below-label">
+                {{loginData.name}}
+            </ion-item>
+            <div class="input-label input-below">
+                Phone
+            </div>
+            <ion-item class="input-field field-below-label">
+                {{loginData.phone_number}}
+            </ion-item>
+            <div class="input-label input-below">
+                Relation
+            </div>
+            <ion-item class="input-field field-below-label">
+                {{loginData.relation}}
+            </ion-item>
+        </div>
+    </div>
+</ion-content>

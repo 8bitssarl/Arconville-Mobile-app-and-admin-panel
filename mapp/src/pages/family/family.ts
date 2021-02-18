@@ -4,6 +4,7 @@ import { Response } from '@angular/http';
 import { UiHelper } from '../../services/uihelper';
 import { AppServer } from '../../services/appserver';
 import { AppGlobals } from '../../services/appglobals';
+import { FamilyDetailPage } from '../family-detail/family-detail';
 
 @Component({
     selector: 'page-family',
@@ -57,6 +58,11 @@ export class FamilyPage {
 
     feedTypeChanged(evt){
         console.log("feedTypeChanged: "+this.feedType);
+    }
+
+    familyClick(st){
+        console.log("familyClick: "+st.name);
+        this.navCtrl.push(FamilyDetailPage,{family: st});
     }
 
     processIndividualItem(st){
