@@ -15,9 +15,15 @@
 
 @{
     Models.User user = null;
+    List<Models.GenericModel> family = null;
     if (ViewData["User"] != null)
     {
         user = (Models.User)ViewData["User"];
+        family = (List<Models.GenericModel>)ViewData["Family"];
+    }
+    if (family == null)
+    {
+        family = new List<Models.GenericModel>();
     }
 }
 
@@ -30,57 +36,87 @@ else
     <h2>Add New User</h2>
 }
 
-    <form method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Name</b>
-                <input type="text" class="form-control" name="name" value="@(user==null?"":user.Name)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Email</b>
-                <input type="text" class="form-control" name="email" value="@(user==null?"":user.Email)" />
-            </div>
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <b>Name</b>
+            <input type="text" class="form-control" name="name" value="@(user==null?"":user.Name)" />
         </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Phone Number</b>
-                <input type="tel" class="form-control" name="phone_number" value="@(user==null?"":user.PhoneNumber)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Password</b>
-                <input type="password" class="form-control" name="password" />
-            </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <b>Email</b>
+            <input type="text" class="form-control" name="email" value="@(user==null?"":user.Email)" />
         </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Date Of Birth (YYYY-MM-DD)</b>
-                <input type="text" class="form-control" name="date_of_birth" value="@(user==null?"":user.DateOfBirth)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Profile Picture</b>
-                <input type="file" name="profile_pic" />
-                @if (user!=null && user.ProfilePicUrl != "")
+    </div>
+    <div class="row" style="margin-top: 15px;">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <b>Phone Number</b>
+            <input type="tel" class="form-control" name="phone_number" value="@(user==null?"":user.PhoneNumber)" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <b>Password</b>
+            <input type="password" class="form-control" name="password" />
+        </div>
+    </div>
+    <div class="row" style="margin-top: 15px;">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <b>Date Of Birth (YYYY-MM-DD)</b>
+            <input type="text" class="form-control" name="date_of_birth" value="@(user==null?"":user.DateOfBirth)" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <b>Profile Picture</b>
+            <input type="file" name="profile_pic" />
+            @if (user != null && user.ProfilePicUrl != "")
+            {
+                <span>&nbsp;&nbsp;</span>
+                <img src="@user.ProfilePicUrl" style="width: 30px;" />
+            }
+        </div>
+    </div>
+    <div class="row" style="margin-top: 15px;">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <input type="checkbox" name="phone_verified" @(user != null ? (user.PhoneVerified == "1" ? "checked" : "") : "") />
+            &nbsp;&nbsp;
+            <b>Phone Verified</b>
+        </div>
+        <input type="hidden" name="can_add_member" value="1" />
+    </div>
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button class="btn btn-success btn-block" type="submit">SAVE</button>
+        </div>
+    </div>
+</form>
+
+@if (family.Count > 0)
+{
+    <h3>Family</h3>
+
+    <table class="table table-bordered table-success table-striped">
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Relation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var x in family)
                 {
-                    <span>&nbsp;&nbsp;</span>
-                    <img src="@user.ProfilePicUrl" style="width: 30px;" />
+            <tr>
+                <td style="text-align: center;">
+                    @if (x.values["profile_pic_url"].ToString().CompareTo("") != 0)
+                    {
+                        <img src="@x.values["profile_pic_url"].ToString()" style="width: 80px;" />
+                    }
+                </td>
+                <td>@x.values["name"].ToString()</td>
+                <td>@x.values["phone_number"].ToString()</td>
+                <td>@x.values["relation"].ToString().ToUpper()</td>
+            </tr>
                 }
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="phone_verified" @(user != null ? (user.PhoneVerified == "1" ? "checked" : "") : "") />
-                &nbsp;&nbsp;
-                <b>Phone Verified</b>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <input type="checkbox" name="can_add_member" @(user != null ? (user.CanAddMember == "1" ? "checked" : "") : "") />
-                &nbsp;&nbsp;
-                <b>Family</b>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 30px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button class="btn btn-success btn-block" type="submit">SAVE</button>
-            </div>
-        </div>
-    </form>
+            }
+        </tbody>
+    </table>
+}

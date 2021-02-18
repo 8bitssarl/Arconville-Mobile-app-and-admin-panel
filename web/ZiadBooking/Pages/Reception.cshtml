@@ -152,17 +152,19 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Relation</th>
                 </tr>
             </thead>
             <tbody>
                 @{
                     foreach (var x in family)
                     {
-                        <tr>
-                            <td>@x.values["name"].ToString()</td>
-                            <td>@x.values["email"].ToString()</td>
-                            <td>@x.values["phone_number"].ToString()</td>
-                        </tr>
+                <tr>
+                    <td>@x.values["name"].ToString()</td>
+                    <td>@x.values["email"].ToString()</td>
+                    <td>@x.values["phone_number"].ToString()</td>
+                    <td>@x.values["relation"].ToString().ToUpper()</td>
+                </tr>
                     }
                 }
             </tbody>

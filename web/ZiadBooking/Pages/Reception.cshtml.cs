@@ -101,7 +101,7 @@ namespace ZiadBooking.Pages
             comm.Dispose();
             ViewData["Reservations"] = reservations;
 
-            query = "SELECT u.name,u.email,u.phone_number FROM family f,user u WHERE f.user_id=" + userId + " AND f.child_id=u.id";
+            query = "SELECT u.name,u.email,u.phone_number,f.relation FROM family f,user u WHERE f.user_id=" + userId + " AND f.child_id=u.id";
             comm = db.Connection.CreateCommand();
             comm.CommandText = query;
             reader = comm.ExecuteReader();

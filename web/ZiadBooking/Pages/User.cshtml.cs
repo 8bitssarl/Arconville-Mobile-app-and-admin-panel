@@ -7,6 +7,7 @@ using MySql.Data.MySqlClient;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
+using System.Data;
 
 namespace ZiadBooking.Pages
 {
@@ -14,7 +15,33 @@ namespace ZiadBooking.Pages
     {
         private void GenerateDataModel(string userId,DatabaseHelper db)
         {
-            
+            List<Models.GenericModel> family = new List<Models.GenericModel>();
+            string query = "SELECT u.name,u.profile_pic_url,u.phone_number,'0' AS is_pending,f.relation FROM family f,user u WHERE u.id=f.child_id AND f.user_id=@user_id ORDER BY u.name";
+            MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
+            comm.CommandText = query;
+            comm.Parameters.AddWithValue("@user_id", userId);
+            IDataReader reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.GenericModel gm = new Models.GenericModel();
+                gm.CreateFromReader(reader);
+                family.Add(gm);
+            }
+            reader.Close();
+            query = "SELECT f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending,f.relation FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
+            comm = (MySqlCommand)db.Connection.CreateCommand();
+            comm.CommandText = query;
+            comm.Parameters.AddWithValue("@user_id", userId);
+            reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.GenericModel gm = new Models.GenericModel();
+                gm.CreateFromReader(reader);
+                family.Add(gm);
+            }
+            reader.Close();
+            db.Close();
+            ViewData["Family"] = family;
         }
 
         private string GetProfilePicImageUrl()

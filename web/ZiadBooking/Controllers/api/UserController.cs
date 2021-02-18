@@ -264,7 +264,7 @@ namespace ZiadBooking.Controllers.api
                 //    pending.Add(r);
                 //}
                 //reader.Close();
-                query = "SELECT u.name,u.profile_pic_url,u.phone_number,'0' AS is_pending FROM family f,user u WHERE u.id=f.child_id AND f.user_id=@user_id ORDER BY u.name";
+                query = "SELECT u.name,u.profile_pic_url,u.phone_number,'0' AS is_pending,f.relation FROM family f,user u WHERE u.id=f.child_id AND f.user_id=@user_id ORDER BY u.name";
                 comm = (MySqlCommand)db.Connection.CreateCommand();
                 comm.CommandText = query;
                 comm.Parameters.AddWithValue("@user_id", userId);
@@ -277,11 +277,12 @@ namespace ZiadBooking.Controllers.api
                         phone_number = reader["phone_number"].ToString(),
                         profile_pic_url = reader["profile_pic_url"].ToString(),
                         is_pending = reader["is_pending"].ToString(),
+                        relation = reader["relation"].ToString(),
                     };
                     family.Add(r);
                 }
                 reader.Close();
-                query = "SELECT f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
+                query = "SELECT f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending,f.relation FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
                 comm = (MySqlCommand)db.Connection.CreateCommand();
                 comm.CommandText = query;
                 comm.Parameters.AddWithValue("@user_id", userId);
@@ -294,6 +295,7 @@ namespace ZiadBooking.Controllers.api
                         phone_number = reader["phone_number"].ToString(),
                         profile_pic_url = reader["profile_pic_url"].ToString(),
                         is_pending = reader["is_pending"].ToString(),
+                        relation = reader["relation"].ToString(),
                     };
                     family.Add(r);
                 }
