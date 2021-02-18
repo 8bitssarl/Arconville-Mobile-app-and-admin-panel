@@ -100,6 +100,14 @@ export class FeedPage {
                 st.is_upcoming=true;
                 st.date_display_text=this.uiHelper.getMealDisplayDate(st.start_ts*1000,new Date().getTime());
                 st.time_display_text=this.uiHelper.getMinutesRemainingStr(st.start_ts*1000).text;
+                if (!st.image_url || st.image_url==''){
+                    st.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }else{
+                    st.image_url=this.server.BASE_URL+"../"+st.image_url;
+                }
                 this.allItems.push(st);
             }
             items=jsonRes.data.previous;
@@ -108,6 +116,14 @@ export class FeedPage {
                 st.is_upcoming=false;
                 st.date_display_text=this.uiHelper.getMealDisplayDate(st.start_ts*1000,new Date().getTime());
                 st.time_display_text=this.uiHelper.getMinutesAgoStr(st.start_ts*1000).text;
+                if (!st.image_url || st.image_url==''){
+                    st.image_url="https://www.gstatic.com/webp/gallery/1.jpg";
+                    if (a==1){
+                        st.image_url="https://www.gstatic.com/webp/gallery/2.jpg";
+                    }
+                }else{
+                    st.image_url=this.server.BASE_URL+"../"+st.image_url;
+                }
                 this.allItems.push(st);
             }
             this.filterItems();
