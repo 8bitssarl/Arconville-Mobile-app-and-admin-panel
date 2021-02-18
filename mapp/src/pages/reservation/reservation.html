@@ -3,25 +3,20 @@
         <ion-title>
             Reservation
         </ion-title>
-        <!--<ion-buttons end>
-            <button ion-button icon-only (tap)="saveClick()">
-                <ion-icon name="md-checkmark"></ion-icon>
-            </button>
-        </ion-buttons>-->
     </ion-navbar>
 </ion-header>
 <ion-content no-padding has-header class="has-header gray-screen">
     <div class="after-header-drop"></div>
     <ion-scroll padding class="scrollable-featured" scrollX="true" scrollY="false">
-        <div class="single-featured" nowrap [ngStyle]="{'background' : f.background_image}" *ngFor="let f of services" (click)="serviceClick(f)">
+        <div class="single-featured" [ngClass]="{'feature-selected':f.selected}" nowrap [ngStyle]="{'background' : f.background_image}" *ngFor="let f of services" (click)="serviceClick(f)">
             <div class="featured-info">
                 <div class="item-title">
                     {{f.name}}
                 </div>
             </div>
-            <div class="reserved-mark" *ngIf="f.selected">
+            <!--<div class="reserved-mark" *ngIf="f.selected">
                 <ion-icon name="ios-checkmark-circle"></ion-icon>
-            </div>
+            </div>-->
         </div>
     </ion-scroll>
     <div padding class="dates-container">

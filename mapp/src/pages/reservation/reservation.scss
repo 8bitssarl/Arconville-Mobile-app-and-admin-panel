@@ -27,6 +27,12 @@ page-reservation {
         display: inline-block;
     }
 
+    .single-featured.feature-selected {
+        border-width: 2px;
+        border-style: solid;
+        border-color:color($colors,orange);
+    }
+
     .single-featured .reserved-mark {
         position: absolute;
         width: 100%;

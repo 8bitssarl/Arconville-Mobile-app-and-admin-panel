@@ -319,6 +319,11 @@ namespace ZiadBooking.Controllers.api
             string userId = Request.Form["user_id"]; //this user is adding userId2 as a family
             string phone = Request.Form["phone"]; //this user is being added as a family by userId1
             string name = Request.Form["name"]; //name of the user that is being added as a family by userId1
+            string relation = Request.Form["relation"]; //relation of the user that is being added as a family
+            if (relation == null)
+            {
+                relation = "";
+            }
             try
             {
                 DatabaseHelper db = new DatabaseHelper();
@@ -377,13 +382,14 @@ namespace ZiadBooking.Controllers.api
                 if (canInsertRequest)
                 {
                     //insert into family request and send sms to this user
-                    query = "INSERT INTO familyrequest(user_id,phone_number,name,request_ts)";
-                    query += " VALUES(@user_id,@phone_number,@name,@request_ts)";
+                    query = "INSERT INTO familyrequest(user_id,phone_number,name,relation,request_ts)";
+                    query += " VALUES(@user_id,@phone_number,@name,@relation,@request_ts)";
                     comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@user_id", userId);
                     comm.Parameters.AddWithValue("@phone_number", phone);
                     comm.Parameters.AddWithValue("@name", name);
+                    comm.Parameters.AddWithValue("@relation", relation);
                     comm.Parameters.AddWithValue("@request_ts", Models.Helper.UnixTimestampFromDateTime(DateTime.Now));
                     comm.ExecuteNonQuery();
                 }
@@ -394,6 +400,25 @@ namespace ZiadBooking.Controllers.api
             {
                 return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
             }
+        }
+
+        private string GetReverseRelation(string relation)
+        {
+            string rRelation = "";
+            if (relation == "parent")
+            {
+                rRelation = "child";
+            }
+            else if (relation == "friend")
+            {
+                rRelation = "friend";
+            }
+            else if (relation == "sibling")
+            {
+                rRelation = "sibling";
+            }
+            
+            return rRelation;
         }
 
         [HttpPost]
@@ -427,9 +452,11 @@ namespace ZiadBooking.Controllers.api
                 comm.Parameters.AddWithValue("@phone_number", phoneNumber);
                 reader = comm.ExecuteReader();
                 string requestId = "0";
+                string relation = "";
                 if (reader.Read())
                 {
                     requestId = reader["id"].ToString();
+                    relation = reader["relation"].ToString();
                 }
                 reader.Close();
                 if (requestId.CompareTo("0") == 0)
@@ -441,18 +468,23 @@ namespace ZiadBooking.Controllers.api
                 if (action == "accept")
                 {
                     //now insert both as family of each other
-                    query = "INSERT INTO family(user_id,child_id) VALUES(@user_id,@child_id)";
+                    query = "INSERT INTO family(user_id,child_id,relation) VALUES(@user_id,@child_id,@relation)";
                     comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@user_id", userId);
                     comm.Parameters.AddWithValue("@child_id", userId2);
+                    comm.Parameters.AddWithValue("@relation", relation);
                     comm.ExecuteNonQuery();
 
-                    query = "INSERT INTO family(user_id,child_id) VALUES(@user_id,@child_id)";
+                    relation = GetReverseRelation(relation);
+
+                    //switch to reverse relation
+                    query = "INSERT INTO family(user_id,child_id,relation) VALUES(@user_id,@child_id,@relation)";
                     comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@user_id", userId2);
                     comm.Parameters.AddWithValue("@child_id", userId);
+                    comm.Parameters.AddWithValue("@relation", relation);
                     comm.ExecuteNonQuery();
 
                     query = "DELETE FROM familyrequest WHERE id=@id";

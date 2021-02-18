@@ -33,12 +33,9 @@ export class FamilyPage {
             this.myself.getStores();
         });
         this.relations.push({value:'friend',title:'Friend'});
-        this.relations.push({value:'father',title:'Father'});
-        this.relations.push({value:'mother',title:'Mother'});
-        this.relations.push({value:'daughter',title:'Daughter'});
-        this.relations.push({value:'son',title:'Son'});
-        this.relations.push({value:'brother',title:'Brother'});
-        this.relations.push({value:'sister',title:'Sister'});
+        this.relations.push({value:'parent',title:'Parent'});
+        this.relations.push({value:'child',title:'Child'});
+        this.relations.push({value:'sibling',title:'Sibling'});
     }
 
     ionViewDidLoad(){
