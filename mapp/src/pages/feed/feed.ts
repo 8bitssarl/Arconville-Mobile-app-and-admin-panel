@@ -192,6 +192,13 @@ export class FeedPage {
         })
     }
 
+    cancelClick(st){
+        console.log("cancelClick: "+st.service_name);
+        this.uiHelper.showConfirmBox("Cancel","Are you sure you want to cancel?",()=>{
+            this.onCancelReservation(st);
+        },()=>{});
+    }
+
     itemPress(st){
         console.log("itemPress: "+st.service_name);
         if (this.feedType!="upcoming"){
@@ -217,17 +224,6 @@ export class FeedPage {
                         this.addToCalendar(st);
                     }
                 },
-                {
-                    text: 'Cancel Reservation',
-                    role: 'destructive',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                        //this.onCancelReservation(st);
-                        this.uiHelper.showConfirmBox("Cancel","Are you sure you want to cancel?",()=>{
-                            this.onCancelReservation(st);
-                        },()=>{});
-                    }
-                }
             ]
         });
         actionSheet.present();

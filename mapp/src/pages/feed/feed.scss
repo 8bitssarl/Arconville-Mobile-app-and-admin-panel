@@ -104,4 +104,22 @@ page-feed {
         border-radius: 50%;
         color:#353535;
     }
+
+    .item-single .cancel-icon {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        font-size: 1.6rem;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background-color:color($colors,danger);
+        padding-top: 4px;
+        border-radius: 50%;
+        color:#FFFFFF;
+
+        -webkit-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        -moz-box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+        box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.50);
+    }
 }
