@@ -7,18 +7,18 @@
 </ion-header>
 <ion-content no-padding has-header class="has-header gray-screen">
     <ion-fab bottom right edge>
-        <button ion-fab mini (tap)="addReservationClick()">
+        <button ion-fab color="orange" (tap)="addReservationClick()">
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <!--<ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
             pullingIcon="arrow-dropdown"
             pullingText="Pull to refresh"
             refreshingSpinner="circles"
             refreshingText="Refreshing...">
         </ion-refresher-content>
-    </ion-refresher>
+    </ion-refresher>-->
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">

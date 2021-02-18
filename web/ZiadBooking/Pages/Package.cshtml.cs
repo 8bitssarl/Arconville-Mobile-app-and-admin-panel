@@ -222,7 +222,8 @@ namespace ZiadBooking.Pages
 
                 GenerateDataModel(id,db);
                 db.Close();
-                Response.Redirect("Packages");
+                //Response.Redirect("Packages");
+                Response.Redirect("Users");
             }
             catch (Exception ex)
             {
@@ -260,7 +261,8 @@ namespace ZiadBooking.Pages
                     comm.CommandText = "DELETE FROM package WHERE id=" + id;
                     comm.ExecuteNonQuery();
                     db.Close();
-                    Response.Redirect("Packages");
+                    //Response.Redirect("Packages");
+                    Response.Redirect("Users");
                     return;
                 }
                 if (action == "edit")
@@ -269,7 +271,8 @@ namespace ZiadBooking.Pages
                     if (usr == null)
                     {
                         db.Close();
-                        Response.Redirect("Packages");
+                        //Response.Redirect("Packages");
+                        Response.Redirect("Users");
                         return;
                     }
                     ViewData["Package"] = usr;

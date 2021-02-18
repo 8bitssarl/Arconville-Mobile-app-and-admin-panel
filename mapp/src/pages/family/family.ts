@@ -23,7 +23,7 @@ export class FamilyPage {
 
     private phoneNumber:string = '';
     private name: string = '';
-    private relation: string = 'father';
+    private relation: string = 'friend';
 
     private relations:any[]=[];
 
@@ -33,6 +33,7 @@ export class FamilyPage {
             console.log("request_sent");
             this.myself.getStores();
         });
+        this.relations.push({value:'friend',title:'Friend'});
         this.relations.push({value:'father',title:'Father'});
         this.relations.push({value:'mother',title:'Mother'});
         this.relations.push({value:'daughter',title:'Daughter'});
@@ -148,7 +149,7 @@ export class FamilyPage {
         });
         this.loader.present();
         let uid=this.globals.currentUser.id;
-        this.server.addToFamily({user_id: uid,phone: this.phoneNumber,name: this.name}).subscribe(
+        this.server.addToFamily({user_id: uid,phone: this.phoneNumber,name: this.name,relation: this.relation}).subscribe(
             (res)=>{
                 this.loader.dismiss();
                 console.log(res.text());

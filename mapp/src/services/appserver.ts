@@ -140,6 +140,7 @@ export class AppServer {
     	console.log("addToFamily");
         let bodyString = "phone="+encodeURIComponent(registerData.phone)
         bodyString+="&name="+encodeURIComponent(registerData.name);
+        bodyString+="&relation="+encodeURIComponent(registerData.relation);
         bodyString+="&user_id="+encodeURIComponent(registerData.user_id);
         console.log(bodyString);
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });

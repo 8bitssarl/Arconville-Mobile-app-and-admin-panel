@@ -25,7 +25,7 @@ export class FeedPage {
         this.myself=this;
         this.events.subscribe('reservation_saved',()=>{
             console.log("reservation_saved");
-            this.myself.getStores();
+            this.getStores();
         });
     }
 
