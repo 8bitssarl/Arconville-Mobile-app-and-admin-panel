@@ -7,8 +7,9 @@
 </ion-header>
 <ion-content no-padding has-header class="has-header gray-screen">
     <ion-fab bottom right edge>
-        <button ion-fab color="orange" (tap)="addReservationClick()">
-            <ion-icon name="add"></ion-icon>
+        <button ion-button color="orange" (tap)="addReservationClick()">
+            <!--<ion-icon name="add"></ion-icon>-->
+            RESERVE
         </button>
     </ion-fab>
     <div class="after-header-drop">
@@ -21,6 +22,7 @@
             </ion-segment-button>
         </ion-segment>
     </div>
+    <div class="scrollable-data">
     <div class="all-items-container">
         <div *ngFor="let st of items" class="item-single" (press)="itemPress(st)">
             <div class="item-image" *ngIf="st.image_url!=''" (tap)="itemClick(st)">
@@ -45,5 +47,6 @@
                 <ion-icon name="ios-arrow-forward"></ion-icon>
             </div>
         </div>
+    </div>
     </div>
 </ion-content>

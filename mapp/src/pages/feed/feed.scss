@@ -4,6 +4,15 @@ page-feed {
         margin-bottom: 40px;
     }
 
+    .scroll-content {
+        overflow-y: hidden !important;
+    }
+
+    .scrollable-data {
+        overflow-y: scroll !important;
+        height: calc(100% - 60px);
+    }
+
     .segment {
         background-color: #FFFFFF;
         padding: 20px;
@@ -64,6 +73,7 @@ page-feed {
     .full-item-info {
         padding: 15px;
         float:left;
+        width: calc(100% - 120px);
     }
 
     .full-item-info .item-title {

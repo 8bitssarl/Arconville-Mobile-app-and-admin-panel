@@ -45,6 +45,41 @@ namespace ZiadBooking.Controllers.api
             }
         }
 
+        private bool CanUserReserveService(string userId,string serviceId,DatabaseHelper db)
+        {
+            string query = "SELECT us.id FROM usersubscription us";
+            query += " WHERE UNIX_TIMESTAMP(DATE(NOW()))<(us.start_ts + (60 * 60 * 24 * 30 * us.num_months))";
+            query += " AND us.user_id=" + userId + " AND us.service_id=" + serviceId;
+            IDbCommand comm = db.Connection.CreateCommand();
+            comm.CommandText = query;
+            IDataReader reader=comm.ExecuteReader();
+            if (reader.Read())
+            {
+                reader.Close();
+                comm.Dispose();
+                return true;
+            }
+            reader.Close();
+            comm.Dispose();
+
+            query = "SELECT us.id FROM usersubscription us,packageservice ps";
+            query += " WHERE UNIX_TIMESTAMP(DATE(NOW()))<(us.start_ts + (60 * 60 * 24 * 30 * us.num_months))";
+            query += " AND us.user_id=" + userId + " AND ps.service_id=" + serviceId+" AND ps.package_id=us.package_id";
+            comm = db.Connection.CreateCommand();
+            comm.CommandText = query;
+            reader = comm.ExecuteReader();
+            if (reader.Read())
+            {
+                reader.Close();
+                comm.Dispose();
+                return true;
+            }
+            reader.Close();
+            comm.Dispose();
+
+            return false;
+        }
+
         [HttpPut]
         public ApiResponseModel Put()
         {
@@ -67,6 +102,12 @@ namespace ZiadBooking.Controllers.api
                     string serviceId = Request.Form["reservation[" + a.ToString() + "][service_id]"];
                     string startTs = Request.Form["reservation[" + a.ToString() + "][start_ts]"];
                     string numHours = Request.Form["reservation[" + a.ToString() + "][num_hours]"];
+
+                    //check if they can reserve a service
+                    if (!CanUserReserveService(userId, serviceId, db))
+                    {
+                        return CreateApiResponseModel(500,"You do not have any active subscription for this service", null);
+                    }
 
                     Models.Reservation reservation = new Models.Reservation();
                     reservation.Id = rId;
