@@ -6,12 +6,14 @@
     </ion-navbar>
 </ion-header>
 <ion-content no-padding has-header class="has-header gray-screen">
-    <ion-fab bottom right edge>
-        <button ion-button color="orange" (tap)="addReservationClick()">
-            <!--<ion-icon name="add"></ion-icon>-->
+    <!--<ion-fab bottom right edge>
+        <button ion-button full large color="orange" (tap)="addReservationClick()">
             RESERVE
         </button>
-    </ion-fab>
+    </ion-fab>-->
+    <div class="bottom-button">
+        <button ion-button class="common-button primary-button" (tap)="addReservationClick()">RESERVE</button>
+    </div>
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">

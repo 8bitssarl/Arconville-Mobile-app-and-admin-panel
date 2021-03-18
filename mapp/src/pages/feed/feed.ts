@@ -127,6 +127,9 @@ export class FeedPage {
                 }
                 this.allItems.push(st);
             }
+            /*for (let x=0;x<10;x++){
+                this.allItems.push(this.allItems[0]);
+            }*/
             this.filterItems();
         }
     }

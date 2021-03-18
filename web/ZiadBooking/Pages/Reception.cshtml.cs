@@ -127,8 +127,8 @@ namespace ZiadBooking.Pages
                 db.Open();
                 string userId = "0";
                 MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
-                comm.CommandText = "SELECT * FROM user WHERE name=@name";
-                comm.Parameters.AddWithValue("@name", name);
+                comm.CommandText = "SELECT * FROM user WHERE LOWER(name)=@name";
+                comm.Parameters.AddWithValue("@name", name.ToLower());
                 IDataReader reader = comm.ExecuteReader();
                 if (reader.Read())
                 {
@@ -137,14 +137,37 @@ namespace ZiadBooking.Pages
                         Id = reader["id"].ToString(),
                         Name = reader["name"].ToString(),
                         Email = reader["email"].ToString(),
-                        PhoneNumber = reader["phone_number"].ToString()
+                        PhoneNumber = reader["phone_number"].ToString(),
+                        ProfilePicUrl = reader["profile_pic_url"].ToString(),
                     };
                     ViewData["User"] = usr;
                     userId = usr.Id;
                 }
                 else
                 {
-                    ViewData["Message"] = "User not found with the name "+name;
+                    reader.Close();
+                    //ViewData["Message"] = "User not found with the name "+name;
+                    comm = (MySqlCommand)db.Connection.CreateCommand();
+                    comm.CommandText = "SELECT * FROM user WHERE LOWER(email)=@name";
+                    comm.Parameters.AddWithValue("@name", name.ToLower());
+                    reader = comm.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        Models.User usr = new Models.User()
+                        {
+                            Id = reader["id"].ToString(),
+                            Name = reader["name"].ToString(),
+                            Email = reader["email"].ToString(),
+                            PhoneNumber = reader["phone_number"].ToString(),
+                            ProfilePicUrl = reader["profile_pic_url"].ToString(),
+                        };
+                        ViewData["User"] = usr;
+                        userId = usr.Id;
+                    }
+                    else
+                    {
+                        ViewData["Message"] = "User not found with the name or email: " + name;
+                    }
                 }
                 reader.Close();
                 if (userId.CompareTo("0") != 0)

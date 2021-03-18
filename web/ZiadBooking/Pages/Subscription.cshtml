@@ -115,130 +115,130 @@
                             break;
                         }
                     }
-            <tr>
-                <td>@x.Name</td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][start_dt]" value="@startDate" />
-                </td>
-                <td>
-                    <span style="color:@(color);font-weight: 600;">
-                        @expiredAt
-                    </span>
-                </td>
-                <td>
-                    <input type="hidden" name="package[@count.ToString()][id]" value="0" />
-                    <input type="hidden" name="service[@count.ToString()][id]" value="@x.Id" />
-                    <select class="form-control" name="service[@count.ToString()][num_months]">
-                        @{ foreach (var m in months)
-                            {
-                                string sel = "";
-                                if (m.CompareTo(numMonths) == 0)
-                                {
-                                    sel = "SELECTED";
-                                }
-                                if (sel == "")
-                                {
-                                    <option value="@m">@m month(s)</option>
-                                }
-                                else
-                                {
-                                    <option value="@m" SELECTED>@m month(s)</option>
-                                }
-                            }
-                        }
-                    </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][amount]" value="@amount" />
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][discount]" value="@discount" />
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][details]" value="@details" />
-                </td>
-
-                <td style="text-align: center;">
-                    <input type="checkbox" name="service[@count.ToString()][update]" value="1" />
-                </td>
-            </tr>
-                                count++;
-                            }
-
-                            foreach (var x in packages)
-                            {
-                                string amount = x.Amount;
-                                string numMonths = x.NumMonths;
-                                string startDate = "";
-                                string details = "";
-                                string expiredAt = "";
-                                string discount = "";
-                                string color = "#00FF00";
-                                foreach (var s in subscriptions)
-                                {
-                                    if (s.PackageId == x.Id)
+                    <tr>
+                        <td>@x.Name</td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][start_dt]" value="@startDate" />
+                        </td>
+                        <td>
+                            <span style="color:@(color);font-weight: 600;">
+                                @expiredAt
+                            </span>
+                        </td>
+                        <td>
+                            <input type="hidden" name="package[@count.ToString()][id]" value="0" />
+                            <input type="hidden" name="service[@count.ToString()][id]" value="@x.Id" />
+                            <select class="form-control" name="service[@count.ToString()][num_months]">
+                                @{ foreach (var m in months)
                                     {
-                                        Models.UserSubscription sb = s;
-                                        amount = sb.AmountPaid;
-                                        numMonths = sb.NumMonths;
-                                        startDate = sb.StartDate;
-                                        details = sb.Details;
-                                        expiredAt = sb.ExpiredAt;
-                                        discount = sb.Discount;
-                                        if (expiredAt.Contains("EXPIRED"))
+                                        string sel = "";
+                                        if (m.CompareTo(numMonths) == 0)
                                         {
-                                            color = "#FF0000";
+                                            sel = "SELECTED";
                                         }
-                                        break;
+                                        if (sel == "")
+                                        {
+                                            <option value="@m">@m month(s)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@m" SELECTED>@m month(s)</option>
+                                        }
                                     }
                                 }
-            <tr>
-                <td>@x.Name (PACKAGE)</td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][start_dt]" value="@startDate" />
-                </td>
-                <td>
-                    <span style="color:@(color);font-weight: 600;">
-                        @expiredAt
-                    </span>
-                </td>
-                <td>
-                    <input type="hidden" name="service[@count.ToString()][id]" value="0" />
-                    <input type="hidden" name="package[@count.ToString()][id]" value="@x.Id" />
-                    <select class="form-control" name="service[@count.ToString()][num_months]">
-                        @{ foreach (var m in months)
-                            {
-                                string sel = "";
-                                if (m.CompareTo(numMonths) == 0)
-                                {
-                                    sel = "SELECTED";
-                                }
-                                if (sel == "")
-                                {
-                                    <option value="@m">@m month(s)</option>
-                                }
-                                else
-                                {
-                                    <option value="@m" SELECTED>@m month(s)</option>
-                                }
-                            }
-                        }
-                    </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][amount]" value="@amount" />
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][discount]" value="@discount" />
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="service[@count.ToString()][details]" value="@details" />
-                </td>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][amount]" value="@amount" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][discount]" value="@discount" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][details]" value="@details" />
+                        </td>
 
-                <td style="text-align: center;">
-                    <input type="checkbox" name="service[@count.ToString()][update]" value="1" />
-                </td>
-            </tr>
+                        <td style="text-align: center;">
+                            <input type="checkbox" name="service[@count.ToString()][update]" value="1" />
+                        </td>
+                    </tr>
+                    count++;
+                }
+
+                foreach (var x in packages)
+                {
+                    string amount = x.Amount;
+                    string numMonths = x.NumMonths;
+                    string startDate = "";
+                    string details = "";
+                    string expiredAt = "";
+                    string discount = "";
+                    string color = "#00FF00";
+                    foreach (var s in subscriptions)
+                    {
+                        if (s.PackageId == x.Id)
+                        {
+                            Models.UserSubscription sb = s;
+                            amount = sb.AmountPaid;
+                            numMonths = sb.NumMonths;
+                            startDate = sb.StartDate;
+                            details = sb.Details;
+                            expiredAt = sb.ExpiredAt;
+                            discount = sb.Discount;
+                            if (expiredAt.Contains("EXPIRED"))
+                            {
+                                color = "#FF0000";
+                            }
+                            break;
+                        }
+                    }
+                    <tr>
+                        <td>@x.Name (PACKAGE)</td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][start_dt]" value="@startDate" />
+                        </td>
+                        <td>
+                            <span style="color:@(color);font-weight: 600;">
+                                @expiredAt
+                            </span>
+                        </td>
+                        <td>
+                            <input type="hidden" name="service[@count.ToString()][id]" value="0" />
+                            <input type="hidden" name="package[@count.ToString()][id]" value="@x.Id" />
+                            <select class="form-control" name="service[@count.ToString()][num_months]">
+                                @{ foreach (var m in months)
+                                    {
+                                        string sel = "";
+                                        if (m.CompareTo(numMonths) == 0)
+                                        {
+                                            sel = "SELECTED";
+                                        }
+                                        if (sel == "")
+                                        {
+                                            <option value="@m">@m month(s)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@m" SELECTED>@m month(s)</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][amount]" value="@amount" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][discount]" value="@discount" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="service[@count.ToString()][details]" value="@details" />
+                        </td>
+
+                        <td style="text-align: center;">
+                            <input type="checkbox" name="service[@count.ToString()][update]" value="1" />
+                        </td>
+                    </tr>
                     count++;
                 }
             }
@@ -247,11 +247,12 @@
     <input type="hidden" name="service_count" value="@count" />
     <input type="hidden" name="update_all" id="updateAll" value="0" />
     <div class="submit-button">
-        <button class="btn btn-primary btn-block">UPDATE SELECTED</button>
+        <!--<button class="btn btn-primary btn-block">UPDATE SELECTED</button>-->
+        <button class="btn btn-primary btn-block">UPDATE</button>
     </div>
-    <div class="submit-button" style="margin-top: 15px;">
+    <!--<div class="submit-button" style="margin-top: 15px;">
         <button class="btn btn-primary btn-block" onclick="document.getElementById('updateAll').value='1';">UPDATE ALL</button>
-    </div>
+    </div>-->
 </form>
 
 <h3>Previous Payments</h3>

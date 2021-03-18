@@ -180,6 +180,7 @@ $common-font-family: 'ZiadRegular';
 .after-header-drop {
     position: relative;
     padding-top: 10px;
+    z-index: 999 !important;
 }
 
 .after-header-drop::before {
@@ -197,5 +198,5 @@ $common-font-family: 'ZiadRegular';
 }
 
 .after-header-drop .segment {
-    z-index: 3 !important;
+    z-index: 999 !important;
 }

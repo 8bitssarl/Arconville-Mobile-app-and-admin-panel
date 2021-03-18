@@ -131,7 +131,8 @@ namespace ZiadBooking.Pages
                     comm.ExecuteNonQuery();
                 }
                 db.Close();
-                Response.Redirect("BookingServices");
+                //Response.Redirect("BookingServices");
+                Response.Redirect("Users");
             }
             catch (Exception ex)
             {
@@ -169,7 +170,8 @@ namespace ZiadBooking.Pages
                     comm.CommandText = "DELETE FROM `bookingservice` WHERE id=" + id;
                     comm.ExecuteNonQuery();
                     db.Close();
-                    Response.Redirect("BookingServices");
+                    //Response.Redirect("BookingServices");
+                    Response.Redirect("Users");
                     return;
                 }
                 if (action == "edit")

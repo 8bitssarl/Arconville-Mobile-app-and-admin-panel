@@ -58,6 +58,26 @@ namespace ZiadBooking.Pages
             reader.Close();
             comm.Dispose();
             ViewData["SubscriptionRequests"] = subRequests;
+
+            List<Models.BookingService> services = new List<Models.BookingService>();
+            query = "SELECT p.* FROM bookingservice p ORDER BY p.name";
+            comm = db.Connection.CreateCommand();
+            comm.CommandText = query;
+            reader = comm.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.BookingService x = new Models.BookingService()
+                {
+                    Id = reader["id"].ToString(),
+                    Name = reader["name"].ToString(),
+                    CanBookOnline = reader["can_book_online"].ToString(),
+                    ImageUrl = reader["image_url"].ToString(),
+                };
+                services.Add(x);
+            }
+            reader.Close();
+            comm.Dispose();
+            ViewData["Services"] = services;
         }
 
         public void OnGet()
