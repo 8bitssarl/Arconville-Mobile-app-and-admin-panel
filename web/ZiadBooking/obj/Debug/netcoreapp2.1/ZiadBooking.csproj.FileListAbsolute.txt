@@ -83,4 +83,3 @@ D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadB
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.csproj.CopyComplete
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\Razor\Pages\BookingServices.g.cshtml.cs
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\Razor\Pages\BookingService.g.cshtml.cs
-D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Debug\netcoreapp2.1\ZiadBooking.csprojAssemblyReference.cache

@@ -8,227 +8,230 @@
     List<Models.User> users = (List<Models.User>)ViewData["Users"];
 }
 
+<div id="info-div">
 
-<div style="height:25px;">
-    &nbsp;
-</div>
-
-<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#users">Users</a></li>
-    <li><a data-toggle="tab" href="#services">Services</a></li>
-    <li><a data-toggle="tab" href="#packages">Packages</a></li>
-    <li><a data-toggle="tab" href="#requests">Subscription Requests</a></li>
-</ul>
-
-<div class="tab-content">
-    <div id="users" class="tab-pane fade in active">
-        <h2>Users</h2>
-
-        <div class="add-new-container" style="margin-bottom: 15px;text-align: right">
-            <a href="User">+Add New User</a>
-        </div>
-
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var u in users)
-                    {
-                        <tr>
-                            <td>@u.Name</td>
-                            <td>@u.Email</td>
-                            <td>@u.PhoneNumber</td>
-                            <td>
-                                <a href="#" id="anchorMoreDetails@(u.Id)" onclick="loadMoreDetails('@(u.Id)');">More Details</a>
-                                &nbsp;&nbsp;
-                                <a href="/Subscription?user_id=@u.Id">Subscriptions</a>
-                                &nbsp;&nbsp;
-                                <a href="/User?id=@u.Id">Edit</a>
-                                &nbsp;&nbsp;
-                                <a href="/User?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;">Delete</a>
-                            </td>
-                        </tr>
-                        <tr id="moreDetailsRow@(u.Id)" style="display:none;">
-                            <td colspan="4" id="moreDetails@(u.Id)"></td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-
-        <script type="text/javascript">
-            function loadMoreDetails(userId) {
-                if ($("#moreDetailsRow" + userId).css("display") != "none") {
-                    $("#moreDetailsRow" + userId).css("display", "none");
-                    $("#anchorMoreDetails" + userId).text("More Details");
-                    return;
-                }
-                $("#anchorMoreDetails" + userId).text("Loading...");
-                var pageUrl = '/UserMoreDetails?user_id=' + userId;
-                console.log(pageUrl);
-                $.ajax({
-                    url: pageUrl,
-                }).done(function (result) {
-                    $("#moreDetailsRow" + userId).css("display", "table-row");
-                    $("#moreDetails" + userId).html(result);
-                    $("#anchorMoreDetails" + userId).text("Hide Details");
-                });
-            }
-        </script>
+    <div class="switch-buttons">
+        <a data-toggle="tab" href="#users">Users</a>
+        <a data-toggle="tab" href="#services">Services</a>
+        <a data-toggle="tab" href="#packages">Packages</a>
+        <a data-toggle="tab" href="#requests">Subscription Requests</a>
     </div>
 
-    <div id="services" class="tab-pane fade in">
-        <h2>Services</h2>
+    <!--<ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#users">Users</a></li>
+        <li><a data-toggle="tab" href="#services">Services</a></li>
+        <li><a data-toggle="tab" href="#packages">Packages</a></li>
+        <li><a data-toggle="tab" href="#requests">Subscription Requests</a></li>
+    </ul>-->
 
-        @{
-            List<Models.BookingService> services = (List<Models.BookingService>)ViewData["Services"];
-        }
+    <div class="tab-content">
+        <div id="users" class="tab-pane fade in active">
+            <div class="page-heading">Users</div>
+            <div class="add-new-container">
+                <a href="User">+Add New User</a>
+            </div>
+            <div class="clearfix"></div>
 
-        <div class="add-new-container" style="margin-bottom: 15px;text-align: right">
-            <a href="BookingService">+Add New Service</a>
+            <table class="table table-borderless table-success table-striped info-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var u in users)
+                        {
+                            <tr>
+                                <td>@u.Name</td>
+                                <td>@u.Email</td>
+                                <td>@u.PhoneNumber</td>
+                                <td>
+                                    <a href="#" id="anchorMoreDetails@(u.Id)" onclick="loadMoreDetails('@(u.Id)');">More Details</a>
+                                    &nbsp;&nbsp;
+                                    <a href="/Subscription?user_id=@u.Id">Subscriptions</a>
+                                    &nbsp;&nbsp;
+                                    <a href="/User?id=@u.Id"><i class="fa fa-edit"></i></a>
+                                    &nbsp;&nbsp;
+                                    <a href="/User?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr id="moreDetailsRow@(u.Id)" style="display:none;">
+                                <td colspan="4" id="moreDetails@(u.Id)"></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <script type="text/javascript">
+                function loadMoreDetails(userId) {
+                    if ($("#moreDetailsRow" + userId).css("display") != "none") {
+                        $("#moreDetailsRow" + userId).css("display", "none");
+                        $("#anchorMoreDetails" + userId).text("More Details");
+                        return;
+                    }
+                    $("#anchorMoreDetails" + userId).text("Loading...");
+                    var pageUrl = '/UserMoreDetails?user_id=' + userId;
+                    console.log(pageUrl);
+                    $.ajax({
+                        url: pageUrl,
+                    }).done(function (result) {
+                        $("#moreDetailsRow" + userId).css("display", "table-row");
+                        $("#moreDetails" + userId).html(result);
+                        $("#anchorMoreDetails" + userId).text("Hide Details");
+                    });
+                }
+            </script>
         </div>
 
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Book Online</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var u in services)
-                    {
-                        <tr>
-                            <td>
-                                @{
-                                    if (!string.IsNullOrEmpty(u.ImageUrl))
-                                    {
-                                        <img src="@u.ImageUrl" style="width: 60px;" />
+        <div id="services" class="tab-pane fade in">
+            @{
+                List<Models.BookingService> services = (List<Models.BookingService>)ViewData["Services"];
+            }
+            <div class="page-heading">Services</div>
+            <div class="add-new-container">
+                <a href="BookingService">+Add New Service</a>
+            </div>
+            <div class="clearfix"></div>
+            <table class="table table-borderless table-success table-striped info-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Book Online</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var u in services)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        if (!string.IsNullOrEmpty(u.ImageUrl))
+                                        {
+                                            <img src="@u.ImageUrl" style="width: 60px;" />
+                                        }
                                     }
-                                }
-                            </td>
-                            <td>@u.Name</td>
-                            <td>@(u.CanBookOnline.CompareTo("1") == 0 ? "YES" : "NO")</td>
-                            <td>
-                                <a href="/BookingService?id=@u.Id">Edit</a>
-                                &nbsp;&nbsp;
-                                <a href="/BookingService?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;">Delete</a>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>@u.Name</td>
+                                <td>@(u.CanBookOnline.CompareTo("1") == 0 ? "YES" : "NO")</td>
+                                <td>
+                                    <a href="/BookingService?id=@u.Id"><i class="fa fa-edit"></i></a>
+                                    &nbsp;&nbsp;
+                                    <a href="/BookingService?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
 
-        <script type="text/javascript">
+            <script type="text/javascript">
 
-        </script>
-    </div>
-
-    <div id="requests" class="tab-pane fade in">
-
-        <h2>Subscription Requests</h2>
-
-        @{
-            List<Models.SubscriptionRequest> requests = (List<Models.SubscriptionRequest>)ViewData["SubscriptionRequests"];
-            if (requests == null)
-            {
-                requests = new List<Models.SubscriptionRequest>();
-            }
-        }
-
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Package</th>
-                    <th>DateTime</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var u in requests)
-                    {
-                        <tr>
-                            <td>@u.UserName</td>
-                            <td>@u.PackageName</td>
-                            <td>@u.RequestDt</td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div id="packages" class="tab-pane fade in">
-
-        <h2>Packages</h2>
-
-        @{
-            List<Models.Package> packages = (List<Models.Package>)ViewData["Packages"];
-            if (packages == null)
-            {
-                packages = new List<Models.Package>();
-            }
-        }
-
-        <div class="add-new-container" style="margin-bottom: 15px;text-align: right">
-            <a href="Package">+Add New Package</a>
+            </script>
         </div>
 
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Title</th>
-                    <th>Duration</th>
-                    <th>Amount</th>
-                    <th>Location</th>
-                    <th>Lat/Lng</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var u in packages)
-                    {
-                        <tr>
-                            <td>
-                                @{
-                                    if (!string.IsNullOrEmpty(u.ImageUrl))
-                                    {
-                                        <img src="@u.ImageUrl" style="width: 60px;" />
-                                    }
-                                }
-                            </td>
-                            <td>@u.Title</td>
-                            <td>@(u.NumMonths) month(s)</td>
-                            <td>@u.Amount</td>
-                            <td>@u.LocationText</td>
-                            <td>
-                                <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@(u.Latitude),@(u.Longitude)">
-                                    @(u.Latitude),@(u.Longitude)
-                                </a>
-                            </td>
-                            <td>
-                                <a href="/Package?id=@u.Id">Edit</a>
-                                &nbsp;&nbsp;
-                                <a href="/Package?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;">Delete</a>
-                            </td>
-                        </tr>
-                    }
+        <div id="packages" class="tab-pane fade in">
+
+            @{
+                List<Models.Package> packages = (List<Models.Package>)ViewData["Packages"];
+                if (packages == null)
+                {
+                    packages = new List<Models.Package>();
                 }
-            </tbody>
-        </table>
+            }
+
+            <div class="page-heading">Packages</div>
+            <div class="add-new-container">
+                <a href="Package">+Add New Package</a>
+            </div>
+            <div class="clearfix"></div>
+
+            <table class="table table-borderless table-success table-striped info-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Duration</th>
+                        <th>Amount</th>
+                        <th>Location</th>
+                        <th>Lat/Lng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var u in packages)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        if (!string.IsNullOrEmpty(u.ImageUrl))
+                                        {
+                                            <img src="@u.ImageUrl" style="width: 60px;" />
+                                        }
+                                    }
+                                </td>
+                                <td>@u.Title</td>
+                                <td>@(u.NumMonths) month(s)</td>
+                                <td>@u.Amount</td>
+                                <td>@u.LocationText</td>
+                                <td>
+                                    <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@(u.Latitude),@(u.Longitude)">
+                                        @(u.Latitude),@(u.Longitude)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/Package?id=@u.Id"><i class="fa fa-edit"></i></a>
+                                    &nbsp;&nbsp;
+                                    <a href="/Package?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="requests" class="tab-pane fade in">
+            @{
+                List<Models.SubscriptionRequest> requests = (List<Models.SubscriptionRequest>)ViewData["SubscriptionRequests"];
+                if (requests == null)
+                {
+                    requests = new List<Models.SubscriptionRequest>();
+                }
+            }
+            <div class="page-heading">Subscription Requests</div>
+            <div class="clearfix"></div>
+            <table class="table table-borderless table-success table-striped info-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Package</th>
+                        <th>DateTime</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var u in requests)
+                        {
+                            <tr>
+                                <td>@u.UserName</td>
+                                <td>@u.PackageName</td>
+                                <td>@u.RequestDt</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
     </div>
 </div>

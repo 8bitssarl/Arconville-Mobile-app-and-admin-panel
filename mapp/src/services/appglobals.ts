@@ -15,6 +15,8 @@ import { UiHelper } from "./uihelper";
     public packages:any[]=[];
     //public ongoingPackages:any[]=[];
     public packageServices:any[]=[];
+
+    public userLanguage:string='en';
     
     constructor(public server: AppServer,public uiHelper: UiHelper,public platform: Platform){
     }

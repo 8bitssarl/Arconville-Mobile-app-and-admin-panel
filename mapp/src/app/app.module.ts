@@ -31,6 +31,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { PackageDetailPage } from '../pages/package-detail/package-detail';
 import { ReservationDetailPage } from '../pages/reservation-detail/reservation-detail';
 import { FamilyDetailPage } from '../pages/family-detail/family-detail';
+import { RameezTranslatorPipe } from '../pipes/rameez-translator/rameez-translator';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { FamilyDetailPage } from '../pages/family-detail/family-detail';
         FamilyDetailPage,
         SettingsPage,
         EditProfilePage,
+        RameezTranslatorPipe,
     ],
     imports: [
         BrowserModule,

@@ -20,10 +20,10 @@
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">
-                Packages
+                {{ 'packages' | rameezTranslator: 'fr' }}
             </ion-segment-button>
             <ion-segment-button value="previous">
-                On Going
+                {{ 'on_going' | rameezTranslator: 'fr' }}
             </ion-segment-button>
         </ion-segment>
     </div>

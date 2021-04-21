@@ -4,8 +4,8 @@
     ViewData["Title"] = "Reservations";
 }
 
-@{ 
-    if (ViewData["Message"]!=null)
+@{
+    if (ViewData["Message"] != null)
     {
         <div class="error-msg">
             @ViewData["Message"].ToString()
@@ -13,15 +13,16 @@
     }
 }
 
-<h2>Reservations</h2>
-
-@{ 
+@{
     List<Models.Reservation> reservations = (List<Models.Reservation>)ViewData["Reservations"];
     if (reservations == null)
     {
         reservations = new List<Models.Reservation>();
     }
 }
+
+<h2>Reservations</h2>
+
 
 <table class="table table-bordered table-success table-striped">
     <thead>

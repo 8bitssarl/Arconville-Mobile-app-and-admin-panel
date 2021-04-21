@@ -7,23 +7,43 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="border-box login-box">
-    <form method="POST">
-        <div class="form-group">
-            @{ 
-                if (ViewData["Message"] != null) {
+<form method="post">
+    <div id="login-body-div">
+        <div id="login-div">
+            <img id="login-user-img" src="~/images/user.png">
+            <span id="login-text">Login to your Account</span>
+            @{
+                if (ViewData["Message"] != null)
+                {
                     <div class="login-error-msg">@ViewData["Message"]</div>
                 }
             }
-            <div>
-                <input type="text" autocomplete="off" class="form-control" placeholder="Username" name="username" value="">
+            <div id="user-name-div" class="input-divs">
+                <span class="input-labels">USERNAME*</span>
+                <div class="input-fields-divs">
+                    <input id="username-input" name="username" placeholder="Enter your username">
+                    <i class="fa fa-user-o login-inputs-icons" aria-hidden="true"></i>
+                </div>
             </div>
-            <div style="margin-top: 10px;">
-                <input type="password" class="form-control" placeholder="Password" name="password" value="">
+            <div id="password-div" class="input-divs">
+                <span class="input-labels">PASSWORD*</span>
+                <div class="input-fields-divs">
+                    <input type="password" id="password-input" name="password" placeholder="Enter your password">
+                    <i class="fa fa-lock login-inputs-icons" aria-hidden="true"></i>
+                </div>
             </div>
+            <button type="submit" id="login-button">
+                <span id="login-button-text">LOGIN</span>
+                <i id="paperplane-login-button" class="fa fa-paper-plane" aria-hidden="true"></i>
+            </button>
+            <!--<span id="not-registered-text">
+                Not registered? Click <a href="#">here</a> to get started.
+            </span>-->
         </div>
-        <div style="margin-top: 30px;">
-            <button type="submit" class="btn btn-primary btn-common" style="width: 100%;">Login</button>
+        <div id="footer">
+            <span id="footer-text">
+                &#169; COPYRIGHT 2021. ALL RIGHTS RESERVED
+            </span>
         </div>
-    </form>
-</div>
+    </div>
+</form>

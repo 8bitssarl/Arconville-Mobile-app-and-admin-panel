@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ZiadBooking</title>
 
-    <environment include="Development">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link href="~/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <!--<environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -14,87 +21,64 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    </environment>-->
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @{
-                        <li><a asp-page="/Index">Home</a></li>
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "users"))
-                        {
-                            <!--<li><a asp-page="/BookingServices">Services</a></li>-->
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "packages"))
-                        {
-                            <!--<li><a asp-page="/Packages">Packages</a></li>-->
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "users"))
-                        {
-                            <li><a asp-page="/Users">Reservations</a></li>
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "reservations"))
-                        {
-                            <!--<li><a asp-page="/Reservations">Reservations</a></li>-->
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "reception"))
-                        {
-                            <li><a asp-page="/Reception">Reception</a></li>
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "subrequests"))
-                        {
-                            <!--<li><a asp-page="/SubscriptionRequests">Subscription Requests</a></li>-->
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "reports"))
-                        {
-                            <li><a asp-page="/Reports">Reports</a></li>
-                        }
-                    }
-                    @{
-                        if (Models.SessionHelper.CanSeePage(Context, "users"))
-                        {
-                            <li><a asp-page="/ManagementUsers">Management Users</a></li>
-                        }
-                    }
-                    <li><a asp-page="/Logout" style="font-weight: 600;">Logout</a></li>
-                </ul>
-                @{
-                    if (Models.SessionHelper.GetUserName(Context) != null)
-                    {
-                        <div style="position: absolute;right: 10px;color:#FFFFFF;font-weight: 600;top: 50%;transform: translateY(-50%);">
-                            Welcome @Models.SessionHelper.GetUserName(Context)
-                        </div>
-                    }
-                }
-            </div>
-            
+    <div id="header-nav">
+        <img id="logo" src="~/images/logo.png" alt="logo">
+
+        <div class="links-divs">
+            <a class="header-nav-links" href="/Index">HOME</a>
         </div>
-        
-    </nav>
+        @{
+            if (Models.SessionHelper.CanSeePage(Context, "users"))
+            {
+                <div class="links-divs">
+                    <a class="header-nav-links" href="/Users">RESERVATIONS</a>
+                </div>
+            }
+        }
+        @{
+            if (Models.SessionHelper.CanSeePage(Context, "reception"))
+            {
+                <div class="links-divs">
+                    <a class="header-nav-links" href="/Reception">RECEPTION</a>
+                </div>
+            }
+        }
 
-    <div class="container body-content">
-        @RenderBody()
-        <footer>
-        </footer>
+        @{
+            if (Models.SessionHelper.CanSeePage(Context, "reports"))
+            {
+                <div class="links-divs">
+                    <a class="header-nav-links" href="/Reports">REPORTS</a>
+                </div>
+            }
+        }
+        @{
+            if (Models.SessionHelper.CanSeePage(Context, "users"))
+            {
+                <div class="links-divs">
+                    <a class="header-nav-links" href="/ManagementUsers">MANAGEMENT USERS</a>
+                </div>
+            }
+        }
+
+        <button id="logout-button" onclick="window.location='/Logout';">LOGOUT</button>
+        <div id="user-div-header">
+            <img id="user-image-header" src="~/images/mickie-mouse.jpeg" alt="user-image">
+            <div id="user-info-div">
+                <span class="user-info-text" id="user-name">@Models.SessionHelper.GetUserName(Context)</span>
+                <span class="user-info-text" id="user-status">Member</span>
+            </div>
+        </div>
     </div>
-
-    <environment include="Development">
+    <!--<div class="container body-content">-->
+    @RenderBody()
+    <footer></footer>
+    <!--</div>-->
+    
+    <!--<environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -113,7 +97,7 @@
                 integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+    </environment>-->
 
     @RenderSection("Scripts", required: false)
 </body>
