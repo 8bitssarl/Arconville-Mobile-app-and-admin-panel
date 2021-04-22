@@ -16,9 +16,13 @@ import { UiHelper } from "./uihelper";
     //public ongoingPackages:any[]=[];
     public packageServices:any[]=[];
 
-    public userLanguage:string='en';
+    public userLanguage:string='fr';
     
     constructor(public server: AppServer,public uiHelper: UiHelper,public platform: Platform){
+    }
+
+    getTranslatedText(key){
+        return (<any>window).get_rameez_language_translation(key,this.userLanguage)
     }
 
     tryRegisterDevice(){

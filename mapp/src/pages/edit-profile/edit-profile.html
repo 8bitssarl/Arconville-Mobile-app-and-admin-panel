@@ -1,6 +1,6 @@
 <ion-header class="blue-header">
     <ion-navbar>
-        <ion-title>My Profile</ion-title>
+        <ion-title>{{ 'my_profile' | rameezTranslator: globals.userLanguage }}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content no-padding class="gray-screen">
@@ -13,7 +13,7 @@
     
     <div class="input-fields-container">
         <div class="input-label">
-            Name
+            {{ 'name' | rameezTranslator: globals.userLanguage }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-input type="text" [(ngModel)]="loginData.name" maxlength="100" placeholder="Your name"></ion-input>
@@ -31,7 +31,7 @@
             <ion-input type="tel" [(ngModel)]="loginData.age" maxlength="3" placeholder="18"></ion-input>
         </ion-item>-->
         <div class="input-label input-below">
-            Date of birth
+            {{ 'date_of_birth' | rameezTranslator: globals.userLanguage }}
         </div>
         <ion-row class="field-below-label">
             <ion-col col-4>
@@ -61,7 +61,7 @@
             <ion-checkbox [(ngModel)]="loginData.is_family_bool"></ion-checkbox>
         </ion-item>-->
         <div class="input-label input-below">
-            Gender
+            {{ 'gender' | rameezTranslator: globals.userLanguage }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-select [(ngModel)]="loginData.gender">
@@ -77,6 +77,6 @@
     </div>
     </div>
     <div class="signup-button">
-        <button ion-button class="common-button primary-button padded-button" (tap)="signupClick()">Update</button>
+        <button ion-button class="common-button primary-button padded-button" (tap)="signupClick()">{{ 'update' | rameezTranslator: globals.userLanguage }}</button>
     </div>
 </ion-content>

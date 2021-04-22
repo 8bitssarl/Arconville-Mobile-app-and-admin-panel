@@ -1,6 +1,6 @@
 <ion-header class="blue-header">
     <ion-navbar>
-        <ion-title>Family</ion-title>
+        <ion-title>{{ 'family' | rameezTranslator: globals.userLanguage }}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content no-padding class="gray-screen">
@@ -12,19 +12,19 @@
         </div>
         <div class="input-fields-container">
             <div class="input-label">
-                Name
+                {{ 'name' | rameezTranslator: globals.userLanguage }}
             </div>
             <ion-item class="input-field field-below-label">
                 {{loginData.name}}
             </ion-item>
             <div class="input-label input-below">
-                Phone
+                {{ 'phone_number' | rameezTranslator: globals.userLanguage }}
             </div>
             <ion-item class="input-field field-below-label">
                 {{loginData.phone_number}}
             </ion-item>
             <div class="input-label input-below">
-                Relation
+                {{ 'relation' | rameezTranslator: globals.userLanguage }}
             </div>
             <ion-item class="input-field field-below-label">
                 {{loginData.relation}}

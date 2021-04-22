@@ -199,7 +199,7 @@ export class FeedPage {
 
     cancelClick(st){
         console.log("cancelClick: "+st.service_name);
-        this.uiHelper.showConfirmBox("Cancel","Are you sure you want to cancel?",()=>{
+        this.uiHelper.showConfirmBox(this.globals.getTranslatedText("cancel"),this.globals.getTranslatedText("sure_want_to_cancel"),()=>{
             this.onCancelReservation(st);
         },()=>{});
     }
@@ -214,7 +214,7 @@ export class FeedPage {
             title: tle,
             buttons: [
                 {
-                    text: 'Share',
+                    text: this.globals.getTranslatedText("share"),
                     role: 'destructive',
                     handler: () => {
                         console.log('Share clicked');
@@ -222,7 +222,7 @@ export class FeedPage {
                     }
                 },
                 {
-                    text: 'Add to Calendar',
+                    text: this.globals.getTranslatedText("add_to_calendar"),
                     role: 'destructive',
                     handler: () => {
                         console.log('Add to calendar clicked');

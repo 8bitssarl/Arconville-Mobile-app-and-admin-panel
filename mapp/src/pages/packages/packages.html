@@ -4,7 +4,7 @@
             <ion-icon name='menu'></ion-icon>
         </button>
         <ion-title>
-            My Subscription
+            {{ 'my_subscription' | rameezTranslator: globals.userLanguage }}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -20,10 +20,10 @@
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">
-                {{ 'packages' | rameezTranslator: 'fr' }}
+                {{ 'packages' | rameezTranslator: globals.userLanguage }}
             </ion-segment-button>
             <ion-segment-button value="previous">
-                {{ 'on_going' | rameezTranslator: 'fr' }}
+                {{ 'on_going' | rameezTranslator: globals.userLanguage }}
             </ion-segment-button>
         </ion-segment>
     </div>

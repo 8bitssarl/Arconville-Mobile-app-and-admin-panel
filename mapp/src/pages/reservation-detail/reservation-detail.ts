@@ -32,7 +32,7 @@ export class ReservationDetailPage {
             this.loader.dismiss();
             let json=res.json();
             if (json.status==200){
-                this.uiHelper.showMessageBox("Cancel","Reservation canceled");
+                this.uiHelper.showMessageBox("","Reservation canceled");
                 this.events.publish('reservation_saved');
                 this.navCtrl.pop();
             }else{
@@ -47,7 +47,7 @@ export class ReservationDetailPage {
 
     cancelClick(st){
         console.log("cancelClick: "+st.service_name);
-        this.uiHelper.showConfirmBox("Cancel","Are you sure you want to cancel?",()=>{
+        this.uiHelper.showConfirmBox(this.globals.getTranslatedText("cancel"),this.globals.getTranslatedText("sure_want_to_cancel"),()=>{
             this.onCancelReservation(st);
         },()=>{});
     }

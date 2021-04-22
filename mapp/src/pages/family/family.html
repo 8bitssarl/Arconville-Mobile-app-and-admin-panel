@@ -1,7 +1,7 @@
 <ion-header class="blue-header">
     <ion-navbar>
         <ion-title>
-            Family Members
+            {{ 'family_members' | rameezTranslator: globals.userLanguage }}
         </ion-title>
         <ion-buttons end>
         </ion-buttons>
@@ -12,13 +12,13 @@
     </div>
     <div padding class="input-fields-container">
         <div class="input-label">
-            Title
+            {{ 'title' | rameezTranslator: globals.userLanguage }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-input type="text" [(ngModel)]="name" maxlength="50" placeholder=""></ion-input>
         </ion-item>
         <div class="input-label input-below">
-            Relation
+            {{ 'relation' | rameezTranslator: globals.userLanguage }}
         </div>
         <ion-item class="input-field field-below-label relation-item">
             <ion-select [(ngModel)]="relation">
@@ -26,14 +26,14 @@
             </ion-select>
         </ion-item>
         <div class="input-label input-below">
-            Phone Number
+            {{ 'phone_number' | rameezTranslator: globals.userLanguage }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-input type="tel" [(ngModel)]="phoneNumber" maxlength="20" placeholder="018xxxxx"></ion-input>
         </ion-item>
     </div>
     <div padding class="signup-button">
-        <button ion-button class="common-button primary-button" (tap)="saveClick()">ENROLL</button>
+        <button ion-button class="common-button primary-button" (tap)="saveClick()">{{ 'enroll' | rameezTranslator: globals.userLanguage }}</button>
     </div>
     <div class="all-items-container" *ngIf="feedType=='family'">
         <div *ngFor="let st of family" class="item-single" (tap)="familyClick(st)">
@@ -47,10 +47,10 @@
             </div>
             <div class="clearfix"></div>
             <div class="status-box approved" *ngIf="st.is_pending=='0'">
-                APPROVED
+                {{ 'approved' | rameezTranslator: globals.userLanguage }}
             </div>
             <div class="status-box pending" *ngIf="st.is_pending=='1'">
-                PENDING
+                {{ 'pending' | rameezTranslator: globals.userLanguage }}
             </div>
         </div>
     </div>

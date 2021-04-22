@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="login-button" *ngIf="reservation.is_upcoming">
-            <button ion-button class="common-button" color="danger" (tap)="cancelClick(reservation)">CANCEL</button>
+            <button ion-button class="common-button" color="danger" (tap)="cancelClick(reservation)">{{ 'cancel' | rameezTranslator: globals.userLanguage }}</button>
         </div>
     </div>
 </ion-content>
