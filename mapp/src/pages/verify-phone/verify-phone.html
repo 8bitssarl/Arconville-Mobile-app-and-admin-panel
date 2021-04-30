@@ -6,10 +6,10 @@
     <div class="input-section">
         <div class="signup-input-container">
             <ion-item class="input-container">
-                <ion-input type="tel" maxlength="20" [(ngModel)]="loginData.phone" placeholder="Phone number"></ion-input>
+                <ion-input type="tel" maxlength="20" [(ngModel)]="loginData.phone" placeholder="{{ 'phone_number' | rameezTranslator: globals.userLanguage }}"></ion-input>
             </ion-item>
             <div class="login-button">
-                <button ion-button full large class="common-button" (tap)="loginClick()">RECEIVE CODE</button>
+                <button ion-button full large class="common-button primary-button" (tap)="loginClick()">RECEIVE CODE</button>
             </div>
         </div>
     </div>

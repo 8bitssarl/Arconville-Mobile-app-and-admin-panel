@@ -129,7 +129,7 @@ export class FamilyPage {
         console.log("getStores");
         let that=this;
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         if (showLoader){
             this.loader.present();
@@ -148,7 +148,7 @@ export class FamilyPage {
     actionClick(st,action){
         console.log("actionClick: "+st.name+","+action);
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         let uid=this.globals.currentUser.id;
@@ -170,7 +170,7 @@ export class FamilyPage {
     saveClick(){
         console.log("saveClick");
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         let uid=this.globals.currentUser.id;

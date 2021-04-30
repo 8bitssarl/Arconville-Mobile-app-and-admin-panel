@@ -31,7 +31,7 @@ export class PackageDetailPage {
     saveClick(){
         console.log("saveClick");
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         let uid=this.globals.currentUser.id;

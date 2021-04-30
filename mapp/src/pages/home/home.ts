@@ -34,7 +34,7 @@ export class HomePage {
     logoutClick(){
         console.log("logoutClick");
         let that=this;
-        this.uiHelper.showConfirmBox("Logout","Are you sure you want to logout?",()=>{
+        this.uiHelper.showConfirmBox(this.globals.getTranslatedText("logout"),this.globals.getTranslatedText("sure_want_to_logout"),()=>{
             that.globals.setUser(null);
             (<any>window).location.reload();
         },()=>{

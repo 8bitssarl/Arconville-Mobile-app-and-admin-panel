@@ -127,7 +127,7 @@ export class EditProfilePage {
         console.log("doSignup");
         let that=this;
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         that.server.updateProfile(this.loginData).subscribe(
@@ -142,24 +142,24 @@ export class EditProfilePage {
     profilePicClick(){
         let that=this;
         let actionSheet = this.actionSheetCtrl.create({
-            title: 'Select image from',
+            title: '',
             buttons: [
                 {
-                    text: 'Camera',
+                    text: this.globals.getTranslatedText("camera"),
                     handler: () => {
                         console.log('Camera clicked');
                         that.attachImage(2);
                     }
                 },
                 {
-                    text: 'Gallery',
+                    text: this.globals.getTranslatedText("gallery"),
                     handler: () => {
                         console.log('Gallery clicked');
                         that.attachImage(3);
                     }
                 },
                 {
-                    text: 'Cancel',
+                    text: this.globals.getTranslatedText("cancel"),
                     role: 'cancel',
                     handler: () => {
                         console.log('Cancel clicked');

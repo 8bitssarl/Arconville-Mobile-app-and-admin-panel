@@ -135,7 +135,7 @@ export class ReservationPage {
         console.log("getServices");
         let that=this;
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         let uid=this.globals.currentUser.id;
@@ -198,7 +198,7 @@ export class ReservationPage {
         }
         console.log(this.items);
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         let uid=this.globals.currentUser.id;

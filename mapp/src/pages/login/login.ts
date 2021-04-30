@@ -77,7 +77,7 @@ export class LoginPage {
         console.log("loginClick");
         let that=this;
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         that.server.login(this.loginData).subscribe(
@@ -133,7 +133,7 @@ export class LoginPage {
             let that=this;
             let registerData=that.createGoogleLoginData(gUser);
             that.loader = that.loadingCtrl.create({
-                content: "Please wait...",
+                content: this.globals.getTranslatedText("please_wait")+"...",
             });
             that.loader.present();
             that.server.register(registerData).subscribe(

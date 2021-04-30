@@ -131,7 +131,7 @@ export class SignupPage {
         console.log("doSignup");
         let that=this;
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         that.server.register(this.loginData).subscribe(
@@ -163,7 +163,7 @@ export class SignupPage {
                     }
                 },
                 {
-                    text: 'Cancel',
+                    text: this.globals.getTranslatedText("cancel"),
                     role: 'cancel',
                     handler: () => {
                         console.log('Cancel clicked');

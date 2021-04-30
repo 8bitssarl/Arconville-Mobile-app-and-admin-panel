@@ -149,7 +149,7 @@ export class FeedPage {
         console.log("getStores");
         let that=this;
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         if (showLoader){
             this.loader.present();
@@ -171,7 +171,7 @@ export class FeedPage {
     onCancelReservation(st){
         console.log("onCancelReservation: "+st.id);
         this.loader = this.loadingCtrl.create({
-            content: "Please wait...",
+            content: this.globals.getTranslatedText("please_wait")+"...",
         });
         this.loader.present();
         let data={user_id: this.globals.currentUser.id,reservation_id: st.id};
