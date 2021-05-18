@@ -246,9 +246,9 @@
                                 <td>@u.PackageName</td>
                                 <td>@u.RequestDt</td>
                                 <td>
-                                    <a href="/SubscriptionRequest?id=(@u.Id)&action=confirm" onclick="return confirm('Are you sure you want to confirm?');"><i class="fa fa-edit"></i></a>
+                                    <a href="/SubscriptionRequest?id=(@u.Id)&action=confirm" onclick="return confirm('Are you sure you want to confirm?');"><i class="fa fa-check"></i></a>
                                     &nbsp;&nbsp;
-                                    <a href="/SubscriptionRequest?id=@(u.Id)&action=cancel" onclick="return confirm('Are you sure you want to cancel?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
+                                    <a href="/SubscriptionRequest?id=@(u.Id)&action=cancel" onclick="return confirm('Are you sure you want to cancel?');" style="color:#FF0000;"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                         }

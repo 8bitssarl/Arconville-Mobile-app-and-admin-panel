@@ -55,7 +55,7 @@ using ZiadBooking;
             WriteLiteral("\r\n<!DOCTYPE html>\r\n\r\n<html>\r\n");
             EndContext();
             BeginContext(101, 101, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3175dfd29c4d4bbdb556af8e8f2f80b2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "750a5b32cca3445787385411e79abf3d", async() => {
                 BeginContext(107, 88, true);
                 WriteLiteral("\r\n    <meta name=\"viewport\" content=\"width=device-width\" />\r\n    <title>Logout</title>\r\n");
                 EndContext();
@@ -75,7 +75,7 @@ using ZiadBooking;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(204, 15, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "11c03abab5e948abbc3d9d4cf42185c1", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "13dba99a420140b6ac970f6753f31bfe", async() => {
                 BeginContext(210, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();

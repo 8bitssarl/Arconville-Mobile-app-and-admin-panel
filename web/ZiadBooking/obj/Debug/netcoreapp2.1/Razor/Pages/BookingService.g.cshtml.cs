@@ -125,7 +125,7 @@ using ZiadBooking;
             WriteLiteral("            <div class=\"clearfix\"></div>\r\n\r\n            ");
             EndContext();
             BeginContext(734, 1959, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "754bde8d6436477aaeab3c5599b18b00", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a3ab6c8218594d3f8d8e34ba696041fa", async() => {
                 BeginContext(784, 240, true);
                 WriteLiteral("\r\n                <div class=\"row\">\r\n                    <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\r\n                        <b>Name</b>\r\n                        <input type=\"text\" autocomplete=\"off\" class=\"form-control\" name=\"name\"");
                 EndContext();

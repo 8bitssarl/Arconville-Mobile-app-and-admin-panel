@@ -185,7 +185,7 @@ using ZiadBooking;
             WriteLiteral("\r\n            <div class=\"page-heading\">\r\n                Subscriptions\r\n            </div>\r\n            <div class=\"clearfix\"></div>\r\n\r\n            ");
             EndContext();
             BeginContext(2566, 11047, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "25f4a3252b8d496db40b1782abbbbec2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2a70c82fe0474f9e8f75315b798c878f", async() => {
                 BeginContext(2586, 742, true);
                 WriteLiteral(@"
                 <table class=""table table-borderless table-success table-striped info-table"">
@@ -352,7 +352,7 @@ WriteAttributeValue("", 5853, count.ToString(), 5853, 17, false);
                 WriteLiteral("                                                        ");
                 EndContext();
                 BeginContext(6532, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9631079190514f69a3f7fa28e18d36ea", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7628c59c4daf40a5b3161ffbb6d3773c", async() => {
                     BeginContext(6552, 1, false);
 #line 148 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Subscription.cshtml"
                                                                       Write(m);
@@ -398,7 +398,7 @@ WriteAttributeValue("", 5853, count.ToString(), 5853, 17, false);
                 WriteLiteral("                                                        ");
                 EndContext();
                 BeginContext(6797, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "62cea520eb914ff1a2a6df648dda8ca7", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6acec8afbb76498f968a08e8fc54b2e4", async() => {
                     BeginContext(6826, 1, false);
 #line 152 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Subscription.cshtml"
                                                                                Write(m);
@@ -664,7 +664,7 @@ WriteAttributeValue("", 10606, count.ToString(), 10606, 17, false);
                 WriteLiteral("                                                        ");
                 EndContext();
                 BeginContext(11285, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dafb795b2bf145dbb0ccc219d156170d", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a34a68fc6eb54c4985ff0e5053485cfc", async() => {
                     BeginContext(11305, 1, false);
 #line 225 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Subscription.cshtml"
                                                                       Write(m);
@@ -710,7 +710,7 @@ WriteAttributeValue("", 10606, count.ToString(), 10606, 17, false);
                 WriteLiteral("                                                        ");
                 EndContext();
                 BeginContext(11550, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ad60bf9067884290af3524e86c7d4652", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bf813c73bcbf43feba4af47a713d2646", async() => {
                     BeginContext(11579, 1, false);
 #line 229 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Subscription.cshtml"
                                                                                Write(m);

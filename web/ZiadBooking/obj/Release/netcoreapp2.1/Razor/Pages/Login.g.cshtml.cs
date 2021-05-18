@@ -65,12 +65,12 @@ using ZiadBooking;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(104, 1795, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bc6bd3d797c64899b0e817446873090a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ee785ad05a2c43eabed209895067727c", async() => {
                 BeginContext(124, 75, true);
                 WriteLiteral("\r\n    <div id=\"login-body-div\">\r\n        <div id=\"login-div\">\r\n            ");
                 EndContext();
                 BeginContext(199, 49, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "aa2731ea73764186a3949bf79a6624ea", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "7c2a36216a404f6e83adbc35840b8759", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
