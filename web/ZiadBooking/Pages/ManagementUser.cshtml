@@ -42,94 +42,98 @@
     reportsKeys.Add("report_subscriptionsending");*/
 }
 
-@if (user != null)
-{
-    <h2>Edit Management User</h2>
-}
-else
-{
-    <h2>Add New Management User</h2>
-}
+        <div id="info-div">
 
-    <form method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Name</b>
-                <input type="text" class="form-control" name="name" value="@(user == null ? "" : user.Name)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Email</b>
-                <input type="text" class="form-control" name="email" value="@(user == null ? "" : user.Email)" />
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>User Type</b>
-                <select class="form-control" name="user_type">
-                    @{ foreach (var m in usertypes)
-                        {
-                            string sel = "";
-                            if (m.id.CompareTo(utype) == 0)
-                            {
-                                sel = "SELECTED";
-                            }
-                            if (sel == "")
-                            {
-                                <option value="@m.id">@m.label</option>
-                            }
-                            else
-                            {
-                                <option value="@m.id" SELECTED>@m.label</option>
-                            }
-                        }
-                    }
-                </select>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Password</b>
-                <input type="password" class="form-control" name="password" />
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <b>Report(s)</b>
-                <div style="margin-top: 5px;">
-                    @{
-                        string checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_allreservations") && (string)userAuth.values["report_allreservations"].ToString() == "1") ? "checked" : "";
-                    }
-                    <input type="checkbox" name="report_allreservations" @checkedStr />&nbsp;&nbsp;All Reservations
-                    <br />
-                    @{
-                        checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_noshow") && (string)userAuth.values["report_noshow"].ToString() == "1") ? "checked" : "";
-                    }
-                    <input type="checkbox" name="report_noshow" @checkedStr />&nbsp;&nbsp;No Show
-                    <br />
-                    @{
-                        checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_cancellations") && (string)userAuth.values["report_cancellations"].ToString() == "1") ? "checked" : "";
-                    }
-                    <input type="checkbox" name="report_cancellations" @checkedStr />&nbsp;&nbsp;Cancellations
-                    <br />
-                    @{
-                        checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_clientsinside") && (string)userAuth.values["report_clientsinside"].ToString() == "1") ? "checked" : "";
-                    }
-                    <input type="checkbox" name="report_clientsinside" @checkedStr />&nbsp;&nbsp;Clients inside
-                    <br />
-                    @{
-                        checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_subscriptionsended") && (string)userAuth.values["report_subscriptionsended"].ToString() == "1") ? "checked" : "";
-                    }
-                    <input type="checkbox" name="report_subscriptionsended" @checkedStr />&nbsp;&nbsp;Subscriptions Ended
-                    <br />
-                    @{
-                        checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_subscriptionsending") && (string)userAuth.values["report_subscriptionsending"].ToString() == "1") ? "checked" : "";
-                    }
-                    <input type="checkbox" name="report_subscriptionsending" @checkedStr />&nbsp;&nbsp;Subscriptions Ending
-                    <br />
+            @if (user != null)
+            {
+                <div class="page-heading">Edit Management User</div>
+            }
+            else
+            {
+                <div class="page-heading">Add New Management User</div>
+            }
+            <div class="clearfix"></div>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Name</b>
+                        <input type="text" class="form-control" name="name" value="@(user == null ? "" : user.Name)" />
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Email</b>
+                        <input type="text" class="form-control" name="email" value="@(user == null ? "" : user.Email)" />
+                    </div>
                 </div>
-            </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>User Type</b>
+                        <select class="form-control" name="user_type">
+                            @{ foreach (var m in usertypes)
+                                {
+                                    string sel = "";
+                                    if (m.id.CompareTo(utype) == 0)
+                                    {
+                                        sel = "SELECTED";
+                                    }
+                                    if (sel == "")
+                                    {
+                                        <option value="@m.id">@m.label</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@m.id" SELECTED>@m.label</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Password</b>
+                        <input type="password" class="form-control" name="password" />
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <b>Report(s)</b>
+                        <div style="margin-top: 5px;">
+                            @{
+                                string checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_allreservations") && (string)userAuth.values["report_allreservations"].ToString() == "1") ? "checked" : "";
+                            }
+                            <input type="checkbox" name="report_allreservations" @checkedStr />&nbsp;&nbsp;All Reservations
+                            <br />
+                            @{
+                                checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_noshow") && (string)userAuth.values["report_noshow"].ToString() == "1") ? "checked" : "";
+                            }
+                            <input type="checkbox" name="report_noshow" @checkedStr />&nbsp;&nbsp;No Show
+                            <br />
+                            @{
+                                checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_cancellations") && (string)userAuth.values["report_cancellations"].ToString() == "1") ? "checked" : "";
+                            }
+                            <input type="checkbox" name="report_cancellations" @checkedStr />&nbsp;&nbsp;Cancellations
+                            <br />
+                            @{
+                                checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_clientsinside") && (string)userAuth.values["report_clientsinside"].ToString() == "1") ? "checked" : "";
+                            }
+                            <input type="checkbox" name="report_clientsinside" @checkedStr />&nbsp;&nbsp;Clients inside
+                            <br />
+                            @{
+                                checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_subscriptionsended") && (string)userAuth.values["report_subscriptionsended"].ToString() == "1") ? "checked" : "";
+                            }
+                            <input type="checkbox" name="report_subscriptionsended" @checkedStr />&nbsp;&nbsp;Subscriptions Ended
+                            <br />
+                            @{
+                                checkedStr = (userAuth != null && userAuth.values.ContainsKey("report_subscriptionsending") && (string)userAuth.values["report_subscriptionsending"].ToString() == "1") ? "checked" : "";
+                            }
+                            <input type="checkbox" name="report_subscriptionsending" @checkedStr />&nbsp;&nbsp;Subscriptions Ending
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <button class="btn btn-success btn-block" type="submit">SAVE</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row" style="margin-top: 30px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button class="btn btn-success btn-block" type="submit">SAVE</button>
-            </div>
-        </div>
-    </form>

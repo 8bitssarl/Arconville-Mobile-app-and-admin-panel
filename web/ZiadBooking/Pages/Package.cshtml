@@ -39,133 +39,137 @@
     }
 }
 
-@if (package != null)
-{
-    <h2>Edit Package</h2>
-}
-else
-{
-    <h2>Add New Package</h2>
-}
+        <div id="info-div">
 
-    <form method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Title</b>
-                <input type="text" autocomplete="off" class="form-control" name="title" value="@(package==null?"":package.Title)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Location</b>
-                <input type="text" autocomplete="off" class="form-control" name="location_text" value="@(package == null ? "" : package.LocationText)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Latitude</b>
-                <input type="text" autocomplete="off" class="form-control" name="latitude" value="@(package == null ? "" : package.Latitude)" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Longitude</b>
-                <input type="text" autocomplete="off" class="form-control" name="longitude" value="@(package == null ? "" : package.Longitude)" />
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Duration</b>
-                <select class="form-control" name="duration">
-                    @{ foreach (var m in months)
-                        {
-                            string sel = "";
-                            if (package != null && m.CompareTo(package.NumMonths) == 0)
-                            {
-                                sel = "SELECTED";
-                            }
-                            if (sel == "")
-                            {
-                                <option value="@m">@m month(s)</option>
-                            }
-                            else
-                            {
-                                <option value="@m" SELECTED>@m month(s)</option>
-                            }
-                        }
-                    }
-                </select>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Amount</b>
-                <input type="tel" class="form-control" name="amount" value="@(package==null?"":package.Amount)" />
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <b>Image (JPG or PNG image. 600px width is recommended)</b>
-                <input type="file" name="profile_pic" />
-                @if (package != null && package.ImageUrl != "")
-                {
-                    <span>&nbsp;&nbsp;</span>
-                    <img src="@package.ImageUrl" style="width: 60px;" />
-                }
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <b>Featured</b>
-                <div>
-                    @{ 
-                        string fsel = "";
-                        if (package != null)
-                        {
-                            if (package.Featured.CompareTo("1") == 0)
-                            {
-                                fsel = " SELECTED";
-                            }
-                        }
-                        if (fsel == "")
-                        {
-                            <input type="checkbox" name="featured" value="1" />
-                        }
-                        else
-                        {
-                            <input type="checkbox" name="featured" value="1" checked="checked" />
-                        }
-                    }
+            @if (package != null)
+            {
+                <div class="page-heading">Edit Package</div>
+            }
+            else
+            {
+                <div class="page-heading">Add New Package</div>
+            }
+            <div class="clearfix"></div>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Title</b>
+                        <input type="text" autocomplete="off" class="form-control" name="title" value="@(package==null?"":package.Title)" />
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Location</b>
+                        <input type="text" autocomplete="off" class="form-control" name="location_text" value="@(package == null ? "" : package.LocationText)" />
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Latitude</b>
+                        <input type="text" autocomplete="off" class="form-control" name="latitude" value="@(package == null ? "" : package.Latitude)" />
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Longitude</b>
+                        <input type="text" autocomplete="off" class="form-control" name="longitude" value="@(package == null ? "" : package.Longitude)" />
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <b>Service(s)</b>
-                <div>
-                    @{ foreach (var m in services)
-                        {
-                            string sel = "";
-                            if (package != null)
-                            {
-                                for (int x = 0; x < packageServices.Count; x++)
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Duration</b>
+                        <select class="form-control" name="duration">
+                            @{ foreach (var m in months)
                                 {
-                                    if (packageServices[x].ServiceId.CompareTo(m.Id) == 0)
+                                    string sel = "";
+                                    if (package != null && m.CompareTo(package.NumMonths) == 0)
                                     {
                                         sel = "SELECTED";
-                                        break;
+                                    }
+                                    if (sel == "")
+                                    {
+                                        <option value="@m">@m month(s)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@m" SELECTED>@m month(s)</option>
                                     }
                                 }
                             }
-                            if (sel == "")
-                            {
-                                <input type="checkbox" name="service[]" value="@m.Id" /> @m.Name
-                            }
-                            else
-                            {
-                                <input type="checkbox" name="service[]" value="@m.Id" checked="checked" /> @m.Name
-                            }
-                            <br />
-                        }
-                    }
+                        </select>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Amount</b>
+                        <input type="tel" class="form-control" name="amount" value="@(package==null?"":package.Amount)" />
+                    </div>
                 </div>
-            </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <b>Image (JPG or PNG image. 600px width is recommended)</b>
+                        <input type="file" name="profile_pic" />
+                        @if (package != null && package.ImageUrl != "")
+                        {
+                            <span>&nbsp;&nbsp;</span>
+                            <img src="@package.ImageUrl" style="width: 60px;" />
+                        }
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <b>Featured</b>
+                        <div>
+                            @{
+                                string fsel = "";
+                                if (package != null)
+                                {
+                                    if (package.Featured.CompareTo("1") == 0)
+                                    {
+                                        fsel = " SELECTED";
+                                    }
+                                }
+                                if (fsel == "")
+                                {
+                                    <input type="checkbox" name="featured" value="1" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="featured" value="1" checked="checked" />
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <b>Service(s)</b>
+                        <div>
+                            @{ foreach (var m in services)
+                                {
+                                    string sel = "";
+                                    if (package != null)
+                                    {
+                                        for (int x = 0; x < packageServices.Count; x++)
+                                        {
+                                            if (packageServices[x].ServiceId.CompareTo(m.Id) == 0)
+                                            {
+                                                sel = "SELECTED";
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (sel == "")
+                                    {
+                                        <input type="checkbox" name="service[]" value="@m.Id" /> @m.Name
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="service[]" value="@m.Id" checked="checked" /> @m.Name
+                                    }
+                                    <br />
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <button class="btn btn-success btn-block" type="submit">SAVE</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row" style="margin-top: 30px;">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button class="btn btn-success btn-block" type="submit">SAVE</button>
-            </div>
-        </div>
-    </form>

@@ -40,7 +40,7 @@ namespace ZiadBooking.Pages
             ViewData["Packages"] = packages;
 
             List<Models.SubscriptionRequest> subRequests = new List<Models.SubscriptionRequest>();
-            query = "SELECT sr.id,sr.request_dt,p.title AS package_name,u.name AS user_name FROM package p,user u,subscriptionrequest sr WHERE sr.user_id=u.id AND sr.package_id=p.id ORDER BY sr.request_dt DESC";
+            query = "SELECT sr.id,sr.request_dt,p.title AS package_name,u.name AS user_name,u.phone_number AS phone_number FROM package p,user u,subscriptionrequest sr WHERE sr.user_id=u.id AND sr.package_id=p.id ORDER BY sr.request_dt DESC";
             comm = db.Connection.CreateCommand();
             comm.CommandText = query;
             reader = comm.ExecuteReader();
@@ -50,6 +50,7 @@ namespace ZiadBooking.Pages
                 {
                     Id = reader["id"].ToString(),
                     UserName = reader["user_name"].ToString(),
+                    PhoneNumber = reader["phone_number"].ToString(),
                     PackageName = reader["package_name"].ToString(),
                     RequestDt = reader["request_dt"].ToString(),
                 };

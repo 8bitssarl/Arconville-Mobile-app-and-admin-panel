@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="IIS Web Application Name" description="" value="ziadabboud-001-site1" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\PROJECTS\\DotNotCore\\ZiadBooking\\ZiadBooking\\obj\\Release\\netcoreapp2\.1\\PubTmp\\Out\\$" />
-  </parameter>
-</parameters>

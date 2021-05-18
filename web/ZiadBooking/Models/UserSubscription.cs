@@ -48,6 +48,6 @@ namespace ZiadBooking.Models
 
     public class SubscriptionRequest
     {
-        public string Id, UserName, PackageName,RequestDt;
+        public string Id, UserName,PhoneNumber, PackageName,RequestDt;
     }
 }

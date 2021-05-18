@@ -36,145 +36,153 @@
     }
 }
 
-<h2>Search User</h2>
-<form method="post">
-    <input type="text" autocomplete="off" class="form-control" name="name" value="@userName" placeholder="Full name or email of user" />
-    <button class="btn btn-success btn-block" style="margin-top: 15px;">Search</button>
-</form>
+        <div id="info-div">
 
-@{
-    if (ViewData["User"] != null)
-    {
-        Models.User usr = (Models.User)ViewData["User"];
-        <h3>Personal Details</h3>
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Profile Image</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
-                        {
-                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
-                        }
-                    </td>
-                    <td>@usr.Name</td>
-                    <td>@usr.Email</td>
-                    <td>@usr.PhoneNumber</td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="page-heading">Search User</div>
+            <div class="clearfix"></div>
+            <form method="post">
+                <input type="text" autocomplete="off" class="form-control" name="name" value="@userName" placeholder="Full name or email of user" />
+                <button class="btn btn-success btn-block" style="margin-top: 15px;">Search</button>
+            </form>
 
-        <h3>Subscriptions</h3>
+            @{
+                if (ViewData["User"] != null)
+                {
+                    Models.User usr = (Models.User)ViewData["User"];
+                    <div class="page-heading">Personal Details</div>
+                    <div class="clearfix"></div>
+                    <table class="table table-bordered table-success table-striped info-table">
+                        <thead>
+                            <tr>
+                                <th>Profile Image</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @if (usr.ProfilePicUrl.CompareTo("") != 0)
+                                    {
+                                        <img src="@usr.ProfilePicUrl" style="width: 60px;" />
+                                    }
+                                </td>
+                                <td>@usr.Name</td>
+                                <td>@usr.Email</td>
+                                <td>@usr.PhoneNumber</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Service</th>
-                    <th>Start (YYYY-MM-DD)</th>
-                    <th>Months</th>
-                    <th>Expires At</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var x in subscriptions)
-                    {
-                        string color = "#00FF00";
-                        if (x.ExpiredAt.Contains("EXPIRED"))
-                        {
-                            color = "#FF0000";
-                        }
-                        <tr>
-                            <td>@x.ServiceName</td>
-                            <td>@x.StartDate</td>
-                            <td>@x.NumMonths</td>
-                            <td><span style="color:@(color);font-weight: 600;">@(x.ExpiredAt)</span></td>
-                        </tr>
-                    }
+                    <div class="page-heading">Subscriptions</div>
+                    <div class="clearfix"></div>
+
+                    <table class="table table-bordered table-success table-striped info-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Start (YYYY-MM-DD)</th>
+                                <th>Months</th>
+                                <th>Expires At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var x in subscriptions)
+                                {
+                                    string color = "#00FF00";
+                                    if (x.ExpiredAt.Contains("EXPIRED"))
+                                    {
+                                        color = "#FF0000";
+                                    }
+                                    <tr>
+                                        <td>@x.ServiceName</td>
+                                        <td>@x.StartDate</td>
+                                        <td>@x.NumMonths</td>
+                                        <td><span style="color:@(color);font-weight: 600;">@(x.ExpiredAt)</span></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="page-heading">Reservations</div>
+                    <div class="clearfix"></div>
+
+                    <table class="table table-bordered table-success table-striped info-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>User</th>
+                                <th>From</th>
+                                <th>Till</th>
+                                <th>Hours</th>
+                                <th>Reserved On</th>
+                                <th>Checkin At</th>
+                                <th colspan="2"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var x in reservations)
+                                {
+                                    <tr>
+                                        <td>@x.ServiceName</td>
+                                        <td>@x.UserName</td>
+                                        <td>@x.StartDate</td>
+                                        <td>@x.EndDate</td>
+                                        <td>@x.NumHours</td>
+                                        <td>@x.ReserveDate</td>
+                                        <td>@x.CheckinAtDate</td>
+                                        <td>
+                                            <form method="post">
+                                                <input type="hidden" value="@x.Id" name="reservation_id" />
+                                                <input type="hidden" value="checkin" name="status" />
+                                                <input type="hidden" value="@usr.Name" name="name" />
+                                                <button type="submit">CHECKIN</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="post">
+                                                <input type="hidden" value="@x.Id" name="reservation_id" />
+                                                <input type="hidden" value="checkout" name="status" />
+                                                <input type="hidden" value="@usr.Name" name="name" />
+                                                <button type="submit">CHECKOUT</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="page-heading">Family</div>
+                    <div class="clearfix"></div>
+
+                    <table class="table table-bordered table-success table-striped info-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Relation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var x in family)
+                                {
+                                    <tr>
+                                        <td>@x.values["name"].ToString()</td>
+                                        <td>@x.values["email"].ToString()</td>
+                                        <td>@x.values["phone_number"].ToString()</td>
+                                        <td>@x.values["relation"].ToString().ToUpper()</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
                 }
-            </tbody>
-        </table>
-
-        <h3>Reservations</h3>
-
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Service</th>
-                    <th>User</th>
-                    <th>From</th>
-                    <th>Till</th>
-                    <th>Hours</th>
-                    <th>Reserved On</th>
-                    <th>Checkin At</th>
-                    <th colspan="2"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var x in reservations)
-                    {
-                        <tr>
-                            <td>@x.ServiceName</td>
-                            <td>@x.UserName</td>
-                            <td>@x.StartDate</td>
-                            <td>@x.EndDate</td>
-                            <td>@x.NumHours</td>
-                            <td>@x.ReserveDate</td>
-                            <td>@x.CheckinAtDate</td>
-                            <td>
-                                <form method="post">
-                                    <input type="hidden" value="@x.Id" name="reservation_id" />
-                                    <input type="hidden" value="checkin" name="status" />
-                                    <input type="hidden" value="@usr.Name" name="name" />
-                                    <button type="submit">CHECKIN</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form method="post">
-                                    <input type="hidden" value="@x.Id" name="reservation_id" />
-                                    <input type="hidden" value="checkout" name="status" />
-                                    <input type="hidden" value="@usr.Name" name="name" />
-                                    <button type="submit">CHECKOUT</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-
-        <h3>Family</h3>
-
-        <table class="table table-bordered table-success table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Relation</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    foreach (var x in family)
-                    {
-                <tr>
-                    <td>@x.values["name"].ToString()</td>
-                    <td>@x.values["email"].ToString()</td>
-                    <td>@x.values["phone_number"].ToString()</td>
-                    <td>@x.values["relation"].ToString().ToUpper()</td>
-                </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    }
-}
+            }
+        </div>

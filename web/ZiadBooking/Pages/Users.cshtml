@@ -14,7 +14,22 @@
         <a data-toggle="tab" href="#users">Users</a>
         <a data-toggle="tab" href="#services">Services</a>
         <a data-toggle="tab" href="#packages">Packages</a>
-        <a data-toggle="tab" href="#requests">Subscription Requests</a>
+        @{
+            List<Models.SubscriptionRequest> srequests = (List<Models.SubscriptionRequest>)ViewData["SubscriptionRequests"];
+            if (srequests == null)
+            {
+                srequests = new List<Models.SubscriptionRequest>();
+            }
+            if (srequests.Count == 0)
+            {
+                <a data-toggle="tab" href="#requests">Subscription Requests</a>
+            }
+            else
+            {
+                <a data-toggle="tab" href="#requests" style="background-color:#ffd800;">Subscription Requests</a>
+            }
+        }
+
     </div>
 
     <!--<ul class="nav nav-tabs">
@@ -213,6 +228,7 @@
                 <thead>
                     <tr>
                         <th>User</th>
+                        <th>Phone</th>
                         <th>Package</th>
                         <th>DateTime</th>
                     </tr>
@@ -223,6 +239,7 @@
                         {
                             <tr>
                                 <td>@u.UserName</td>
+                                <td>@u.PhoneNumber</td>
                                 <td>@u.PackageName</td>
                                 <td>@u.RequestDt</td>
                             </tr>
