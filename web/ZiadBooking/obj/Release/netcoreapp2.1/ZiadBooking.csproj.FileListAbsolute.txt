@@ -43,3 +43,4 @@ D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Release\netcoreapp2.1\Zia
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Release\netcoreapp2.1\ZiadBooking.dll
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Release\netcoreapp2.1\ZiadBooking.pdb
 D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Release\netcoreapp2.1\ZiadBooking.csproj.CopyComplete
+D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\obj\Release\netcoreapp2.1\Razor\Pages\SubscriptionRequest.g.cshtml.cs

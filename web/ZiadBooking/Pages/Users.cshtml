@@ -53,6 +53,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        <th>Date Of Birth</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -64,6 +65,7 @@
                                 <td>@u.Name</td>
                                 <td>@u.Email</td>
                                 <td>@u.PhoneNumber</td>
+                                <td>@u.DateOfBirth</td>
                                 <td>
                                     <a href="#" id="anchorMoreDetails@(u.Id)" onclick="loadMoreDetails('@(u.Id)');">More Details</a>
                                     &nbsp;&nbsp;
@@ -231,6 +233,7 @@
                         <th>Phone</th>
                         <th>Package</th>
                         <th>DateTime</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -242,13 +245,31 @@
                                 <td>@u.PhoneNumber</td>
                                 <td>@u.PackageName</td>
                                 <td>@u.RequestDt</td>
+                                <td>
+                                    <a href="/SubscriptionRequest?id=(@u.Id)&action=confirm" onclick="return confirm('Are you sure you want to confirm?');"><i class="fa fa-edit"></i></a>
+                                    &nbsp;&nbsp;
+                                    <a href="/SubscriptionRequest?id=@(u.Id)&action=cancel" onclick="return confirm('Are you sure you want to cancel?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
+                                </td>
                             </tr>
                         }
                     }
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
+
+<script type="text/javascript">
+    function onCancel(formId) {
+        if (window.confirm("Are you sure you want to cancel?")) {
+            document.getElementById(formId).submit();
+        }
+    }
+
+    function onConfirm(formId) {
+        if (window.confirm("Are you sure you want to confirm?")) {
+            document.getElementById(formId).submit();
+        }
+    }
+
+</script>

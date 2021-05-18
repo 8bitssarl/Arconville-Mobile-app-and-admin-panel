@@ -96,5 +96,21 @@ namespace ZiadBooking.Pages
                 ViewData["Message"] = ex.Message;
             }
         }
+
+        public void OnPost()
+        {
+            Models.SessionHelper.RedirectIfNotLoggedIn(HttpContext);
+            try
+            {
+                DatabaseHelper db = new DatabaseHelper();
+                db.Open();
+                GenerateDataModel(db);
+                db.Close();
+            }
+            catch (Exception ex)
+            {
+                ViewData["Message"] = ex.Message;
+            }
+        }
     }
 }

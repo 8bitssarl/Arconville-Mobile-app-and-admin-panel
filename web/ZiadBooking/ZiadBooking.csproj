@@ -40,6 +40,9 @@
     <Content Update="Pages\ManagementUser.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\SubscriptionRequest.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\User.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

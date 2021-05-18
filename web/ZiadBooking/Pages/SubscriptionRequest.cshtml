@@ -1,0 +1,14 @@
+﻿@page
+@model ZiadBooking.Pages.SubscriptionRequestModel
+@{
+    ViewData["Title"] = "Subscription Request";
+}
+
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
