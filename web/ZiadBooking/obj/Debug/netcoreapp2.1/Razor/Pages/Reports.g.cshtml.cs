@@ -167,7 +167,7 @@ using ZiadBooking;
             WriteLiteral("                        <div class=\"add-new-container\">\r\n                            ");
             EndContext();
             BeginContext(2564, 1489, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7d6ed333575e43b5a2db0ba406dce383", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "82a1762f231441038244ce9b975fa30b", async() => {
                 BeginContext(2583, 54, true);
                 WriteLiteral("\r\n                                <input type=\"hidden\"");
                 EndContext();
@@ -182,7 +182,7 @@ WriteAttributeValue("", 2645, reportType, 2645, 11, false);
                 WriteLiteral(" name=\"type\" />\r\n                                <select class=\"form-control\" style=\"width: 180px;display: inline-block;margin-right: 10px;\" name=\"service\">\r\n                                    ");
                 EndContext();
                 BeginContext(2851, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a596f86f374f2e8dc8d3256887f913", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4120b760ca4546ef8f9d4397cbe6715b", async() => {
                     BeginContext(2869, 12, true);
                     WriteLiteral("All Services");
                     EndContext();
@@ -220,7 +220,7 @@ WriteAttributeValue("", 2645, reportType, 2645, 11, false);
                 WriteLiteral("                                                ");
                 EndContext();
                 BeginContext(3457, 38, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc595c3de0984edc8efb81c4cbe4ba70", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cc29e60bf3e944d59e09cde28541c2a7", async() => {
                     BeginContext(3480, 6, false);
 #line 91 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Reports.cshtml"
                                                                  Write(m.Name);
@@ -263,7 +263,7 @@ WriteAttributeValue("", 2645, reportType, 2645, 11, false);
                 WriteLiteral("                                                ");
                 EndContext();
                 BeginContext(3689, 47, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "51408f773b8d466aa4d5f3076c9dcc44", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "79ae4fa0c84d4595a5bae2b1def24f74", async() => {
                     BeginContext(3721, 6, false);
 #line 95 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Reports.cshtml"
                                                                           Write(m.Name);
@@ -954,7 +954,7 @@ WriteAttributeValue("", 5791, x.GetItem("Longitude"), 5791, 25, false);
             WriteLiteral("                        <h2>Ending In</h2>\r\n                        ");
             EndContext();
             BeginContext(13270, 1483, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "00e90c074087404b8c86fb0b161edad4", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a39274899fe9451faca7fe12891ae523", async() => {
                 BeginContext(13289, 201, true);
                 WriteLiteral("\r\n                            <div class=\"row\">\r\n                                <div class=\"col-lg-4 col-md-4 col-sm-8 col-xs-12\">\r\n                                    <input type=\"hidden\" name=\"type\"");
                 EndContext();
@@ -986,7 +986,7 @@ WriteAttributeValue("", 13498, reportType, 13498, 11, false);
                 WriteLiteral("                                                    ");
                 EndContext();
                 BeginContext(13938, 39, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b9139fde079a4d6b898254e7e62ee21b", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e33414a1f8864f95a27cd22e336fbfe3", async() => {
                     BeginContext(13958, 1, false);
 #line 291 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Reports.cshtml"
                                                                   Write(a);
@@ -1032,7 +1032,7 @@ WriteAttributeValue("", 13498, reportType, 13498, 11, false);
                 WriteLiteral("                                                    ");
                 EndContext();
                 BeginContext(14187, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4fd1ac7c08a84b89b02929f3b05da3d3", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ffe67a1cbf5249d4983b5a1eeeb0390c", async() => {
                     BeginContext(14216, 1, false);
 #line 295 "D:\PROJECTS\DotNotCore\ZiadBooking\web\ZiadBooking\Pages\Reports.cshtml"
                                                                            Write(a);

@@ -47,7 +47,7 @@
         </div>
     </ion-scroll>
     <div class="all-items-container">
-        <div *ngFor="let st of items" class="item-single" (tap)="itemClick(st)">
+        <div *ngFor="let st of items" class="item-single" [ngClass]="{'item-single-subscribed':st.has_sub_request}" (tap)="itemClick(st)">
             <div class="item-image" *ngIf="st.image_url!=''">
                 <img [src]="st.image_url" />
             </div>
@@ -70,9 +70,15 @@
                     <div class="exp-display-text">Expires {{st.exp_display_text}}</div>
                 </div>
             </div>
-            <div class="forward-icon" *ngIf="feedType!='previous'">
-                <ion-icon name="ios-arrow-forward"></ion-icon>
+            <div class="item-sub-button" *ngIf="feedType=='upcoming' && st.has_sub_request">
+                <button ion-button class="common-button primary-button unsub-button" (tap)="unsubClick(st)">{{ 'unsubscribe' | rameezTranslator: globals.userLanguage }}</button>
             </div>
+            <div class="item-sub-button" *ngIf="feedType=='upcoming' && !st.has_sub_request">
+                <button ion-button class="common-button primary-button" (tap)="subClick(st)">{{ 'subscribe' | rameezTranslator: globals.userLanguage }}</button>
+            </div>
+            <!--<div class="forward-icon" *ngIf="feedType!='previous'">
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+            </div>-->
             <div class="clearfix"></div>
         </div>
     </div>

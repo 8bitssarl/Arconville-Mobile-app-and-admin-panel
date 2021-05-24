@@ -180,7 +180,7 @@ namespace ZiadBooking.Controllers.api
             {
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
-                string query = "SELECT * FROM package ORDER BY title";
+                string query = "SELECT p.*,(SELECT COUNT(*) FROM subscriptionrequest sr WHERE sr.package_id=p.id AND sr.user_id="+userId+") AS sub_count FROM package p ORDER BY title";
                 System.Data.IDbCommand comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
                 List<dynamic> upcoming = new List<dynamic>();
@@ -189,6 +189,8 @@ namespace ZiadBooking.Controllers.api
                 System.Data.IDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
                 {
+                    int subCount = int.Parse(reader["sub_count"].ToString());
+
                     var x = new
                     {
                         id = reader["id"].ToString(),
@@ -200,6 +202,7 @@ namespace ZiadBooking.Controllers.api
                         latitude = reader["latitude"].ToString(),
                         longitude = reader["longitude"].ToString(),
                         image_url = reader["image_url"].ToString(),
+                        has_sub_request = subCount>0,
                     };
                     upcoming.Add(x);
                 }
@@ -281,12 +284,38 @@ namespace ZiadBooking.Controllers.api
                 db.Open();
 
                 MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
-                comm.CommandText = "INSERT INTO subscriptionrequest(user_id,package_id,request_dt) VALUES(@userId,@packageId,NOW())";
+
+                comm.CommandText = "SELECT * FROM subscriptionrequest WHERE user_id=@userId AND package_id=@packageId";
+                comm.Parameters.AddWithValue("@userId", userId);
+                comm.Parameters.AddWithValue("@packageId", packageId);
+
+                bool hasSub = false;
+                IDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    hasSub = true;
+                }
+                reader.Close();
+
+                comm = (MySqlCommand)db.Connection.CreateCommand();
+                if (hasSub)
+                {
+                    comm.CommandText = "DELETE FROM subscriptionrequest WHERE user_id=@userId AND package_id=@packageId";
+                }
+                else
+                {
+                    comm.CommandText = "INSERT INTO subscriptionrequest(user_id,package_id,request_dt) VALUES(@userId,@packageId,NOW())";
+                }
                 comm.Parameters.AddWithValue("@userId", userId);
                 comm.Parameters.AddWithValue("@packageId", packageId);
                 comm.ExecuteNonQuery();
                 db.Close();
-                return CreateApiResponseModel(200, "",null);
+                hasSub = !hasSub;
+                var x = new
+                {
+                    has_sub_request = hasSub,
+                };
+                return CreateApiResponseModel(200, "",x);
             }
             catch (Exception ex)
             {

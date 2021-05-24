@@ -72,15 +72,18 @@ export class SignupPage {
     signupClick(){
         console.log("signupClick");
         if(this.loginData.name.trim()==""){
-            this.uiHelper.showMessageBox("Error","Please enter name");
+            //this.uiHelper.showMessageBox("Error","Please enter name");
+            this.uiHelper.showMessageBox("","veuillez entrer le nom");
             return;
         }
         if(this.loginData.email.trim()=="" || !this.globals.isValidEmail(this.loginData.email)){
-            this.uiHelper.showMessageBox("Error","Please enter valid email address");
+            //this.uiHelper.showMessageBox("Error","Please enter valid email address");
+            this.uiHelper.showMessageBox("","veuillez saisir une adresse e-mail valide");
             return;
         }
         if(this.loginData.password.trim()==""){
-            this.uiHelper.showMessageBox("Error","Please enter password");
+            //this.uiHelper.showMessageBox("Error","Please enter password");
+            this.uiHelper.showMessageBox("","veuillez entrer le mot de passe");
             return;
         }
         if (!this.loginData.is_toc_agree){
@@ -89,6 +92,11 @@ export class SignupPage {
         }
         let selYear=parseInt(this.loginData.dob_year);
         let currYear=new Date().getFullYear();
+        if ((currYear-selYear)<13){
+            //this.uiHelper.showMessageBox("Error","You must be 13 years or older");
+            this.uiHelper.showMessageBox("","vous devez avoir 13 ans ou plus");
+            return;
+        }
         this.loginData.age=(currYear-selYear).toString();
         if (this.attachedImages.length>0){
             this.currentUploadIndex=0;

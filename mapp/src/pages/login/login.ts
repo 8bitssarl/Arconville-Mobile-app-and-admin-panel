@@ -34,11 +34,13 @@ export class LoginPage {
 
     loginClick(){
         if(this.loginData.email.trim()=="" || !this.globals.isValidEmail(this.loginData.email)){
-            this.uiHelper.showMessageBox("Error","Please enter valid email address");
+            //this.uiHelper.showMessageBox("Error","Please enter valid email address");
+            this.uiHelper.showMessageBox("","veuillez saisir une adresse e-mail valide");
             return;
         }
         if (this.loginData.password.trim()==""){
-            this.uiHelper.showMessageBox("Error","Please enter password");
+            //this.uiHelper.showMessageBox("Error","Please enter password");
+            this.uiHelper.showMessageBox("","veuillez entrer le mot de passe");
             return;
         }
         this.doLogin();

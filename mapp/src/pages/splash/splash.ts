@@ -147,6 +147,7 @@ export class SplashPage {
                     st.image_url=this.server.BASE_URL+"../"+st.image_url;
                 }
                 st.background_image="url('"+st.image_url+"')";
+                //st.has_sub_request=true;
                 this.globals.packages.push(st);
             }
             items=jsonRes.data.previous;
@@ -162,6 +163,7 @@ export class SplashPage {
                     }
                 }
                 st.background_image="url('"+st.image_url+"')";
+                st.has_sub_request=false;
                 this.globals.packages.push(st);
             }
             items=jsonRes.data.services;

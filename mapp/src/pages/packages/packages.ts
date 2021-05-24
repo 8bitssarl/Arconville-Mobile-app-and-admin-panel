@@ -88,7 +88,45 @@ export class PackagesPage {
         console.log("itemClick");
         if (this.feedType=='upcoming'){
             console.log(st.id);
-            this.navCtrl.push(PackageDetailPage,{package: st});
+            //this.navCtrl.push(PackageDetailPage,{package: st});
         }
+    }
+
+    subClick(st){
+        console.log("subClick");
+        this.saveClick(st);
+    }
+
+    unsubClick(st){
+        console.log("unsubClick");
+        this.saveClick(st);
+    }
+
+    saveClick(st){
+        console.log("saveClick");
+        this.loader = this.loadingCtrl.create({
+            content: this.globals.getTranslatedText("please_wait")+"...",
+        });
+        this.loader.present();
+        let uid=this.globals.currentUser.id;
+        this.server.subscribePackage({user_id: uid,package_id: st.id}).subscribe(
+            (res)=>{
+                this.loader.dismiss();
+                console.log(res.text());
+                let jsonRes=res.json();
+                if (jsonRes.status!=200){
+                    this.uiHelper.showMessageBox("Error",jsonRes.msg);
+                    return;
+                }
+                st.has_sub_request=jsonRes.data.has_sub_request;
+                if (st.has_sub_request){
+                    this.uiHelper.showMessageBox("","Please pass by our offices to complete the subscription process");
+                }
+            },(err)=>{
+                this.loader.dismiss();
+                console.error(JSON.stringify(err));
+                this.uiHelper.showMessageBox("Error",JSON.stringify(err));
+            }
+        );
     }
 }
