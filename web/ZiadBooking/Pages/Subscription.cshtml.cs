@@ -158,6 +158,7 @@ namespace ZiadBooking.Pages
                     AmountPaid = reader["amount_paid"].ToString(),
                     Discount = reader["discount"].ToString(),
                     ServiceName = reader["service_name"].ToString(),
+                    PackageId = reader["package_id"].ToString(),
                     PaymentDate = dateStr,
                 };
                 payments.Add(x);
@@ -215,7 +216,10 @@ namespace ZiadBooking.Pages
                         query += " AND package_id=" + packageId;
                     }
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
+                    MySqlCommand comm2 = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
+                    comm2.CommandText = "update user set isActive=1 where Id=" + userId;
+                    comm2.ExecuteNonQuery();
                     IDataReader reader = comm.ExecuteReader();
                     if (reader.Read())
                     {

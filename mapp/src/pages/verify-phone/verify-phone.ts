@@ -22,10 +22,24 @@ export class VerifyPhonePage {
     loginClick(){
         console.log("loginClick");
         if(this.loginData.phone.trim()==""){
-            this.uiHelper.showMessageBox("Error","Please enter valid phone number");
+            let titleText=this.globals.getTranslatedText("Error");
+            let messageText=this.globals.getTranslatedText("Please enter valid phone number");
+            this.uiHelper.showMessageBox(titleText,messageText);
             return;
         }
-        this.doLogin();
+        if(!this.loginData.phone.includes("+")){
+            let titleText=this.globals.getTranslatedText("Error");
+            let messageText=this.globals.getTranslatedText("Please Country Code before your number with plus sign");
+            this.uiHelper.showMessageBox(titleText,messageText);
+            return;
+        }else{
+            this.globals.phoneNumber=this.loginData.phone;
+            this.server.sendCode(this.loginData.phone).subscribe(
+                res=>this.getUser(res),err=>this.userFailure(err)
+            );
+        }
+      
+        // this.doLogin();
     }
 
     loginSuccess(res: Response){
@@ -62,5 +76,29 @@ export class VerifyPhonePage {
         that.server.verifyPhone({user_id: this.globals.currentUser.id,phone: this.loginData.phone}).subscribe(
             res=>that.loginSuccess(res),err=>that.loginFailure(err)
         );
+    }
+    getUser(res: Response){
+        console.log("Get User Data");
+        if (this.loader!=null){
+            this.loader.dismiss();
+        }
+        console.log(res.text());
+        let jsonRes=res.json();
+        if (jsonRes.status!=200){
+            this.uiHelper.showMessageBox('Error',jsonRes.msg);
+        }else{
+            
+          this.globals.path_sid=jsonRes.data;
+          
+this.navCtrl.push(VerifyCodePage);
+        }
+    }
+  
+    userFailure(error: any){
+        console.log("loginFailure");
+        if (this.loader!=null){
+            this.loader.dismiss();
+        }
+        this.uiHelper.showMessageBox('Error',JSON.stringify(error));
     }
 }

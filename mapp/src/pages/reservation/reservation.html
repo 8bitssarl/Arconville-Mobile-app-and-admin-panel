@@ -29,7 +29,7 @@
         <div class="pick-heading">{{ 'pick_time' | rameezTranslator: globals.userLanguage }}*</div>
         <div class="single-time" [ngClass]="{'selected':d.selected}" *ngFor="let d of times" (click)="timeClick(d)">
             <div class="time-text">
-                {{d.start}} to {{d.end}}
+                {{d.start}}
             </div>
             <div *ngIf="d.reserved" class="time-reserved">
                 {{ 'reserved' | rameezTranslator: globals.userLanguage }}

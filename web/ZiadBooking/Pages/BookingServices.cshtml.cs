@@ -20,9 +20,13 @@ namespace ZiadBooking.Pages
                 {
                     Id = reader["id"].ToString(),
                     Name = reader["name"].ToString(),
-                    CanBookOnline = reader["can_book_online"].ToString(),
+                  
                     ImageUrl = reader["image_url"].ToString(),
                 };
+                if (reader["can_book_online"].ToString() == "0")
+                    x.CanBookOnline = false;
+                if (reader["can_book_online"].ToString() == "1")
+                    x.CanBookOnline = true;
                 packages.Add(x);
             }
             reader.Close();

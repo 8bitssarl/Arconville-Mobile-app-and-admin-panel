@@ -14,7 +14,7 @@ export class PackageDetailPage {
     private loader:any = null;
     private package:any=null;
     private services:any[]=[];
-    
+
     constructor(public alertCtrl: AlertController, public modalCtrl: ModalController, public navCtrl: NavController,public events: Events,public loadingCtrl: LoadingController,public uiHelper: UiHelper,public server: AppServer,public globals: AppGlobals,public navParams: NavParams, public platform: Platform) {
         this.package=this.navParams.get('package');
         console.log("Location: "+this.package.location_text);
@@ -22,6 +22,7 @@ export class PackageDetailPage {
             if (this.globals.packageServices[x].package_id==this.package.id){
                 this.services.push(this.globals.packageServices[x]);
             }
+
         }
     }
 

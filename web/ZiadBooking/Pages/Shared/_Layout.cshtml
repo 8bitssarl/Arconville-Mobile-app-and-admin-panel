@@ -1,41 +1,49 @@
-﻿<!DOCTYPE html>
+﻿@using Syncfusion.EJ2
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ZiadBooking</title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/style.css" />
-    <link href="~/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    @* Syncfusion Essential JS 2 Styles *@
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
+    <link href="~/css/material.css" rel="stylesheet" />
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @* Syncfusion Essential JS 2 Scripts *@
 
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @*<script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>*@
+<script src="~/js/ej2.min.js"></script>
     <!--<environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="/css/site.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-href="/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="/css/site.min.css" asp-append-version="true" />
     </environment>-->
 </head>
 <body>
     <div id="header-nav">
-        <img id="logo" src="~/images/logo.jpg" alt="logo">
+        <img id="logo" src="/images/logo.jpg" alt="logo">
 
-        <div class="links-divs">
+        @*<div class="links-divs">
             <a class="header-nav-links" href="/Index">HOME</a>
-        </div>
+        </div>*@
         @{
-            if (Models.SessionHelper.CanSeePage(Context, "users"))
+            if (Models.SessionHelper.CanSeePage(Context, "users") || Models.SessionHelper.CanSeePage(Context, "Client Management"))
             {
                 <div class="links-divs">
-                    <a class="header-nav-links" href="/Users">RESERVATIONS</a>
+                    <a class="header-nav-links" href="/Users">CLIENT MANAGEMENT</a>
                 </div>
+              
             }
         }
         @{
@@ -44,29 +52,40 @@
                 <div class="links-divs">
                     <a class="header-nav-links" href="/Reception">RECEPTION</a>
                 </div>
+              
             }
         }
 
         @{
-            if (Models.SessionHelper.CanSeePage(Context, "reports"))
+            if (Models.SessionHelper.CanSeePage(Context, "reports") || Models.SessionHelper.CanSeePage(Context, "trainer"))
             {
                 <div class="links-divs">
                     <a class="header-nav-links" href="/Reports">REPORTS</a>
                 </div>
+              
             }
         }
         @{
-            if (Models.SessionHelper.CanSeePage(Context, "users"))
+            if (Models.SessionHelper.CanSeePage(Context, "admin"))
             {
                 <div class="links-divs">
                     <a class="header-nav-links" href="/ManagementUsers">MANAGEMENT USERS</a>
                 </div>
+                
             }
         }
-
+        @{
+            if (Models.SessionHelper.CanSeePage(Context, "Admin"))
+            {
+                <div class="links-divs">
+                    <a class="header-nav-links" href="/CEOManagement">CEO</a>
+                </div>
+                
+            }
+        }
         <button id="logout-button" onclick="window.location='/Logout';">LOGOUT</button>
         <div id="user-div-header">
-            <img id="user-image-header" src="~/images/mickie-mouse.jpeg" alt="user-image">
+            <img id="user-image-header" src="/images/mickie-mouse.jpeg" alt="user-image">
             <div id="user-info-div">
                 <span class="user-info-text" id="user-name">@Models.SessionHelper.GetUserName(Context)</span>
                 <span class="user-info-text" id="user-status">Member</span>
@@ -77,28 +96,28 @@
     @RenderBody()
     <footer></footer>
     <!--</div>-->
-    
     <!--<environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="/lib/jquery/dist/jquery.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-src="/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-src="/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
         </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="/js/site.min.js" asp-append-version="true"></script>
     </environment>-->
 
-    @RenderSection("Scripts", required: false)
+    @Html.EJS().ScriptManager()
+    @RenderSection("scripts", required: false)
 </body>
 </html>

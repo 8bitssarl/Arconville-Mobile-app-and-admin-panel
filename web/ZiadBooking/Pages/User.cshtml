@@ -1,4 +1,6 @@
 ﻿@page
+@using Syncfusion.EJ2.DropDowns
+@using Syncfusion.EJ2
 @model ZiadBooking.Pages.UserModel
 @{
     ViewData["Title"] = "User";
@@ -12,115 +14,346 @@
         </div>
     }
 }
-
+@{
+    List<Models.User> users = (List<Models.User>)ViewData["Users"];
+    List<object> commands = new List<object>();
+    List<object> RelationList = new List<object>();
+    RelationList.Add(new { Value = "Father", Text = "Father" });
+    RelationList.Add(new { Value = "Mother", Text = "Mother" });
+    RelationList.Add(new { Value = "Brother", Text = "Brother" });
+    RelationList.Add(new { Value = "Sister", Text = "Sister" });
+    RelationList.Add(new { Value = "Spouse", Text = "Spouse" });
+    RelationList.Add(new{ Value = "Children", Text = "Children" });
+  
+    commands.Add(new { type = "Edit", buttonOption = new { iconCss = "e-icons e-edit", cssClass = "e-flat" } });
+    commands.Add(new { type = "Delete", buttonOption = new { iconCss = "e-icons e-delete", cssClass = "e-flat" } });
+}
 @{
     Models.User user = null;
-    List<Models.GenericModel> family = null;
+    List<object> family = null;
+
     if (ViewData["User"] != null)
     {
         user = (Models.User)ViewData["User"];
-        family = (List<Models.GenericModel>)ViewData["Family"];
+        var result = (List<Models.GenericModel>)ViewData["Family"];
+        family = new List<object>();
+        foreach (var item in result)
+        {
+            var x = new
+            {
+                id = item.values["name"].ToString(),
+                name = item.values["name"].ToString(),
+                phone_number = item.values["phone_number"].ToString(),
+                profile_pic_url = item.values["profile_pic_url"].ToString(),
+                relation = item.values["relation"].ToString(),
+                is_pending = Convert.ToInt32( item.values["is_pending"]),
+
+
+            };
+            family.Add(x);
+        }
     }
     if (family == null)
     {
-        family = new List<Models.GenericModel>();
+        family = new List<object>();
     }
 }
 
-        <div id="info-div">
+<div id="info-div">
 
-            @if (user != null)
-            {
-                <div class="page-heading">Edit User</div>
-            }
-            else
-            {
-                <div class="page-heading">Add New User</div>
-            }
-            <div class="clearfix"></div>
-            <form method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Name</b>
-                        <input type="text" class="form-control" name="name" value="@(user==null?"":user.Name)" />
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Email</b>
-                        <input type="text" class="form-control" name="email" value="@(user==null?"":user.Email)" />
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Phone Number</b>
-                        <input type="tel" class="form-control" name="phone_number" value="@(user==null?"":user.PhoneNumber)" />
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Password</b>
-                        <input type="password" class="form-control" name="password" />
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Date Of Birth (YYYY-MM-DD)</b>
-                        <input type="text" class="form-control" name="date_of_birth" value="@(user==null?"":user.DateOfBirth)" />
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Profile Picture (JPG or PNG image. 600px width is recommended)</b>
-                        <input type="file" name="profile_pic" />
-                        @if (user != null && user.ProfilePicUrl != "")
-                        {
-                            <span>&nbsp;&nbsp;</span>
-                            <img src="@user.ProfilePicUrl" style="width: 30px;" />
-                        }
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <input type="checkbox" name="phone_verified" @(user != null ? (user.PhoneVerified == "1" ? "checked" : "") : "") />
-                        &nbsp;&nbsp;
-                        <b>Phone Verified</b>
-                    </div>
-                    <input type="hidden" name="can_add_member" value="1" />
-                </div>
-                <div class="row" style="margin-top: 30px;">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn btn-success btn-block" type="submit">SAVE</button>
-                    </div>
-                </div>
-            </form>
-
-            @if (family.Count > 0)
-            {
-                <div class="page-heading">Family</div>
-                <div class="clearfix"></div>
-
-                <table class="table table-bordered table-success table-striped info-table">
-                    <thead>
-                        <tr>
-                            <th>Picture</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Relation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            foreach (var x in family)
-                            {
-                                <tr>
-                                    <td style="text-align: center;">
-                                        @if (x.values["profile_pic_url"].ToString().CompareTo("") != 0)
-                                        {
-                                            <img src="@x.values["profile_pic_url"].ToString()" style="width: 80px;" />
-                                        }
-                                    </td>
-                                    <td>@x.values["name"].ToString()</td>
-                                    <td>@x.values["phone_number"].ToString()</td>
-                                    <td>@x.values["relation"].ToString().ToUpper()</td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            }
+    @if (user != null)
+    {
+        <div class="page-heading">Edit User</div>
+    }
+    else
+    {
+        <div class="page-heading">Add New User</div>
+    }
+    <div class="clearfix"></div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Name</b>
+                <input type="text" class="form-control" name="name" value="@(user==null?"":user.Name)" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Language</b>
+                <input type="text" class="form-control" name="name" value="@(user == null ? "" : user.language)" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Email</b>
+                <input type="text" class="form-control" name="email" value="@(user==null?"":user.Email)" />
+            </div>
         </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Phone Number</b>
+                <input type="tel" class="form-control" name="phone_number" value="@(user==null?"":user.PhoneNumber)" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Password</b>
+                <input type="password" class="form-control" name="password" />
+            </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Date Of Birth (YYYY-MM-DD)</b>
+                <input type="text" class="form-control" name="date_of_birth" value="@(user==null?"":user.DateOfBirth)" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Identity Image (JPG or PNG image. 600px width is recommended)</b>
+                <input type="file" id="identification_image" name="identification_image" />
+                @if (user != null && user.identification_image != "")
+                {
+                    <span>&nbsp;&nbsp;</span>
+                    <img src="@user.identification_image" style="width: 30px;" />
+                }
+            </div>
+
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <input type="checkbox" name="phone_verified" @(user != null ? (user.PhoneVerified == "1" ? "checked" : "") : "") />
+                &nbsp;&nbsp;
+                <b>Phone Verified</b>
+            </div>
+            <input type="hidden" name="can_add_member" value="1" />
+        </div>
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-success btn-block" type="submit">SAVE</button>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="page-heading">Family</div>
+    <div class="clearfix"></div>
+    <div class="control-section">
+        @Html.EJS().Grid("Family").DataSource((IEnumerable<object>)family).ActionComplete("FamilyComplete").CommandClick("cmdClick").Columns(col =>
+   {
+       col.Field("profile_pic_url").Template("#imageURL").Edit(new { create = "create", read = "read", destroy = "destroy", write = "write" }).HeaderText("User Image").Add();
+
+       col.Field("name").HeaderText("Name").Edit(new { create = "createName", read = "readName", destroy = "destroyName", write = "writeName" }).Add();
+
+       col.Field("phone_number").HeaderText("Phone Number").Add();
+       col.Field("relation").HeaderText("Relation").EditType("dropdownedit").Edit(new { create = "stateCreate", read = "stateRead", destroy = "stateDestroy", write = "stateWrite" }).Add();
+
+   }).AllowPaging().PageSettings(page => page.PageCount(2)).EditSettings(edit => { edit.AllowAdding(true).AllowEditing(true).AllowDeleting(true).Mode(Syncfusion.EJ2.Grids.EditMode.Dialog); }).Toolbar(new List<string>() { "Add",  "Delete", "Cancel", "Search" }).Render()
+    </div>
+
+
+</div>
+
+
+
+    <script id="imageURL" type="text/x-template">
+        <div class="image">
+            <img src="${profile_pic_url}" alt="${profile_pic_url}" />
+        </div>
+    </script>
+
+    <script>
+        var filt64String;
+        var name;
+       
+        function cmdClick(args) {
+            var data = args.rowData;
+            if (args.commandColumn.type === "Edit") {
+
+                location.href = "/User?id=" + data.Id;
+
+            }
+            if (args.commandColumn.type === "Delete") {
+                if (confirm('Are you sure you want to delete?')) {
+                    local.href = "/User?id=" + data.Id + "&action=delete";
+                }
+            }
+        }
+        function create(args) {
+            // create target element
+            elem = document.createElement('input');
+            return elem;
+        }
+        function write(args) {
+            // EJ2 render Uploader component
+
+            uploadObj = new ej.inputs.Uploader({
+                autoUpload: false,
+                multiple: false,
+                
+                selected: onFileSelect
+            });
+            uploadObj.appendTo(elem);
+        }
+        function onFileSelect(args) {
+            getBase64();
+        }
+        function destroy() {
+            // destroy the component after save
+
+            uploadObj.destroy();
+        }
+        function read(args) {
+            // read the custom component(uploader) value
+
+            return filt64String; // base64 string return
+
+        }
+        function getBase64() {
+            const file = document.getElementById('FamilyProfilePicUrl').files[0];
+            
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                filt64String = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+            
+          
+        }
+        function createName(args) {
+            // create target element
+            elem2 = document.createElement('input');
+            return elem2;
+        }
+        var table;
+        function writeName(args) {
+            // EJ2 render Uploader component
+            
+            
+           
+            comboBoxObj  = new ej.dropdowns.ComboBox({
+                // set the local data to dataSource property
+                dataSource: new ej.data.DataManager({
+                    url: 'api/User/GetAll',
+                    adaptor: new ej.data.WebApiAdaptor(),
+                    crossDomain: true
+                }),
+                //query: new ej.data.Query().select(['Id', 'Name']),
+                // map the appropriate columns to fields property
+                fields: { text: 'name', value: 'id' },
+                // set the placeholder to ComboBox input element
+                placeholder: 'Select a Family Member',
+                // set the height of the popup element
+                popupHeight: '300px',
+                // set true for enable the filtering support
+                allowFiltering: true,
+                // bind the filtering event
+                filtering: function (e) {
+                    var query = new ej.data.Query();
+                    // frame the query based on search string with filter type.
+                    query = (e.text !== '') ? query.where('Name', 'startswith', e.text, true) : query;
+                    // pass the filter data source, filter query to updateData method.
+                    e.updateData(dataSource, query);
+                    if (document.getElementById('nodata')) {
+                        // bind click event to button element
+                        document.getElementById('btn').onclick = function () {
+                            // get the typed characters
+                            var customValue = document.getElementById('Familyname').value;
+                            // make new object based on typed characters
+                            name = customValue;
+                            var newItem = { 'Name': customValue, 'Id': customValue };
+                            // new object added to data source.
+                            //comboBoxObj.dataSource.push(newItem);
+                            // close the popup element.
+                            comboBoxObj.hidePopup();
+                            // pass new object to addItem method.
+                            //comboBoxObj.addItem(newItem);
+                            // select the newly added item.
+                            comboBoxObj.value = customValue;
+                        };
+                    }
+                },
+                change: function (e) {
+                    name = e.itemData.name;
+
+                },
+                // set the template content when the typed character(s) is not present in the list
+                noRecordsTemplate: '<div><div id="nodata"> No matched item, do you want to add it as new item in list?</div><button id="btn" class="e-control e-btn">Add New Item</button></div>',
+            });
+            comboBoxObj.appendTo(elem2);
+            
+        }
+        function readName(args) {
+
+        }
+        function destroyName() {
+
+        }
+        function FamilyComplete(args) {
+            
+            var url = new URL(location.href);
+            var id = url.searchParams.get("id");
+            let data = {
+                user_id: id,
+                name: name,
+                phone: args.data.phone_number,
+                Relation: args.data.relation,
+
+            };
+            if (args.requestType == "save") {
+                args.data.name = name;
+                $.ajax({
+                    url: 'api/User/addtofamily',
+                    data: data,
+                    type: 'POST',
+                    success: function (result) {
+                        alert("Data save successfully")
+                    }
+                })
+            }
+            if (args.requestType == "delete") {
+                args.data.name = name;
+                debugger;
+                data = {
+                    user_id2: args.data.id,
+                    user_id: id,
+                    action:'reject'
+                };
+                $.ajax({
+                    url: 'api/User/actiontofamily',
+                    data: data,
+                    type: 'POST',
+                    success: function (result) {
+                        alert("Record deleted successfully")
+                    }
+                })
+            }
+        }
+        function valueChange(){
+            name = document.getElementById('value');
+        }
+        var state = [
+            { Text: 'Father'  ,Value: 'Father'   },
+            { Text: 'Mother'  ,Value: 'Mother'   },
+            { Text: 'Sister'  ,Value: 'Sister'    },
+            { Text: 'Brother' ,Value: 'Brother'  },
+            { Text: 'Spouse'  ,Value: 'Spouse'    },
+            { Text: 'Children',Value: 'Children'    }
+        ];
+        function stateCreate() {
+            stateElem = document.createElement('input');
+            return stateElem;
+        }
+        function stateWrite() {
+            stateObj = new ej.dropdowns.DropDownList({
+                dataSource: state,
+                fields: { value: 'Value', text: 'Text' },
+                
+                placeholder: 'Select a Relation',
+                
+            });
+            stateObj.appendTo(stateElem);
+            
+        }
+        function stateRead(args) {
+            return stateObj.text;
+        }
+        function stateDestroy() {
+            stateObj.destroy();
+        }
+    </script>

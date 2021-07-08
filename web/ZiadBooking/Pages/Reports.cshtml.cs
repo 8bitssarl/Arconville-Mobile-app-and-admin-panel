@@ -164,7 +164,7 @@ namespace ZiadBooking.Pages
             {
                 ViewData["ReportTitle"] = "Report - Clients Inside";
 
-                query = "SELECT u.name AS user_name,s.name AS service_name,r.* FROM reservation r,bookingservice s,user u WHERE r.service_id=s.id AND r.user_id=u.id";
+                query = "SELECT u.name AS user_name,u.profile_pic_url as user_image,s.name AS service_name,r.* FROM reservation r,bookingservice s,user u WHERE r.service_id=s.id AND r.user_id=u.id";
                 if (serviceType.CompareTo("0") != 0)
                 {
                     query += " AND s.id=" + serviceType;
@@ -207,6 +207,7 @@ namespace ZiadBooking.Pages
                     Models.ReportRow row = new Models.ReportRow();
                     row.SetItem("ServiceName", reader["service_name"].ToString());
                     row.SetItem("UserName", reader["user_name"].ToString());
+                    row.SetItem("UserImage", reader["user_image"].ToString());
                     row.SetItem("NumHours", reader["num_hours"].ToString());
                     row.SetItem("StartDate", dateStr);
                     row.SetItem("EndDate", endStr);
@@ -321,10 +322,15 @@ namespace ZiadBooking.Pages
                 {
                     Id = reader["id"].ToString(),
                     Name = reader["name"].ToString(),
-                    CanBookOnline = reader["can_book_online"].ToString(),
+                    
                 };
+                if (reader["can_book_online"].ToString() == "0")
+                    x.CanBookOnline = false;
+                if (reader["can_book_online"].ToString() == "1")
+                    x.CanBookOnline = true;
                 services.Add(x);
             }
+           
             reader.Close();
             comm.Dispose();
             ViewData["Services"] = services;

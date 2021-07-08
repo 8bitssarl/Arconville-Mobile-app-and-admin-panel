@@ -1,19 +1,41 @@
 ﻿@page
 @model ZiadBooking.Pages.UsersModel
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Inputs
+<style>
+    .image img {
+        height: 55px;
+        width: 55px;
+        /*border-radius: 50px;*/
+        /*box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);*/
+    }
+</style>
 @{
     ViewData["Title"] = "Reservations";
 }
 
 @{
     List<Models.User> users = (List<Models.User>)ViewData["Users"];
+    List<object> commands = new List<object>();
+    commands.Add(new { type = "Edit", buttonOption = new { iconCss = "e-icons e-edit", cssClass = "e-flat" } });
+    commands.Add(new { type = "Delete", buttonOption = new { iconCss = "e-icons e-delete", cssClass = "e-flat" } });
 }
-
+<style>
+    .lnk {
+        color: blue !important;
+        text-decoration: underline !important;
+    }
+</style>
 <div id="info-div">
 
     <div class="switch-buttons">
-        <a data-toggle="tab" href="#users">Users</a>
-        <a data-toggle="tab" href="#services">Services</a>
-        <a data-toggle="tab" href="#packages">Packages</a>
+        <a data-toggle="tab" href="#users">Active Users</a>
+        <a data-toggle="tab" href="#inActiveUsers">InActive Users</a>
+        <a data-toggle="tab" href="#newUsers">New Users</a>
+        <a data-toggle="tab" href="#allUsers">All Users</a>
+        
+        @*<a data-toggle="tab" href="#services">Services</a>
+            <a data-toggle="tab" href="#packages">Packages</a>*@
         @{
             List<Models.SubscriptionRequest> srequests = (List<Models.SubscriptionRequest>)ViewData["SubscriptionRequests"];
             if (srequests == null)
@@ -28,194 +50,115 @@
             {
                 <a data-toggle="tab" href="#requests" style="background-color:#ffd800;">Subscription Requests</a>
             }
+    <div class="col-md-4" style="float:right">
+        @Html.EJS().TextBox("filled").Placeholder("Search").Change("txtChange").CssClass("e-filled").FloatLabelType(FloatLabelType.Auto).Render()
+    </div>
         }
-
+        @*<input type="text" id="findUser" onkeyup="funcLoadTable()" class="form-control" placeholder="Search by Name" style="width:300px;float:right" />*@
     </div>
 
     <!--<ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#users">Users</a></li>
         <li><a data-toggle="tab" href="#services">Services</a></li>
         <li><a data-toggle="tab" href="#packages">Packages</a></li>
-        <li><a data-toggle="tab" href="#requests">Subscription Requests</a></li>
+        <li><a data-toggle="tab" href="#requests">Subscription Requests  identification_image</a></li>
     </ul>-->
 
     <div class="tab-content">
         <div id="users" class="tab-pane fade in active">
-            <div class="page-heading">Users</div>
+            <div class="page-heading">Active Users</div>
             <div class="add-new-container">
                 <a href="User">+Add New User</a>
             </div>
             <div class="clearfix"></div>
-
-            <table class="table table-borderless table-success table-striped info-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Date Of Birth</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach (var u in users)
-                        {
-                            <tr>
-                                <td>@u.Name</td>
-                                <td>@u.Email</td>
-                                <td>@u.PhoneNumber</td>
-                                <td>@u.DateOfBirth</td>
-                                <td>
-                                    <a href="#" id="anchorMoreDetails@(u.Id)" onclick="loadMoreDetails('@(u.Id)');">More Details</a>
-                                    &nbsp;&nbsp;
-                                    <a href="/Subscription?user_id=@u.Id">Subscriptions</a>
-                                    &nbsp;&nbsp;
-                                    <a href="/User?id=@u.Id"><i class="fa fa-edit"></i></a>
-                                    &nbsp;&nbsp;
-                                    <a href="/User?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr id="moreDetailsRow@(u.Id)" style="display:none;">
-                                <td colspan="4" id="moreDetails@(u.Id)"></td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
-            <script type="text/javascript">
-                function loadMoreDetails(userId) {
-                    if ($("#moreDetailsRow" + userId).css("display") != "none") {
-                        $("#moreDetailsRow" + userId).css("display", "none");
-                        $("#anchorMoreDetails" + userId).text("More Details");
-                        return;
-                    }
-                    $("#anchorMoreDetails" + userId).text("Loading...");
-                    var pageUrl = '/UserMoreDetails?user_id=' + userId;
-                    console.log(pageUrl);
-                    $.ajax({
-                        url: pageUrl,
-                    }).done(function (result) {
-                        $("#moreDetailsRow" + userId).css("display", "table-row");
-                        $("#moreDetails" + userId).html(result);
-                        $("#anchorMoreDetails" + userId).text("Hide Details");
-                    });
-                }
-            </script>
-        </div>
-
-        <div id="services" class="tab-pane fade in">
-            @{
-                List<Models.BookingService> services = (List<Models.BookingService>)ViewData["Services"];
-            }
-            <div class="page-heading">Services</div>
-            <div class="add-new-container">
-                <a href="BookingService">+Add New Service</a>
+            <div class="control-section">
+                @Html.EJS().Grid("Search").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.isActive.Equals(true) && u.subscription > 0).ToList()).CommandClick("cmdClick").Columns(col =>
+           {
+               col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
+               col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();
+               col.Field("Name").HeaderText("Name").Add();
+               col.Field("Email").HeaderText("Email").Add();
+               col.Field("language").HeaderText("Language").Add();
+               col.Field("DateOfBirth").HeaderText("Date of Birth").Add();
+               col.HeaderText("Subscribed").Template("#subscribed").Add();
+               
+               col.HeaderText("Subscriptions").Template("#subscription").Add();
+               col.Field("Actions").Commands(commands).Add();
+           }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
             </div>
-            <div class="clearfix"></div>
-            <table class="table table-borderless table-success table-striped info-table">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Book Online</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach (var u in services)
-                        {
-                            <tr>
-                                <td>
-                                    @{
-                                        if (!string.IsNullOrEmpty(u.ImageUrl))
-                                        {
-                                            <img src="@u.ImageUrl" style="width: 60px;" />
-                                        }
-                                    }
-                                </td>
-                                <td>@u.Name</td>
-                                <td>@(u.CanBookOnline.CompareTo("1") == 0 ? "YES" : "NO")</td>
-                                <td>
-                                    <a href="/BookingService?id=@u.Id"><i class="fa fa-edit"></i></a>
-                                    &nbsp;&nbsp;
-                                    <a href="/BookingService?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
 
-            <script type="text/javascript">
 
-            </script>
         </div>
 
-        <div id="packages" class="tab-pane fade in">
 
-            @{
-                List<Models.Package> packages = (List<Models.Package>)ViewData["Packages"];
-                if (packages == null)
-                {
-                    packages = new List<Models.Package>();
-                }
-            }
 
-            <div class="page-heading">Packages</div>
-            <div class="add-new-container">
-                <a href="Package">+Add New Package</a>
+        <div id="inActiveUsers" class="tab-pane fade in ">
+            <div class="page-heading">InActive Users</div>
+
+            <div class="clearfix"></div>
+            <div class="control-section">
+                @Html.EJS().Grid("InActiveUsersTable").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.isActive.Equals(false) && u.subscription > 0).ToList()).CommandClick("cmdClick").Columns(col =>
+           {
+               col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
+               col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();
+               col.Field("Name").HeaderText("Name").Add();
+               col.Field("Email").HeaderText("Email").Add();
+               col.Field("language").HeaderText("Language").Add();
+               col.Field("DateOfBirth").HeaderText("Date of Birth").Add();
+               col.HeaderText("Subscribed").Template("#unSubscribed").Add();
+               
+               col.HeaderText("Subscriptions").Template("#subscription").Add();
+               col.Field("Actions").Commands(commands).Add();
+           }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
             </div>
-            <div class="clearfix"></div>
 
-            <table class="table table-borderless table-success table-striped info-table">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Duration</th>
-                        <th>Amount</th>
-                        <th>Location</th>
-                        <th>Lat/Lng</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        foreach (var u in packages)
-                        {
-                            <tr>
-                                <td>
-                                    @{
-                                        if (!string.IsNullOrEmpty(u.ImageUrl))
-                                        {
-                                            <img src="@u.ImageUrl" style="width: 60px;" />
-                                        }
-                                    }
-                                </td>
-                                <td>@u.Title</td>
-                                <td>@(u.NumMonths) month(s)</td>
-                                <td>@u.Amount</td>
-                                <td>@u.LocationText</td>
-                                <td>
-                                    <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@(u.Latitude),@(u.Longitude)">
-                                        @(u.Latitude),@(u.Longitude)
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/Package?id=@u.Id"><i class="fa fa-edit"></i></a>
-                                    &nbsp;&nbsp;
-                                    <a href="/Package?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+
         </div>
 
+        <div id="newUsers" class="tab-pane fade in ">
+            <div class="page-heading">New Users</div>
+
+            <div class="clearfix"></div>
+            <div class="control-section">
+                @Html.EJS().Grid("NewUsersTable").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.subscription == 0).ToList()).CommandClick("cmdClick").Columns(col =>
+           {
+               col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
+               col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();
+               col.Field("Name").HeaderText("Name").Add();
+               col.Field("Email").HeaderText("Email").Add();
+               col.Field("language").HeaderText("Language").Add();
+               col.Field("DateOfBirth").HeaderText("Date of Birth").Add();
+               col.HeaderText("Subscribed").Template("#unSubscribed").Add();
+               
+               col.HeaderText("Subscriptions").Template("#subscription").Add();
+               col.Field("Actions").Commands(commands).Add();
+           }).AllowPaging().PageSettings(page => page.PageCount(2)).AllowGrouping(true).AllowSorting(true).Toolbar(new List<string>() { "Search" }).Render()
+            </div>
+
+
+        </div>
+        <div id="allUsers" class="tab-pane fade in ">
+            <div class="page-heading">Users</div>
+
+            <div class="clearfix"></div>
+            <div class="control-section">
+                @Html.EJS().Grid("AllUsers").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.ToList()).CommandClick("cmdClick").Columns(col =>
+           {
+               col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
+               col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();
+               col.Field("Name").HeaderText("Name").Add();
+               col.Field("Email").HeaderText("Email").Add();
+               col.Field("language").HeaderText("Language").Add();
+               col.Field("DateOfBirth").HeaderText("Date of Birth").Add();
+               
+               
+               col.HeaderText("Subscriptions").Template("#subscription").Add();
+               col.Field("Actions").Commands(commands).Add();
+           }).AllowPaging().PageSettings(page => page.PageCount(2)).Render()
+            </div>
+
+
+        </div>
         <div id="requests" class="tab-pane fade in">
             @{
                 List<Models.SubscriptionRequest> requests = (List<Models.SubscriptionRequest>)ViewData["SubscriptionRequests"];
@@ -246,9 +189,9 @@
                                 <td>@u.PackageName</td>
                                 <td>@u.RequestDt</td>
                                 <td>
-                                    <a href="/SubscriptionRequest?id=(@u.Id)&action=confirm" onclick="return confirm('Are you sure you want to confirm?');"><i class="fa fa-check"></i></a>
+                                    <a href="/SubscriptionRequest?id=(@u.Id)&action=confirm" onclick=""><i class="fa fa-check"></i></a>
                                     &nbsp;&nbsp;
-                                    <a href="/SubscriptionRequest?id=@(u.Id)&action=cancel" onclick="return confirm('Are you sure you want to cancel?');" style="color:#FF0000;"><i class="fa fa-times"></i></a>
+                                    <a href="/SubscriptionRequest?id=@(u.Id)&action=cancel" onclick="" style="color:#FF0000;"><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                         }
@@ -259,17 +202,86 @@
     </div>
 </div>
 
+<script type="text/javascript"></script>
+<script id="imageURL" type="text/x-template">
+    <div class="image">
+        <img src="${ProfilePicUrl}" alt="${ProfilePicUrl}" />
+    </div>
+</script>
+<script id="idImage" type="text/x-template">
+    <div class="image">
+        <img src="${identification_image}" alt="${identification_image}" />
+    </div>
+</script>
+
+<script id="subscription" type="text/x-template">
+    <a class="lnk" href="/Subscription?user_id=${Id}">Subscriptions</a>
+</script>
+<script id="subscribed" type="text/x-template">
+    <div>
+        Subscribed
+    </div>
+</script>
+<script id="unSubscribed" type="text/x-template">
+    <div>
+        UnSubscribed
+    </div>
+</script>
 <script type="text/javascript">
-    function onCancel(formId) {
-        if (window.confirm("Are you sure you want to cancel?")) {
-            document.getElementById(formId).submit();
+
+    function cmdClick(args) {
+        var data = args.rowData;
+        if (args.commandColumn.type === "Edit") {
+
+            location.href = "/User?id=" + data.Id;
+
+        }
+        if (args.commandColumn.type === "Delete") {
+            if (confirm('Are you sure you want to delete?')) {
+                local.href = "/User?id=" + data.Id + "&action=delete";
+            }
         }
     }
 
-    function onConfirm(formId) {
-        if (window.confirm("Are you sure you want to confirm?")) {
-            document.getElementById(formId).submit();
-        }
+    function loadMoreDetails(userId) {
+        debugger;
+        //if ($("#moreDetailsRow" + userId).css("display") != "none") {
+        //    $("#moreDetailsRow" + userId).css("display", "none");
+        //    $("#anchorMoreDetails" + userId).text("More Details");
+        //    return;
+        //}
+        //$("#anchorMoreDetails" + userId).text("Loading...");
+        //location.href = '/UserMoreDetails?user_id=' + userId;
+        //console.log(pageUrl);
+     
     }
+    function txtChange(args) {
+        $(".tab-pane").removeClass("active");
+        $("#allUsers").show();
+        var grid = document.getElementById("AllUsers").ej2_instances[0];
+        grid.search(args.value);
+        
+
+    }
+    function detailDataBound(args) {
+        var pageUrl = '/UserMoreDetails?user_id=' + args.data.Id;
+        debugger;
+        //$("#moreDetails").load(pageUrl)
+           $.ajax({
+               url: pageUrl,
+               beforeSend: function () {
+                   $("#moreDetails").html('<img src="/images/Loading.gif" />');
+               }
+           }).done(function (result) {
+               $("#moreDetails").html('');
+            
+            $("#moreDetails").html(result);
+            
+        });
+    }
+</script>
+<script type="text/x-template" id="detailtemplate">
+
+    <div id="moreDetails"></div>
 
 </script>

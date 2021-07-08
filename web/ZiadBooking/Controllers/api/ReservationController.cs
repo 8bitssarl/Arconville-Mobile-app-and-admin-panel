@@ -26,14 +26,33 @@ namespace ZiadBooking.Controllers.api
                 System.Data.IDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
                 {
+                    DateTime dt = new DateTime();
                     var x = new
                     {
                         id = reader["id"].ToString(),
                         name = reader["name"].ToString(),
                         can_book_online = reader["can_book_online"].ToString(),
                         image_url = reader["image_url"].ToString(),
+                        isSuspended= Convert.ToBoolean(reader["isSuspended"]),
+                        rHours = reader["rHours"].ToString(),
+                        suspentionDate = reader["suspentionDate"].ToString(),
+                        isSubscribedOnline = Convert.ToBoolean(reader["isSubscribedOnline"]),
                     };
-                    services.Add(x);
+                    if (!string.IsNullOrEmpty(x.suspentionDate))
+                    {
+                         dt = Convert.ToDateTime(x.suspentionDate);
+                        if(x.isSuspended.Equals(false) && dt >= DateTime.Now && x.isSubscribedOnline.Equals(false))
+                        {
+                            services.Add(x);
+                        }
+                    }
+                    else
+                    {
+                        if(x.isSubscribedOnline.Equals(false))
+                        services.Add(x);
+                    }
+
+                    
                 }
                 reader.Close();
                 db.Close();
@@ -208,23 +227,38 @@ namespace ZiadBooking.Controllers.api
                 }
                 reader.Close();
 
-                query = "SELECT bs.name AS service_name,ps.* FROM packageservice ps,bookingservice bs WHERE bs.id=ps.service_id";
+                query = "SELECT bs.name AS service_name,bs.rHours,bs.isSuspended,bs.suspentionDate, ps.* FROM packageservice ps,bookingservice bs WHERE bs.id=ps.service_id and isSubcribedOnline=1";
                 comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
                 reader = comm.ExecuteReader();
                 while (reader.Read())
                 {
+                    DateTime dt = new DateTime();
                     var x = new
                     {
                         service_name = reader["service_name"].ToString(),
                         package_id = reader["package_id"].ToString(),
                         service_id = reader["service_id"].ToString(),
+                        isSuspended = Convert.ToBoolean(reader["isSuspended"]),
+                        rHours = reader["rHours"].ToString(),
+                        suspentionDate = reader["suspentionDate"].ToString(),
                     };
-                    services.Add(x);
+                    if (!string.IsNullOrEmpty(x.suspentionDate))
+                    {
+                        dt = Convert.ToDateTime(x.suspentionDate);
+                        if (x.isSuspended.Equals(false) && dt >= DateTime.Now)
+                        {
+                            services.Add(x);
+                        }
+                    }
+                    else
+                    {
+                        services.Add(x);
+                    }
                 }
                 reader.Close();
-
-                query = "SELECT p.title,p.amount,p.num_months AS orig_months,us.num_months,us.amount_paid,us.discount,us.start_ts,UNIX_TIMESTAMP(NOW()) curr_ts FROM package p,usersubscription us WHERE p.id=us.package_id AND us.user_id="+userId+" ORDER BY p.title";
+                //: can book online, can subscribe online point no 11
+                query = "SELECT p.title,p.amount,p.num_months AS orig_months,us.num_months,us.amount_paid,us.discount,us.start_ts,UNIX_TIMESTAMP(NOW()) curr_ts FROM package p,usersubscription us WHERE p.id=us.package_id AND us.user_id="+userId+ " and p.isSubcribedOnline=1 ORDER BY p.title";
                 comm = db.Connection.CreateCommand();
                 comm.CommandText = query;
                 reader = comm.ExecuteReader();

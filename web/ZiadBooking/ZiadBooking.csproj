@@ -16,9 +16,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="MySql.Data" Version="8.0.21" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="19.1.0.67" />
+    <PackageReference Include="Syncfusion.Licensing" Version="19.1.0.67" />
+    <PackageReference Include="Twilio" Version="5.62.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Reservation.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\Login.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

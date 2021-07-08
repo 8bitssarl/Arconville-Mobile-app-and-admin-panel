@@ -16,7 +16,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 })
 export class EditProfilePage {
 
-    private loginData:any={id:0,name:'',email:'',password:'',age:'',dob_month:'1',dob_day:'1',dob_year:'2002',gender:'m',profile_pic_url:'',image_url:'',is_family_bool:false,is_family:0};
+    private loginData:any={id:0,name:'',email:'',password:'',age:'',dob_month:'',dob_day:'',dob_year:'',gender:'m',profile_pic_url:'',image_url:'',is_family_bool:false,is_family:0};
     private loader: any = null;
 
     private fileTransfer: FileTransferObject = null;
@@ -28,18 +28,23 @@ export class EditProfilePage {
     private dobYears:any[]=[];
     private genders:any[]=[];
     private monthNames:any[]=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    
+    private userData:any={email:'',password:''};
     constructor(public modalCtrl: ModalController, public navCtrl: NavController,public loadingCtrl: LoadingController,public actionSheetCtrl: ActionSheetController,private camera: Camera, private transfer: FileTransfer, private file: File, private filePath: FilePath, private sanitizer:DomSanitizer,public uiHelper: UiHelper,public server: AppServer,public globals: AppGlobals) {
-        this.attachedImages=[];
+
+      let that=this;
+      let usr=this.globals.currentUser;
+      this.loader = this.loadingCtrl.create({
+        content: this.globals.getTranslatedText("please_wait")+"...",
+    });
+    that.server.getUserDetails(usr).subscribe(
+      res=>that.getUser(res),err=>that.userFailure(err)
+  );
+      this.attachedImages=[];
         this.fileTransfer=this.transfer.create();
-        let usr=this.globals.currentUser;
-        this.loginData.id=usr.id;
-        this.loginData.name=usr.name;
-        this.loginData.email=usr.email;
-        this.loginData.image_url=usr.profilePicUrl;
-        if (usr.profilePicUrl!=''){
-            this.loginData.profile_pic_url=this.server.BASE_URL+"../"+usr.profilePicUrl;
-        }
+
+
+
+
         this.loginData.is_family=usr.canAddMember;
         this.loginData.age=usr.age;
         if (this.loginData.is_family==1){
@@ -108,6 +113,7 @@ export class EditProfilePage {
         if (jsonRes.status!=200){
             this.uiHelper.showMessageBox('Error',jsonRes.msg);
         }else{
+
             let user=jsonRes.data;
             this.globals.currentUser=user;
             this.globals.setUser(user);
@@ -179,6 +185,7 @@ export class EditProfilePage {
     }
 
     onPhotoURISuccess(imageURI) {
+
         console.log("onPhotoURISuccess: "+imageURI);
         try{
             if (this.attachedImages.length>0){
@@ -196,8 +203,9 @@ export class EditProfilePage {
     onPhotoURIFail(message) {
         this.uiHelper.showMessageBox("onPhotoURIFail",message);
     }
-    
+
     attachImage(val){
+
         let that=this;
         if (val===2 || val===3){
 	        let camOptions={
@@ -265,7 +273,7 @@ export class EditProfilePage {
         let that=this;
 
         let currFileName=that.attachedImages[that.currentUploadIndex];
-        
+
         let options = {fileKey:'',fileName:'',mimeType:'',chunkedMode:false,headers:{},params:{},httpMethod:'POST'};
         options.fileKey = "media_file";
         if(currFileName.toLowerCase().endsWith('.png')){
@@ -303,6 +311,46 @@ export class EditProfilePage {
             that.uiHelper.showMessageBox("Exception",e.message);
         }
     }
+    getUser(res: Response){
+      console.log("Get User Data");
+      if (this.loader!=null){
+          this.loader.dismiss();
+      }
+      console.log(res.text());
+      let jsonRes=res.json();
+      if (jsonRes.status!=200){
+          this.uiHelper.showMessageBox('Error',jsonRes.msg);
+      }else{
+          let user=jsonRes.data;
+
+          this.globals.setUser(user);
+          this.globals.currentUser=user;
+          let usr=this.globals.currentUser;
+          this.loginData.id=usr.id;
+          this.loginData.name=usr.name;
+          this.loginData.email=usr.email;
+          this.loginData.image_url=usr.profilePicUrl;
+          this.loginData.age=usr.age;
+
+          var dt = new Date(usr.dateOfBirth);
+          this.loginData.dob_month=dt.getMonth();
+          this.loginData.dob_day=dt.getDay();
+          this.loginData.dob_year=dt.getFullYear();
+          // :'',dob_day:'',dob_year:''
+          // dt.getMonth();
+          if (usr.profilePicUrl!=''){
+            this.loginData.profile_pic_url=this.server.BASE_URL+"../"+usr.profilePicUrl;
+        }
+      }
+  }
+
+  userFailure(error: any){
+      console.log("loginFailure");
+      if (this.loader!=null){
+          this.loader.dismiss();
+      }
+      this.uiHelper.showMessageBox('Error',JSON.stringify(error));
+  }
 
     //picture upload end
 }

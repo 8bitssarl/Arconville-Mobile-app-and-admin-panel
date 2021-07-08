@@ -28,6 +28,10 @@
                 <ion-icon name="md-person"></ion-icon>
                 &nbsp;{{ 'profile' | rameezTranslator: globals.userLanguage }}
             </button>
+            <button ion-item (click)="openPage(tabContactUS)">
+              <ion-icon name="md-person"></ion-icon>
+              &nbsp;{{ 'Contact US' | rameezTranslator: globals.userLanguage }}
+          </button>
             <button ion-item class="logout" (click)="logoutClick()">
                 <ion-icon name="md-log-out"></ion-icon>
                 &nbsp;{{ 'logout' | rameezTranslator: globals.userLanguage }}
@@ -35,5 +39,5 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-  
+
   <ion-nav id="nav" #content [root]="rootPage"></ion-nav>

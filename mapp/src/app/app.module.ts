@@ -32,7 +32,7 @@ import { PackageDetailPage } from '../pages/package-detail/package-detail';
 import { ReservationDetailPage } from '../pages/reservation-detail/reservation-detail';
 import { FamilyDetailPage } from '../pages/family-detail/family-detail';
 import { RameezTranslatorPipe } from '../pipes/rameez-translator/rameez-translator';
-
+import {ContactUSPage} from '../pages/contact-us/contact-us';
 @NgModule({
     declarations: [
         MyApp,
@@ -49,6 +49,7 @@ import { RameezTranslatorPipe } from '../pipes/rameez-translator/rameez-translat
         ReservationDetailPage,
         ReservationPage,
         FamilyPage,
+        ContactUSPage,
         FamilyDetailPage,
         SettingsPage,
         EditProfilePage,
@@ -75,6 +76,7 @@ import { RameezTranslatorPipe } from '../pipes/rameez-translator/rameez-translat
         ReservationDetailPage,
         ReservationPage,
         FamilyPage,
+        ContactUSPage,
         FamilyDetailPage,
         SettingsPage,
         EditProfilePage,

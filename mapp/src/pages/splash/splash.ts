@@ -46,8 +46,11 @@ export class SplashPage {
                 that.navCtrl.setRoot(HomePage);
             }
         }else{
-            that.navCtrl.setRoot(LoginPage);
+            that.navCtrl.setRoot(VerifyPhonePage);
         }
+        // }else{
+        //     that.navCtrl.setRoot(LoginPage);
+        // }
     }
 
     locationChanged(data){
@@ -69,14 +72,14 @@ export class SplashPage {
                     //permission denied
                     if (error.code==1){
                         if (that.platform.is('android')){
-                            let ddl=that.uiHelper.showConfirmBox3("",that.globals.appName+" is unable to work without location services","Ok",()=>{
+                            let ddl=that.uiHelper.showConfirmBox3("",that.globals.appName+this.globals.getTranslatedText(" is unable to work without location services"),"Ok",()=>{
                             });
                             ddl.onDidDismiss(()=>{
                                 that.globals.cannotDetectLocation=true;
                                 that.events.publish('location_permission_denied');
                             });
                         }else{
-                            let ddl=that.uiHelper.showConfirmBox3("",that.globals.appName+" requires location access to function","Ok",()=>{
+                            let ddl=that.uiHelper.showConfirmBox3("",that.globals.appName+this.globals.getTranslatedText(" requires location access to function"),"Ok",()=>{
                             });
                             ddl.onDidDismiss(()=>{
                                 that.globals.cannotDetectLocation=true;

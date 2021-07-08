@@ -1,6 +1,19 @@
 ﻿@page
 @model ZiadBooking.Pages.ReportsModel
+@using Syncfusion.EJ2
+<style>
+    .image img {
+        height: 55px;
+        width: 55px;
+        /*border-radius: 50px;*/
+        /*box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);*/
+    }
+</style>
 @{
+    List<object> commands = new List<object>();
+    commands.Add(new { type = "Edit", buttonOption = new { iconCss = "e-icons e-edit", cssClass = "e-flat" } });
+    commands.Add(new { type = "Delete", buttonOption = new { iconCss = "e-icons e-delete", cssClass = "e-flat" } });
+
     ViewData["Title"] = "Reports";
     string reportTitle = "";
     string reportType = "";
@@ -25,6 +38,40 @@
 
 @{
     List<Models.ReportRow> reportData = (List<Models.ReportRow>)ViewData["Data"];
+
+    List<object> list = new List<object>();
+    if (reportData != null)
+    {
+        foreach (var item in reportData)
+        {
+            var x = new
+            {
+
+                ServiceName = item.GetItem("ServiceName"),
+
+                UserImage = item.GetItem("UserImage"),
+
+                UserName=item.GetItem("UserName"),
+
+                StartDate = item.GetItem("StartDate"),
+
+                EndDate = item.GetItem("EndDate"),
+
+                NumHours = item.GetItem("NumHours"),
+
+                ReserveDate = item.GetItem("ReserveDate"),
+
+                CheckinAtDate = item.GetItem("CheckinAtDate"),
+
+                CheckoutAtDate = item.GetItem("CheckoutAtDate"),
+                Longitude = item.GetItem("Longitude"),
+                Latitude = item.GetItem("Latitude")
+            };
+            list.Add(x);
+
+        }
+    }
+
     if (reportData == null)
     {
         reportData = new List<Models.ReportRow>();
@@ -42,18 +89,18 @@
     }
 }
 
-        <div id="info-div">
+<div id="info-div">
 
-            <div class="switch-buttons">
-                <a href="Reports?type=allreservations">All Reservations</a>
-                <a href="Reports?type=noshow">No Show</a>
-                <a href="/Reports?type=cancellations">Cancellations</a>
-                <a href="/Reports?type=clientsinside">Clients Inside</a>
-                <a href="/Reports?type=subsended">Subscriptions Ended</a>
-                <a href="/Reports?type=subsending">Subscriptions Ending</a>
-            </div>
+    <div class="switch-buttons">
+        <a href="Reports?type=allreservations">All Reservations</a>
+        <a href="Reports?type=noshow">No Show</a>
+        <a href="/Reports?type=cancellations">Cancellations</a>
+        <a href="/Reports?type=clientsinside">Clients Inside</a>
+        <a href="/Reports?type=subsended">InActive</a>
+        <a href="/Reports?type=subsending">Active</a>
+    </div>
 
-            <!--<div class="navbar-collapse collapse">
+    <!--<div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li><a href="Reports?type=allreservations">All Reservations</a></li>
             <li><a href="Reports?type=noshow">No Show</a></li>
@@ -64,276 +111,428 @@
         </ul>
     </div>-->
 
-            <div class="page-heading">
-                @reportTitle
-            </div>
+    <div class="page-heading">
+        @reportTitle
+    </div>
 
 
-            @{
-                if (ViewData["Data"] != null)
-                {
-                    @if (reportType == "allreservations" || reportType == "noshow" || reportType == "cancellations" || reportType == "clientsinside")
-                    {
-                        <div class="add-new-container">
-                            <form method="get">
-                                <input type="hidden" value="@reportType" name="type" />
-                                <select class="form-control" style="width: 180px;display: inline-block;margin-right: 10px;" name="service">
-                                    <option value="0">All Services</option>
-                                    @{ foreach (var m in services)
-                                        {
-                                            string sel = "";
-                                            if (m.Id.CompareTo(serv) == 0)
-                                            {
-                                                sel = "SELECTED";
-                                            }
-                                            if (sel == "")
-                                            {
-                                                <option value="@m.Id">@m.Name</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@m.Id" SELECTED>@m.Name</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                                <button class="btn btn-success rounded-pill" type="submit">UPDATE</button>
-                            </form>
-                        </div>
-                    }
-
-                    <div class="clearfix"></div>
-
-                    @if (reportType == "allreservations")
-                    {
-                        <table class="table table-borderless table-success table-striped info-table">
-                            <thead>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>User</th>
-                                    <th>From</th>
-                                    <th>Till</th>
-                                    <th>Hours</th>
-                                    <th>Location</th>
-                                    <th>Reserved On</th>
-                                    <th>Checkin</th>
-                                    <th>Checkout</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (var x in reportData)
+    @{
+        if (ViewData["Data"] != null)
+        {
+            @if (reportType == "allreservations" || reportType == "noshow" || reportType == "cancellations" || reportType == "clientsinside")
+            {
+                <div class="add-new-container">
+                    <form method="get">
+                        <input type="hidden" value="@reportType" name="type" />
+                        <select class="form-control" style="width: 180px;display: inline-block;margin-right: 10px;" name="service">
+                            <option value="0">All Services</option>
+                            @{ foreach (var m in services)
+                                {
+                                    string sel = "";
+                                    if (m.Id.CompareTo(serv) == 0)
                                     {
-                                        <tr>
-                                            <td>@x.GetItem("ServiceName")</td>
-                                            <td>@x.GetItem("UserName")</td>
-                                            <td>@x.GetItem("StartDate")</td>
-                                            <td>@x.GetItem("EndDate")</td>
-                                            <td>@x.GetItem("NumHours")</td>
-                                            <td>
-                                                <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=@(x.GetItem("Latitude")),@(x.GetItem("Longitude"))">
-                                                    @(x.GetItem("Latitude")),@(x.GetItem("Longitude"))
-                                                </a>
-                                            </td>
-                                            <td>@x.GetItem("ReserveDate")</td>
-                                            <td>@x.GetItem("CheckinAtDate")</td>
-                                            <td>@x.GetItem("CheckoutAtDate")</td>
-                                        </tr>
+                                        sel = "SELECTED";
+                                    }
+                                    if (sel == "")
+                                    {
+                                        <option value="@m.Id">@m.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@m.Id" SELECTED>@m.Name</option>
                                     }
                                 }
-                            </tbody>
-                        </table>
-                    }
-
-                    @if (reportType == "noshow")
-                    {
-                        <table class="table table-borderless table-success table-striped info-table">
-                            <thead>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>User</th>
-                                    <th>From</th>
-                                    <th>Till</th>
-                                    <th>Hours</th>
-                                    <th>Reserved On</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (dynamic x in reportData)
-                                    {
-                                        <tr>
-                                            <td>@x.GetItem("ServiceName")</td>
-                                            <td>@x.GetItem("UserName")</td>
-                                            <td>@x.GetItem("StartDate")</td>
-                                            <td>@x.GetItem("EndDate")</td>
-                                            <td>@x.GetItem("NumHours")</td>
-                                            <td>@x.GetItem("ReserveDate")</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-                    @if (reportType == "cancellations")
-                    {
-                        <table class="table table-borderless table-success table-striped info-table">
-                            <thead>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>User</th>
-                                    <th>From</th>
-                                    <th>Till</th>
-                                    <th>Hours</th>
-                                    <th>Reserved On</th>
-                                    <th>Cancelled On</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (dynamic x in reportData)
-                                    {
-                                        <tr>
-                                            <td>@x.GetItem("ServiceName")</td>
-                                            <td>@x.GetItem("UserName")</td>
-                                            <td>@x.GetItem("StartDate")</td>
-                                            <td>@x.GetItem("EndDate")</td>
-                                            <td>@x.GetItem("NumHours")</td>
-                                            <td>@x.GetItem("ReserveDate")</td>
-                                            <td>@x.GetItem("CancelDate")</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-                    @if (reportType == "clientsinside")
-                    {
-                        <table class="table table-borderless table-success table-striped info-table">
-                            <thead>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>User</th>
-                                    <th>From</th>
-                                    <th>Till</th>
-                                    <th>Hours</th>
-                                    <th>Reserved On</th>
-                                    <th>Checkin At</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (dynamic x in reportData)
-                                    {
-                                        <tr>
-                                            <td>@x.GetItem("ServiceName")</td>
-                                            <td>@x.GetItem("UserName")</td>
-                                            <td>@x.GetItem("StartDate")</td>
-                                            <td>@x.GetItem("EndDate")</td>
-                                            <td>@x.GetItem("NumHours")</td>
-                                            <td>@x.GetItem("ReserveDate")</td>
-                                            <td>@x.GetItem("CheckinDate")</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-                    @if (reportType == "subsended")
-                    {
-                        <table class="table table-borderless table-success table-striped info-table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Service</th>
-                                    <th>Months</th>
-                                    <th>Started On</th>
-                                    <th>Expired On</th>
-                                    <th>Amount Paid</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (dynamic x in reportData)
-                                    {
-                                        <tr>
-                                            <td>@x.GetItem("UserName")</td>
-                                            <td>@x.GetItem("ServiceName")</td>
-                                            <td>@x.GetItem("NumMonths")</td>
-                                            <td>@x.GetItem("StartDate")</td>
-                                            <td>@x.GetItem("ExpiredAt")</td>
-                                            <td>@x.GetItem("AmountPaid")</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-                    @if (reportType == "subsending")
-                    {
-                        int endingIn = int.Parse(ViewData["EndingIn"].ToString());
-
-                        <h2>Ending In</h2>
-                        <form method="get">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
-                                    <input type="hidden" name="type" value="@reportType" />
-                                    <select name="end_months" class="form-control">
-                                        @{
-                                            for (int a = 1; a <= 12; a++)
-                                            {
-                                                @if (a != endingIn)
-                                                {
-                                                    <option value="@a">@a Month(s)</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@a" selected>@a Month(s)</option>
-                                                }
-
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                                    <button class="btn btn-success btn-block">Search</button>
-                                </div>
-                            </div>
-                        </form>
-                        <table class="table table-borderless table-success table-striped info-table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Service</th>
-                                    <th>Months</th>
-                                    <th>Started On</th>
-                                    <th>Expires On</th>
-                                    <th>Amount Paid</th>
-                                    <th>Ending In</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    foreach (dynamic x in reportData)
-                                    {
-                                        <tr>
-                                            <td>@x.GetItem("UserName")</td>
-                                            <td>@x.GetItem("ServiceName")</td>
-                                            <td>@x.GetItem("NumMonths")</td>
-                                            <td>@x.GetItem("StartDate")</td>
-                                            <td>@x.GetItem("ExpiredAt")</td>
-                                            <td>@x.GetItem("AmountPaid")</td>
-                                            <td>@x.GetItem("EndingIn") days</td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    }
-                }
+                            }
+                        </select>
+                        <button class="btn btn-success rounded-pill" type="submit">UPDATE</button>
+                    </form>
+                </div>
             }
-        </div>
+
+            <div class="clearfix"></div>
+
+            @if (reportType == "allreservations")
+            {
+<div class="control-section">
+    @Html.EJS().Grid("allreservations").DataSource((IEnumerable<object>)list).AllowResizing(true).RowDataBound("fncLoad").CommandClick("allReservationsClick").Columns(col =>
+    {
+    col.Field("UserImage").Template("#imageURL").HeaderText("Image").Add();
+    col.Field("ServiceName").HeaderText("Service").Add();
+    col.Field("UserName").HeaderText("User").Add();
+    col.Field("StartDate").HeaderText("From").Add();
+    col.Field("EndDate").HeaderText("Till").Add();
+    col.Field("NumHours").HeaderText("Hours").Add();
+    col.HeaderText("Location").Template("#location").Add();
+    col.Field("ReserveDate").HeaderText("Reserved On").Add();
+    col.Field("CheckinAtDate").HeaderText("CheckIn").Add();
+    col.Field("CheckoutAtDate").HeaderText("CheckOut").Add();
+
+    
+    }).AllowPaging().PageSettings(page => page.PageCount(2)).AllowSorting(true).AllowGrouping(true).Toolbar(new List<string>() { "Search" }).Render()
+</div>
+                @*<table class="table table-borderless table-success table-striped info-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>User Image</th>
+                                <th>User</th>
+                                <th>From</th>
+                                <th>Till</th>
+                                <th>Hours</th>
+                                <th>Location</th>
+                                <th>Reserved On</th>
+                                <th>Checkin</th>
+                                <th>Checkout</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var x in reportData)
+                                {
+                                    <tr>
+                                        <td>@x.GetItem("ServiceName")</td>
+                                        <td><img src="@x.GetItem("UserImage")" /></td>
+
+                                        <td>@x.GetItem("UserName")</td>
+                                        <td>@x.GetItem("StartDate")</td>
+                                        <td>@x.GetItem("EndDate")</td>
+                                        <td>@x.GetItem("NumHours")</td>
+                                        <td>
+
+                                        </td>
+                                        <td>@x.GetItem("ReserveDate")</td>
+                                        <td>@x.GetItem("CheckinAtDate")</td>
+                                        <td>@x.GetItem("CheckoutAtDate")</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>*@
+            }
+
+            @if (reportType == "noshow")
+            {
+                <div class="control-section">
+                    @Html.EJS().Grid("allreservations").DataSource((IEnumerable<object>)list).AllowResizing(true).RowDataBound("fncLoad").CommandClick("allReservationsClick").Columns(col =>
+               {
+                   col.Field("UserImage").Template("#imageURL").HeaderText("Image").Add();
+                   col.Field("ServiceName").HeaderText("Service").Add();
+                   col.Field("UserName").HeaderText("User").Add();
+                   col.Field("StartDate").HeaderText("From").Add();
+                   col.Field("EndDate").HeaderText("Till").Add();
+                   col.Field("NumHours").HeaderText("Hours").Add();
+                   col.HeaderText("Location").Template("#location").Add();
+                   col.Field("ReserveDate").HeaderText("Reserved On").Add();
+
+
+                   //
+               }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
+                </div>
+                @*<table class="table table-borderless table-success table-striped info-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>From</th>
+                            <th>Till</th>
+                            <th>Hours</th>
+                            <th>Reserved On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("EndDate")</td>
+                                    <td>@x.GetItem("NumHours")</td>
+                                    <td>@x.GetItem("ReserveDate")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>*@
+            }
+
+            @if (reportType == "cancellations")
+            {
+                <div class="control-section">
+                    @Html.EJS().Grid("allreservations").DataSource((IEnumerable<object>)list).AllowResizing(true).RowDataBound("fncLoad").CommandClick("allReservationsClick").Columns(col =>
+               {
+                   col.Field("UserImage").Template("#imageURL").HeaderText("Image").Add();
+                   col.Field("ServiceName").HeaderText("Service").Add();
+                   col.Field("UserName").HeaderText("User").Add();
+                   col.Field("StartDate").HeaderText("From").Add();
+                   col.Field("EndDate").HeaderText("Till").Add();
+                   col.Field("NumHours").HeaderText("Hours").Add();
+                   col.HeaderText("Location").Template("#location").Add();
+                   col.Field("ReserveDate").HeaderText("Reserved On").Add();
+                   col.Field("CancelDate").HeaderText("Cancelled On").Add();
+                   //col.Field("CheckoutAtDate").HeaderText("CheckOut").Add();
+
+                   //
+               }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
+                </div>
+                @*<table class="table table-borderless table-success table-striped info-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>From</th>
+                            <th>Till</th>
+                            <th>Hours</th>
+                            <th>Reserved On</th>
+                            <th>Cancelled On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("EndDate")</td>
+                                    <td>@x.GetItem("NumHours")</td>
+                                    <td>@x.GetItem("ReserveDate")</td>
+                                    <td>@x.GetItem("CancelDate")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>*@
+            }
+
+            @if (reportType == "clientsinside")
+            {
+                <div class="control-section">
+                    @Html.EJS().Grid("allreservations").DataSource((IEnumerable<object>)list).AllowResizing(true).RowDataBound("fncLoad").CommandClick("allReservationsClick").Columns(col =>
+               {
+                   col.Field("UserImage").Template("#imageURL").HeaderText("Image").Add();
+                   col.Field("ServiceName").HeaderText("Service").Add();
+                   col.Field("UserName").HeaderText("User").Add();
+                   col.Field("StartDate").HeaderText("From").Add();
+                   col.Field("EndDate").HeaderText("Till").Add();
+                   col.Field("NumHours").HeaderText("Hours").Add();
+                   col.HeaderText("Location").Template("#location").Add();
+                   col.Field("ReserveDate").HeaderText("Reserved On").Add();
+                   col.Field("CheckinAtDate").HeaderText("CheckIn").Add();
+                   //col.Field("CheckoutAtDate").HeaderText("CheckOut").Add();
+
+                   //
+               }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
+                </div>
+                @*<table class="table table-borderless table-success table-striped info-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>User</th>
+                            <th>From</th>
+                            <th>Till</th>
+                            <th>Hours</th>
+                            <th>Reserved On</th>
+                            <th>Checkin At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("EndDate")</td>
+                                    <td>@x.GetItem("NumHours")</td>
+                                    <td>@x.GetItem("ReserveDate")</td>
+                                    <td>@x.GetItem("CheckinDate")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>*@
+            }
+
+            @if (reportType == "subsended")
+            {
+                <div class="control-section">
+                    @Html.EJS().Grid("allreservations").DataSource((IEnumerable<object>)list).AllowResizing(true).RowDataBound("fncLoad").CommandClick("allReservationsClick").Columns(col =>
+               {
+                   col.Field("UserImage").Template("#imageURL").HeaderText("Image").Add();
+                   col.Field("ServiceName").HeaderText("Service").Add();
+                   col.Field("UserName").HeaderText("User").Add();
+                   col.Field("NumMonths").HeaderText("Months").Add();
+                   col.Field("StartDate").HeaderText("Started On").Add();
+                   col.Field("NumHours").HeaderText("Hours").Add();
+                   
+                   col.Field("ExpiredAt").HeaderText("Expired On").Add();
+                   col.Field("AmountPaid").HeaderText("Amount Paid").Add();
+                   col.Field("CheckoutAtDate").HeaderText("CheckOut").Add();
+
+                   
+               }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
+                </div>
+                @*<table class="table table-borderless table-success table-striped info-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Service</th>
+                            <th>Months</th>
+                            <th>Started On</th>
+                            <th>Expired On</th>
+                            <th>Amount Paid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("NumMonths")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("ExpiredAt")</td>
+                                    <td>@x.GetItem("AmountPaid")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>*@
+            }
+
+            @if (reportType == "subsending")
+            {
+                int endingIn = int.Parse(ViewData["EndingIn"].ToString());
+
+                <h2>Ending In</h2>
+                <form method="get">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+                            <input type="hidden" name="type" value="@reportType" />
+                            <select name="end_months" class="form-control">
+                                @{
+                                    for (int a = 1; a <= 12; a++)
+                                    {
+                                        @if (a != endingIn)
+                                        {
+                                            <option value="@a">@a Month(s)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@a" selected>@a Month(s)</option>
+                                        }
+
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                            <button class="btn btn-success btn-block">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="control-section">
+                    @Html.EJS().Grid("allreservations").DataSource((IEnumerable<object>)list).AllowResizing(true).RowDataBound("fncLoad").CommandClick("allReservationsClick").Columns(col =>
+               {
+                   col.Field("UserImage").Template("#imageURL").HeaderText("Image").Add();
+                   col.Field("ServiceName").HeaderText("Service").Add();
+                   col.Field("UserName").HeaderText("User").Add();
+                   col.Field("NumMonths").HeaderText("Months").Add();
+                   col.Field("StartDate").HeaderText("From").Add();
+                   col.Field("ExpiredAt").HeaderText("Expires On").Add();
+                   col.Field("AmountPaid").HeaderText("Amount Paid").Add();
+                   
+                   col.Field("EndingIn").Template("#endingIn").HeaderText("Ending In").Add();
+            
+
+                   
+               }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
+                </div>
+                @*<table class="table table-borderless table-success table-striped info-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Service</th>
+                            <th>Months</th>
+                            <th>Started On</th>
+                            <th>Expires On</th>
+                            <th>Amount Paid</th>
+                            <th>Ending In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (dynamic x in reportData)
+                            {
+                                <tr>
+                                    <td>@x.GetItem("UserName")</td>
+                                    <td>@x.GetItem("ServiceName")</td>
+                                    <td>@x.GetItem("NumMonths")</td>
+                                    <td>@x.GetItem("StartDate")</td>
+                                    <td>@x.GetItem("ExpiredAt")</td>
+                                    <td>@x.GetItem("AmountPaid")</td>
+                                    <td>@x.GetItem("EndingIn") days</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>*@
+            }
+        }
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            location.reload()
+        }, 900000)
+//900000
+    });
+    function fncLoad(e) {
+        
+        var dt = new Date(e.data.EndDate);
+        var newDt = new Date();
+        if (dt >= newDt) {
+            e.row.bgColor = "green";
+        } else {
+            e.row.bgColor = "red";
+        }
+    }
+  
+    function allReservationsClick(args) {
+        
+        var data = args.rowData;
+        if (args.commandColumn.type === "Edit") {
+
+            location.href = "/BookingService?id=" + data.Id;
+
+        }
+        if (args.commandColumn.type === "Delete") {
+            if (confirm('Are you sure you want to delete?')) {
+                local.href = "/BookingService?id=" + data.Id + "&action=delete";
+            }
+        }
+    }
+</script>
+
+<script id="location" type="text/x-template">
+    <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${Latitude},${Longitude}">
+        ${Latitude},${Longitude}
+    </a>
+</script>
+<script id="endingIn" type="text/x-template">
+    <div>
+        ${EndingIn}
+    </div>
+   
+</script>
+<script id="imageURL" type="text/x-template">
+    <div class="image">
+        <img src="${UserImage}" alt="${UserImage}" />
+    </div>
+</script>

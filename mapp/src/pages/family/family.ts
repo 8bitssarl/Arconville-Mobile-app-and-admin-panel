@@ -14,7 +14,7 @@ export class FamilyPage {
 
     private loader:any = null;
     private refresher: Refresher = null;
-    
+
     private feedType: string = 'family';
     private family: any[] = [];
     private pending: any[] = [];
@@ -166,7 +166,9 @@ export class FamilyPage {
             }
         );
     }
-
+    closeClick(){
+      this.navCtrl.pop()
+    }
     saveClick(){
         console.log("saveClick");
         this.loader = this.loadingCtrl.create({
@@ -195,6 +197,7 @@ export class FamilyPage {
                 this.uiHelper.showMessageBox("Error",JSON.stringify(err));
             }
         );
-    }
-    
+
+      }
+
 }

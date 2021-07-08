@@ -72,8 +72,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
     public showConfirmBox3(titleText,messageText,yesText,yesHandler){
         let alert = this.alertCtrl.create({
-            title: titleText,
-            message: messageText,
+            title:titleText,
+            message:messageText,
             buttons: [
                 {
                     text: yesText,

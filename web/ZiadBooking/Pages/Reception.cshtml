@@ -49,29 +49,105 @@
                 if (ViewData["User"] != null)
                 {
                     Models.User usr = (Models.User)ViewData["User"];
-                    <div class="page-heading">Personal Details</div>
-                    <div class="clearfix"></div>
-                    <table class="table table-bordered table-success table-striped info-table">
+
+
+<div class="page-heading">Personal Details</div><div class="clearfix"></div><table class="table table-bordered table-success table-striped info-table">
                         <thead>
                             <tr>
                                 <th>Profile Image</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    @if (usr.ProfilePicUrl.CompareTo("") != 0)
-                                    {
-                                        <img src="@usr.ProfilePicUrl" style="width: 60px;" />
-                                    }
-                                </td>
-                                <td>@usr.Name</td>
-                                <td>@usr.Email</td>
-                                <td>@usr.PhoneNumber</td>
-                            </tr>
+                            @if (usr.isActive)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
+                                        {
+                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
+                                        }
+                                    </td>
+                                    <td>@usr.Name</td>
+                                    <td>@usr.Email</td>
+                                    <td>@usr.PhoneNumber</td>
+
+
+
+                                    <td></td>
+
+
+
+
+
+                                </tr>
+                            }
+                            else if (!usr.isActive)
+                            {
+                                <tr style="background-color:red;font-weight:bold">
+                                    <td>
+                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
+                                        {
+                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
+                                        }
+                                    </td>
+                                    <td>@usr.Name</td>
+                                    <td>@usr.Email</td>
+                                    <td>@usr.PhoneNumber</td>
+
+                                    <td>InActive</td>
+
+
+
+
+                                </tr>
+                            }
+                            else if (!usr.isSuspended)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
+                                        {
+                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
+                                        }
+                                    </td>
+                                    <td>@usr.Name</td>
+                                    <td>@usr.Email</td>
+                                    <td>@usr.PhoneNumber</td>
+
+
+
+                                    <td></td>
+
+
+
+
+
+                                </tr>
+                            }
+                            else if (usr.isSuspended)
+                            {
+                                <tr style="background-color:red;font-weight:bold">
+                                    <td>
+                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
+                                        {
+                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
+                                        }
+                                    </td>
+                                    <td>@usr.Name</td>
+                                    <td>@usr.Email</td>
+                                    <td>@usr.PhoneNumber</td>
+
+                                    <td>Suspended</td>
+
+
+
+
+                                </tr>
+                            }
                         </tbody>
                     </table>
 
@@ -107,10 +183,7 @@
                         </tbody>
                     </table>
 
-                    <div class="page-heading">Reservations</div>
-                    <div class="clearfix"></div>
-
-                    <table class="table table-bordered table-success table-striped info-table">
+                    <div class="page-heading">Reservations &nbsp;&nbsp; <a href="/Reservation?user_id=@usr.Id">Add New Reservation</a> </div><div class="clearfix"></div><table class="table table-bordered table-success table-striped info-table">
                         <thead>
                             <tr>
                                 <th>Service</th>
@@ -120,41 +193,97 @@
                                 <th>Hours</th>
                                 <th>Reserved On</th>
                                 <th>Checkin At</th>
-                                <th colspan="2"></th>
+                                <th>Checkout At</th>
+                                <th>Edit</th>
+                                <th colspan="2">Check In/Out</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            @{
-                                foreach (var x in reservations)
+                            @{ if (reservations.Count > 0)
                                 {
-                                    <tr>
-                                        <td>@x.ServiceName</td>
-                                        <td>@x.UserName</td>
-                                        <td>@x.StartDate</td>
-                                        <td>@x.EndDate</td>
-                                        <td>@x.NumHours</td>
-                                        <td>@x.ReserveDate</td>
-                                        <td>@x.CheckinAtDate</td>
-                                        <td>
-                                            <form method="post">
-                                                <input type="hidden" value="@x.Id" name="reservation_id" />
-                                                <input type="hidden" value="checkin" name="status" />
-                                                <input type="hidden" value="@usr.Name" name="name" />
-                                                <button type="submit">CHECKIN</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form method="post">
-                                                <input type="hidden" value="@x.Id" name="reservation_id" />
-                                                <input type="hidden" value="checkout" name="status" />
-                                                <input type="hidden" value="@usr.Name" name="name" />
-                                                <button type="submit">CHECKOUT</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    foreach (var x in reservations)
+                                    {
+                                        <tr>
+                                            <td>@x.ServiceName</td>
+                                            <td>@x.UserName</td>
+                                            <td>@x.StartDate</td>
+                                            <td>@x.EndDate</td>
+                                            <td>@x.NumHours</td>
+                                            <td>@x.ReserveDate</td>
+                                            <td>@x.CheckinAtDate</td>
+                                            <td>@x.CheckoutAtDate</td>
+                                            <td><a href="/Reservation?Id=@x.Id&user_id=@x.UserId">Edit</a></td>
+                                            <td>
+                                                @if (usr.isActive)
+                                                {
+
+                                                    @if (string.IsNullOrEmpty(x.CheckinAtDate) || !string.IsNullOrEmpty(x.CheckoutAtDate))
+                                                    {
+                                                        <form method="post">
+                                                            <input type="hidden" value="@x.Id" name="reservation_id" />
+                                                            <input type="hidden" value="checkin" name="status" />
+                                                            <input type="hidden" value="@usr.Name" name="name" />
+                                                            <button type="submit">CHECKIN</button>
+                                                        </form>
+
+                                                    }
+                                                    else
+                                                    { <button disabled type="button">CHECKIN</button>}
+                                                }
+                                                else
+                                                { <button disabled type="button">CHECKIN</button>}
+
+
+                                            </td>
+                                            <td>
+                                                @if (usr.isActive)
+                                                {
+                                                    @if (!string.IsNullOrEmpty(x.CheckinAtDate) || string.IsNullOrEmpty(x.CheckoutAtDate))
+                                                    {
+                                                        <form method="post">
+                                                            <input type="hidden" value="@x.Id" name="reservation_id" />
+                                                            <input type="hidden" value="checkout" name="status" />
+                                                            <input type="hidden" value="@usr.Name" name="name" />
+                                                            <button type="submit">CHECKOUT</button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    { <button disabled type="button">CHECKOUT</button>}
+                                                }
+                                                else
+                                                { <button disabled type="button">CHECKOUT</button>}
+
+
+
+
+
+                                            </td>
+
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
+                                else
+                                {
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button disabled type="button">CHECKIN</button>
+                                <button disabled type="button">CHECKOUT</button>
+                            </td>
+                        </tr>
+                                        }
+
+                                        }
+                                </tbody>
                     </table>
 
                     <div class="page-heading">Family</div>

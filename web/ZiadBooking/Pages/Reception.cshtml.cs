@@ -127,7 +127,7 @@ namespace ZiadBooking.Pages
                 db.Open();
                 string userId = "0";
                 MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
-                comm.CommandText = "SELECT * FROM user WHERE LOWER(name)=@name";
+                comm.CommandText = "SELECT * FROM user WHERE LOWER(name) like '%"+name+"%'";
                 comm.Parameters.AddWithValue("@name", name.ToLower());
                 IDataReader reader = comm.ExecuteReader();
                 if (reader.Read())
@@ -139,6 +139,8 @@ namespace ZiadBooking.Pages
                         Email = reader["email"].ToString(),
                         PhoneNumber = reader["phone_number"].ToString(),
                         ProfilePicUrl = reader["profile_pic_url"].ToString(),
+                        isActive = Convert.ToBoolean(reader["isActive"]),
+                        isSuspended = Convert.ToBoolean(reader["isSuspended"]),
                     };
                     ViewData["User"] = usr;
                     userId = usr.Id;

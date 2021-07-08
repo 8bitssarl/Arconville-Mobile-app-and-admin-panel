@@ -12,7 +12,7 @@ import { AppGlobals } from '../../services/appglobals';
 export class ReservationPage {
 
     private loader:any = null;
-    
+
     private items: any[] = [];
     private services: any[] = [];
     private hours:any[]=[];
@@ -42,10 +42,17 @@ export class ReservationPage {
         let ts=dt.getTime();
         let day=dt.getDay(); //0 =sunday ....
         //if today is sunday
+
+        let addDays=0;
         if (day>0){
-            let addDays=(6-day)+1;
+          addDays=2;
+          //  addDays=(3-day)+1;
+            debugger;
             ts+=(1000*60*60*24*addDays);
+
             dt.setTime(ts);
+        }else{
+          addDays=3;
         }
         dt.setHours(19);
         dt.setMinutes(0);
@@ -59,11 +66,13 @@ export class ReservationPage {
         dt=new Date();
         dt.setHours(0,0,0);
         let currDate=dt.getDate();
+        console.log("currentDate"+currDate);
         let currTs=dt.getTime();
         while(true){
+          console.log("loop"+currDate)
             this.days.push({value: currDate,selected: false});
             //0=sunday
-            if (dt.getDay()==0){
+            if (addDays==0 || this.days.length==addDays){
                 break;
             }
             currTs+=(1000*60*60*24);
@@ -78,12 +87,12 @@ export class ReservationPage {
             this.seats.push({value: a});
         }
 
-        this.times.push({start:'08:00',end:'10:00',num_hours:2,reserved:false,selected:false});
-        this.times.push({start:'10:00',end:'12:00',num_hours:2,reserved:false,selected:false});
-        this.times.push({start:'12:00',end:'14:00',num_hours:2,reserved:false,selected:false});
-        this.times.push({start:'14:00',end:'16:00',num_hours:2,reserved:false,selected:false});
-        this.times.push({start:'16:00',end:'18:00',num_hours:2,reserved:false,selected:false});
-        this.times.push({start:'18:00',end:'20:00',num_hours:2,reserved:false,selected:false});
+        this.times.push({start:'08:00 duration 2 hours',num_hours:2,reserved:false,selected:false});
+        this.times.push({start:'10:00 duration 2 hours',num_hours:2,reserved:false,selected:false});
+        this.times.push({start:'12:00 duration 2 hours',num_hours:2,reserved:false,selected:false});
+        this.times.push({start:'14:00 duration 2 hours',num_hours:2,reserved:false,selected:false});
+        this.times.push({start:'16:00 duration 2 hours',num_hours:2,reserved:false,selected:false});
+        this.times.push({start:'18:00 duration 2 hours',num_hours:2,reserved:false,selected:false});
     }
 
     ionViewDidLoad(){

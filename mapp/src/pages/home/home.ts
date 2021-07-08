@@ -8,6 +8,7 @@ import { FamilyPage } from '../family/family';
 import { PackagesPage } from '../packages/packages';
 import { SettingsPage } from '../settings/settings';
 import { EditProfilePage } from '../edit-profile/edit-profile';
+import { ContactUSPage } from '../contact-us/contact-us';
 
 @Component({
     selector: 'page-home',
@@ -20,7 +21,7 @@ export class HomePage {
     public tabFamily=FamilyPage;
     //public tabProfile=SettingsPage;
     public tabProfile=EditProfilePage;
-
+public tabContactUS=ContactUSPage;
     public rootPage=PackagesPage;
 
     constructor(public menuCtrl: MenuController, public alertCtrl: AlertController, public modalCtrl: ModalController, public navCtrl: NavController,public events: Events,public loadingCtrl: LoadingController,public uiHelper: UiHelper,public server: AppServer,public globals: AppGlobals,public platform: Platform) {

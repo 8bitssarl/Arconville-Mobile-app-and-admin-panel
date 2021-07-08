@@ -33,7 +33,11 @@ namespace ZiadBooking.Models
 
     public class BookingService
     {
-        public string Id, Name, CanBookOnline,ImageUrl;
+        public string Id, Name,ImageUrl;
+        public bool CanBookOnline;
+        public bool isSuspended;
+        public string rHours;
+        public string suspentionDate;
     }
 
     public class BookingPackage

@@ -11,4 +11,10 @@ namespace ZiadBooking.Controllers
         public string msg;
         public object data;
     }
+    public class ApiResponseModel2
+    {
+     
+        public object Items;
+        public int Count;
+    }
 }

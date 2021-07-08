@@ -38,8 +38,12 @@ export class VerifyCodePage {
         if (jsonRes.status!=200){
             this.uiHelper.showMessageBox('Error',jsonRes.msg);
         }else{
-            this.globals.currentUser.phone_verified="1";
-            this.globals.setUser(this.globals.currentUser);
+            debugger;
+            
+            
+            let user=jsonRes.data;
+            this.globals.setUser(user);
+            this.globals.currentUser=user;
             this.navCtrl.setRoot(HomePage);
         }
     }
@@ -58,7 +62,7 @@ export class VerifyCodePage {
             content: "Please wait...",
         });
         this.loader.present();
-        that.server.verifyCode({user_id: this.globals.currentUser.id,code: this.loginData.code}).subscribe(
+        that.server.verifyCode(this.globals.path_sid,{phone_no:this.globals.phoneNumber,code: this.loginData.code}).subscribe(
             res=>that.loginSuccess(res),err=>that.loginFailure(err)
         );
     }

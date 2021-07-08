@@ -75,6 +75,10 @@ namespace ZiadBooking.Pages
                 }
                 string name = Request.Form["name"];
                 string can_book_online = Request.Form["can_book_online"];
+                string isSuspended = Request.Form["isSuspended"];
+                string isSubscribedOnline = Request.Form["isSubscribedOnline"];
+                string reservationHours = Request.Form["rHours"];
+                string suspentionDate = Request.Form["suspentionDate"];
                 if (can_book_online == null)
                 {
                     can_book_online = "0";
@@ -85,7 +89,7 @@ namespace ZiadBooking.Pages
                 db.Open();
                 if (id.CompareTo("0") != 0)
                 {
-                    string query = "SELECT id,image_url FROM bookingservice WHERE id=@Id";
+                    string query = "SELECT * FROM bookingservice WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
@@ -107,27 +111,40 @@ namespace ZiadBooking.Pages
                 gmd.values.Add("id", id);
                 gmd.values.Add("name",name);
                 gmd.values.Add("can_book_online", can_book_online);
+                gmd.values.Add("rHours", reservationHours);
+                gmd.values.Add("isSuspended", isSuspended);
+                gmd.values.Add("isSubscribedOnline", isSubscribedOnline);
+                gmd.values.Add("suspentionDate", suspentionDate);
                 ViewData["Service"] = gmd;
                 if (id.CompareTo("0") == 0)
                 {
-                    string query = "INSERT INTO `bookingservice`(name,can_book_online,image_url)";
-                    query += " VALUES(@Name,@CanBookOnline,@ImageUrl)";
+                    string query = "INSERT INTO `bookingservice`(name,can_book_online,image_url,rHours,isSuspended,suspentionDate,isSubscribedOnline)";
+                    query += " VALUES(@Name,@CanBookOnline,@ImageUrl,@rHours,@isSuspended,@suspentionDate,@isSubscribedOnline)";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Name",name);
                     comm.Parameters.AddWithValue("@CanBookOnline", can_book_online);
                     comm.Parameters.AddWithValue("@ImageUrl", profile_pic_url);
+                    comm.Parameters.AddWithValue("@rHours", reservationHours);
+                    comm.Parameters.AddWithValue("@isSuspended", isSuspended);
+                    comm.Parameters.AddWithValue("@susentionDate", suspentionDate);
+                    comm.Parameters.AddWithValue("@isSubscribedOnline", isSubscribedOnline);
                     comm.ExecuteNonQuery();
                 }
                 else
                 {
-                    string query = "UPDATE `bookingservice` SET name=@Name,can_book_online=@CanBookOnline,image_url=@ImageUrl WHERE id=@Id";
+                    string query = "UPDATE `bookingservice` SET name=@Name,can_book_online=@CanBookOnline,image_url=@ImageUrl,isSubscribedOnline=@isSubscribedOnline" +
+                        " ,rHours=@rHours,isSuspended=@isSuspended,suspentionDate=@suspentionDate WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id", id);
                     comm.Parameters.AddWithValue("@Name", name);
                     comm.Parameters.AddWithValue("@CanBookOnline", can_book_online);
                     comm.Parameters.AddWithValue("@ImageUrl", profile_pic_url);
+                    comm.Parameters.AddWithValue("@rHours", reservationHours);
+                    comm.Parameters.AddWithValue("@isSuspended", isSuspended);
+                    comm.Parameters.AddWithValue("@suspentionDate", suspentionDate);
+                    comm.Parameters.AddWithValue("@isSubscribedOnline", isSubscribedOnline);
                     comm.ExecuteNonQuery();
                 }
                 db.Close();

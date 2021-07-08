@@ -35,6 +35,9 @@
     <div padding class="signup-button">
         <button ion-button class="common-button primary-button" (tap)="saveClick()">{{ 'enroll' | rameezTranslator: globals.userLanguage }}</button>
     </div>
+    <div padding class="close-button">
+      <button ion-button class="common-button " (tap)="closeClick()">{{ 'Close' | rameezTranslator: globals.userLanguage }}</button>
+  </div>
     <div class="all-items-container" *ngIf="feedType=='family'">
         <div *ngFor="let st of family" class="item-single" (tap)="familyClick(st)">
             <div class="profile-pic">

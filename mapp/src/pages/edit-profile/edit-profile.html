@@ -18,18 +18,18 @@
         <ion-item class="input-field field-below-label">
             <ion-input type="text" [(ngModel)]="loginData.name" maxlength="100" placeholder=""></ion-input>
         </ion-item>
-        <!--<div class="input-label input-below">
+        <div class="input-label input-below">
             Email
         </div>
         <ion-item class="input-field field-below-label">
-            <ion-input readonly="true" type="email" [(ngModel)]="loginData.email" maxlength="255" placeholder="youremail@domain.com"></ion-input>
-        </ion-item>-->
-        <!--<div class="input-label input-below">
+            <ion-input type="email" [(ngModel)]="loginData.email" maxlength="255" placeholder="youremail@domain.com"></ion-input>
+        </ion-item>
+        <div class="input-label input-below">
             Age
         </div>
         <ion-item class="input-field field-below-label">
             <ion-input type="tel" [(ngModel)]="loginData.age" maxlength="3" placeholder="18"></ion-input>
-        </ion-item>-->
+        </ion-item>
         <div class="input-label input-below">
             {{ 'date_of_birth' | rameezTranslator: globals.userLanguage }}
         </div>

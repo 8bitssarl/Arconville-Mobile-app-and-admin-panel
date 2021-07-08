@@ -1,5 +1,6 @@
 ﻿@page
 @model ZiadBooking.Pages.BookingServiceModel
+@using Syncfusion.EJ2
 @{
     ViewData["Title"] = "Service";
 }
@@ -21,49 +22,120 @@
     }
 }
 
-        <div id="info-div">
+<div id="info-div">
 
-            @if (user != null)
-            {
-                <div class="page-heading">Edit Service</div>
-            }
-            else
-            {
-                <div class="page-heading">Add New Service</div>
-            }
-            <div class="clearfix"></div>
+    @if (user != null)
+    {
+        <div class="page-heading">Edit Service</div>
+    }
+    else
+    {
+        <div class="page-heading">Add New Service</div>
+    }
+    <div class="clearfix"></div>
 
-            <form method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Name</b>
-                        <input type="text" autocomplete="off" class="form-control" name="name" value="@(user == null ? "" : user.values["name"])" />
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <b>Image (JPG or PNG image. 600px width is recommended)</b>
-                        <input type="file" name="profile_pic" />
-                        @if (user != null && user.values.ContainsKey("image_url") && user.values["image_url"].ToString().CompareTo("") != 0)
-                        {
-                            <span>&nbsp;&nbsp;</span>
-                            <img src="@user.values["image_url"]" style="width: 60px;" />
-                        }
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <b>Can Book Online</b>
-                        <div style="margin-top: 5px;">
-                            @{
-                                string checkedStr = (user != null && user.values["can_book_online"] != null && user.values["can_book_online"].ToString() == "1") ? "checked" : "";
-                            }
-                            <input type="checkbox" value="1" name="can_book_online" @checkedStr />
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 30px;">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn btn-success btn-block" type="submit">SAVE</button>
-                    </div>
-                </div>
-            </form>
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Name</b>
+                <input type="text" autocomplete="off" class="form-control" name="name" value="@(user == null ? "" : user.values["name"])" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <b>Image (JPG or PNG image. 600px width is recommended)</b>
+                <input type="file" name="profile_pic" />
+                @if (user != null && user.values.ContainsKey("image_url") && user.values["image_url"].ToString().CompareTo("") != 0)
+                {
+                    <span>&nbsp;&nbsp;</span>
+                    <img src="@user.values["image_url"]" style="width: 60px;" />
+                }
+            </div>
         </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <b>Can Book Online</b>
+                <div style="margin-top: 5px;">
+                    @{
+                        string checkedStr = String.Empty;
+                        if (user != null)
+                        {
+                            if (user.values["can_book_online"] != null)
+                            {
+                                if (user.values["can_book_online"].ToString() == "true" || user.values["can_book_online"].ToString() == "1")
+                                {
+                                    checkedStr = "checked";
+                                }
+                            }
+
+                        }
+                    }
+                    <input type="checkbox" value="1" name="can_book_online" @checkedStr />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <b>Suspend</b>
+                <div style="margin-top: 5px;">
+                    @{
+                        string suspendStr = String.Empty;
+                        if(user != null)
+                        {
+                            if (user.values["isSuspended"] != null)
+                            {
+                                if (user.values["isSuspended"].ToString() == "true" || user.values["isSuspended"].ToString() == "1")
+                                {
+                                    suspendStr = "checked";
+                                }
+                            }
+
+                        }
+
+                    }
+                    <input type="checkbox" value="1" name="isSuspended" @suspendStr />
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <b>Can Reserve Online</b>
+                <div style="margin-top: 5px;">
+                    @{
+                        string sub = string.Empty;
+                        
+                        if (user != null)
+                        {
+                            if (user.values["isSubscribedOnline"] != null)
+                            {
+                                if (user.values["isSubscribedOnline"].ToString() == "true" || user.values["isSubscribedOnline"].ToString() == "1")
+                                {
+                                    sub = "checked";
+                                }
+                            }
+
+                        }
+                    }
+                    <input type="checkbox" value="1" name="isSubscribedOnline" @sub />
+                </div>
+            </div>
+            @*<input id="RHours" name="RHours" value="@user.values["RHours"] ==null?'':@user.values["RHours"].ToString()"/>*@
+            <div class="col-md-4">
+                <label class="col-md-12">Select Reservation Hours</label>
+                <select id="rHours" name="rHours" class="col-md-12 form-control">
+                    <option value="24">24 Hours</option>
+                    <option value="48">48 Hours</option>
+                    <option value="72">72 Hours</option>
+                    <option value="96">96 Hours</option>
+                    <option value="120">120 Hours</option>
+                    <option value="144">144 Hours</option>
+                    @*<option value="168">168 Hours</option>*@
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="col-md-12">Select Suspention Date</label>
+                @Html.EJS().DatePicker("suspentionDate").Format("yyyy-MM-dd").Render()
+            </div>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-success btn-block" type="submit">SAVE</button>
+            </div>
+        </div>
+    </form>
+</div>

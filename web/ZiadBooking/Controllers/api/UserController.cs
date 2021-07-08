@@ -9,15 +9,79 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.IO;
 using System.Net.Http.Headers;
+using Twilio;
+using Twilio.Rest.Verify.V2.Service;
+using Microsoft.Extensions.Configuration;
+using Twilio.Rest.IpMessaging.V1;
+using Twilio.Rest.Api.V2010.Account;
+
 
 namespace ZiadBooking.Controllers.api
 {
     public class UserController : ZiadBookingApiController
     {
+        private IConfiguration configuration;
+        
+        public UserController(IConfiguration iConfig)
+        {
+            configuration = iConfig;
+        }
         [HttpGet]
         public ApiResponseModel Get()
         {
-            return CreateApiResponseModel(200, "dfsdfsd", null);
+            try
+            {
+                string userId = Request.Query["user_id"];
+                if (userId == null)
+                {
+                    userId = "0";
+                }
+                DatabaseHelper db = new DatabaseHelper();
+                db.Open();
+                //string userId = Request.Query["user_id"];
+                //string query = $"select *from User where user_id={userId}";
+                //System.Data.IDbCommand comm = db.Connection.CreateCommand();
+                //comm.CommandText = query;
+                Models.User usr = Models.User.GetById(userId, db.Connection);
+                db.Close();
+                if (usr != null)
+                {
+                    
+                }
+                return CreateApiResponseModel(200, "",usr);
+            }
+            catch (Exception ex)
+            {
+                return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                
+              
+                DatabaseHelper db = new DatabaseHelper();
+                db.Open();
+                //string userId = Request.Query["user_id"];
+                //string query = $"select *from User where user_id={userId}";
+                //System.Data.IDbCommand comm = db.Connection.CreateCommand();
+                //comm.CommandText = query;
+                var usr = Models.User.GetAllUsers(db.Connection);
+                db.Close();
+                if (usr != null)
+                {
+
+                }
+                return Ok(usr);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpPut]
@@ -82,7 +146,7 @@ namespace ZiadBooking.Controllers.api
 
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
-                Models.User user = Models.User.GetByEmail(email, db.Connection);
+                Models.User user = Models.User.GetById(id, db.Connection);
                 if (user == null)
                 {
                     db.Close();
@@ -160,37 +224,146 @@ namespace ZiadBooking.Controllers.api
                 return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
             }
         }
-
-        [HttpPost]
-        [Route("verifycode")]
-        public ApiResponseModel VerifyCode()
+        [HttpGet]
+        [Route("sendcode")]
+        public ApiResponseModel SendCode()
         {
-            string userId = Request.Form["user_id"];
-            string code = Request.Form["code"];
+            string phone_no = Request.Query["phone_no"];
+            //string code = Request.Form["code"];
             try
             {
+                Random rnd = new Random();
+                String r = rnd.Next(0, 100000).ToString("D6");
+                if (string.IsNullOrEmpty(phone_no))
+                    throw new Exception("Please enter a valid phone number");
+                    if(!phone_no.Contains("+"))
+                    throw new Exception("Please enter your country code with + sign");
+              
+             
+
+                
+
+                var verification = VerificationResource.Create(
+                    to: phone_no,
+                    channel: "sms",
+                    pathServiceSid: "VA2add2b274338c996c389bdb6260fee1f"
+                );
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
 
                 string phoneNumber = "";
 
                 MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
-                comm.CommandText = "SELECT * FROM user WHERE id=@userId";
-                comm.Parameters.AddWithValue("@userId", userId);
+                comm.CommandText = "SELECT * FROM user WHERE phone_number='" + phone_no + "'";
                 IDataReader reader = comm.ExecuteReader();
                 if (reader.Read())
                 {
-                    phoneNumber = reader["phone_number"].ToString();
+                    if (reader["phone_number"] != null )
+                    {
+                        
+                        if (reader["phone_verified"] == null)
+                        {
+                            reader.Close();
+                            comm.CommandText = @"update user set phone_verified=0 where phone_number='"+phone_no+"'";
+                            comm.ExecuteNonQuery();
+                        }
+                        if ( Convert.ToInt32(reader["phone_verified"]) == 0)
+                        {
+                            reader.Close();
+                            comm.CommandText = @"update user set phone_verified=0 where phone_number='" + phone_no + "'";
+                            comm.ExecuteNonQuery();
+                        }
+
+                    }
+                    else
+                    {
+                        reader.Close();
+                        comm.CommandText = "insert into user(phone_number)  values(1)";
+                        comm.ExecuteNonQuery();
+                    }
+
+
+                }
+                else
+                {
+                    reader.Close();
+                    comm.CommandText = "insert into user(phone_number) values('"+phone_no+"')";
+                    comm.ExecuteNonQuery();
                 }
                 reader.Close();
 
-                User usr = new User();
-                usr.Id = userId;
-                usr.PhoneVerified = "1";
-                usr.PhoneNumber = phoneNumber;
-                usr.UpdatePhoneDetails(db.Connection);
+                //User usr = new User();
+                //usr.Id = userId;
+                ////usr.PhoneVerified = "1";
+                //usr.PhoneNumber = phoneNumber;
+                //usr.UpdatePhoneDetails(db.Connection);
                 db.Close();
-                return CreateApiResponseModel(200, "", null);
+                return CreateApiResponseModel(200, "", verification.Sid);
+            }
+            catch (Exception ex)
+            {
+                return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
+            }
+        }
+        [HttpPost]
+        [Route("verifycode")]
+        public ApiResponseModel VerifyCode()
+        {
+            string phone_no = Request.Form["phone_no"];
+            string pathSid = Request.Form["path_sid"];
+            string code = Request.Form["code"];
+            try
+            {
+                var verification = VerificationResource.Update(
+                    pathServiceSid:  configuration.GetValue<string>("TWILIO_PATH_SERVICE_SID"),
+                    pathSid: pathSid,
+                    status:VerificationResource.StatusEnum.Approved
+                    );
+                if (verification.Status != "approved")
+                {
+                    return CreateApiResponseModel(500, "Code is incorrect.", null);
+                }
+              DatabaseHelper db = new DatabaseHelper();
+                db.Open();
+
+                string phoneNumber = "";
+             User usr = new User();
+                MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
+                comm.CommandText = "SELECT * FROM user WHERE phone_number='"+phone_no+"'";
+                
+                IDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    if (reader["phone_number"] != null)
+                    {
+
+                        
+                       var Id  =reader["id"].ToString();
+                        reader.Close();
+                        usr = Models.User.GetById(Id, db.Connection);
+                        
+                        
+                        if (usr.PhoneNumber != null)
+                        {
+                            reader.Close();
+                            comm.CommandText = @"update user set phone_verified=1 where phone_number='" + phone_no + "'";
+                            comm.ExecuteNonQuery();
+                        }
+                      
+
+                    }
+                }
+                else
+                {
+                    reader.Close();
+                    db.Close();
+                    return CreateApiResponseModel(500,  "Phone Number is not correct",null);
+                }
+                reader.Close();
+
+                
+                db.Close();
+                return CreateApiResponseModel(200, "", usr);
             }
             catch (Exception ex)
             {
@@ -318,6 +491,7 @@ namespace ZiadBooking.Controllers.api
         [Route("addtofamily")]
         public ApiResponseModel AddToFamily()
         {
+            string Id = Request.Query["user_id"];
             string userId = Request.Form["user_id"]; //this user is adding userId2 as a family
             string phone = Request.Form["phone"]; //this user is being added as a family by userId1
             string name = Request.Form["name"]; //name of the user that is being added as a family by userId1
@@ -547,6 +721,33 @@ namespace ZiadBooking.Controllers.api
                 }
             }
             catch(Exception ex)
+            {
+                return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
+            }
+        }
+
+        [HttpGet]
+        [Route("Suspention")]
+        public ApiResponseModel Suspention()
+        {
+            try
+            {
+                string id = Request.Query["id"];
+                bool isActive =Convert.ToBoolean( Request.Query["isActive"]);
+                bool isSuspended = Convert.ToBoolean( Request.Query["isSuspended"]);
+
+
+                DatabaseHelper db = new DatabaseHelper();
+                db.Open();
+                string query = $"update User set isActive={isActive}, isSuspended={isSuspended} where Id={id}";
+                System.Data.IDbCommand comm = db.Connection.CreateCommand();
+                comm.CommandText = query;
+                comm.ExecuteNonQuery();
+                db.Close();
+
+                return CreateApiResponseModel(200, "User Suspended Successfully", null);
+            }
+            catch (Exception ex)
             {
                 return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
             }

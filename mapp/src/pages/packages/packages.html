@@ -60,7 +60,9 @@
                 </div>
                 <div class="item-location">
                     <ion-icon name="pin"></ion-icon>
-                    {{st.location_text}}
+                    <button ion-button class="hyperlink-button" (tap)="urlClick(st)">{{ 'Click here' | rameezTranslator: globals.userLanguage }}</button>
+                 
+                    <!-- {{st.location_text}} -->
                 </div>
                 <div class="item-time">
                     ${{st.amount}}

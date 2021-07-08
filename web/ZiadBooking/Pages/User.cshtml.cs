@@ -16,7 +16,7 @@ namespace ZiadBooking.Pages
         private void GenerateDataModel(string userId,DatabaseHelper db)
         {
             List<Models.GenericModel> family = new List<Models.GenericModel>();
-            string query = "SELECT u.name,u.profile_pic_url,u.phone_number,'0' AS is_pending,f.relation FROM family f,user u WHERE u.id=f.child_id AND f.user_id=@user_id ORDER BY u.name";
+            string query = "SELECT u.name,u.profile_pic_url,u.identification_image,u.phone_number,'0' AS is_pending,f.relation FROM family f,user u WHERE u.id=f.child_id AND f.user_id=@user_id ORDER BY u.name";
             MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
             comm.CommandText = query;
             comm.Parameters.AddWithValue("@user_id", userId);
@@ -28,7 +28,7 @@ namespace ZiadBooking.Pages
                 family.Add(gm);
             }
             reader.Close();
-            query = "SELECT f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending,f.relation FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
+            query = "SELECT f.id as id, f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending,f.relation FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
             comm = (MySqlCommand)db.Connection.CreateCommand();
             comm.CommandText = query;
             comm.Parameters.AddWithValue("@user_id", userId);
@@ -78,6 +78,7 @@ namespace ZiadBooking.Pages
         public void OnPost()
         {
             Models.SessionHelper.RedirectIfNotLoggedIn(HttpContext);
+            
             try
             {
                 string id = "0";
@@ -95,8 +96,10 @@ namespace ZiadBooking.Pages
                 string date_of_birth = Request.Form["date_of_birth"];
                 string[] vals = date_of_birth.Split("-");
                 string age = vals[0].Trim();
-                string profile_pic_url = GetProfilePicImageUrl();
-                profile_pic_url=profile_pic_url.Replace('\\', '/');
+                string profile_pic_url = Request.Form["profile_pic_url"];
+                string identification_image = GetProfilePicImageUrl();
+                profile_pic_url =profile_pic_url==null?null: profile_pic_url.Replace('\\', '/');
+                identification_image = identification_image==null?null:identification_image.Replace('\\', '/');
 
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
@@ -132,6 +135,7 @@ namespace ZiadBooking.Pages
                 user.Age = age;
                 user.DateOfBirth = date_of_birth;
                 user.ProfilePicUrl = profile_pic_url;
+                user.identification_image = identification_image;
                 user.RegisterDt = Models.Helper.GetDatabaseDateTime(DateTime.Now);
                 ViewData["User"] = user;
                 if (id.CompareTo("0") == 0)
@@ -146,7 +150,8 @@ namespace ZiadBooking.Pages
                     }
                     if (user.ProfilePicUrl=="")
                         user.ProfilePicUrl = editUser.ProfilePicUrl;
-                    string query = "UPDATE `user` SET name=@Name,email=@Email,password=@Password,profile_pic_url=@ProfilePicUrl,can_add_member=@CanAddMember,phone_number=@PhoneNumber,phone_verified=@PhoneVerified,age=@Age,date_of_birth=@DateOfBirth WHERE id=@Id";
+                    string query = "UPDATE `user` SET name=@Name,email=@Email,password=@Password,profile_pic_url=@ProfilePicUrl,identification_image=@identification_image, " +
+                        "can_add_member=@CanAddMember,phone_number=@PhoneNumber,phone_verified=@PhoneVerified,age=@Age,date_of_birth=@DateOfBirth WHERE id=@Id";
                     MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@Id",id);
@@ -159,6 +164,7 @@ namespace ZiadBooking.Pages
                     comm.Parameters.AddWithValue("@CanAddMember", user.CanAddMember);
                     comm.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
                     comm.Parameters.AddWithValue("@PhoneVerified", user.PhoneVerified);
+                    comm.Parameters.AddWithValue("@identification_image", user.identification_image);
                     comm.ExecuteNonQuery();
                 }
                 db.Close();

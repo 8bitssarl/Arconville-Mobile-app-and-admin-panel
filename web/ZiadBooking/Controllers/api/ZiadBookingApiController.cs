@@ -20,5 +20,9 @@ namespace ZiadBooking.Controllers.api
                 data = data
             };
         }
+        protected object CreateApiResponseModel(object data)
+        {
+            return data;
+        }
     }
 }

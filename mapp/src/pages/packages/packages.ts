@@ -91,7 +91,9 @@ export class PackagesPage {
             //this.navCtrl.push(PackageDetailPage,{package: st});
         }
     }
-
+urlClick(st){
+    location.href="https://www.google.com/maps/search/?api=1&query="+st.latitude+"%2C"+st.longitude
+}
     subClick(st){
         console.log("subClick");
         this.saveClick(st);

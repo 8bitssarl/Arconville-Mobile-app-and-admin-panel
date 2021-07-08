@@ -17,7 +17,9 @@ import { UiHelper } from "./uihelper";
     public packageServices:any[]=[];
 
     public userLanguage:string='fr';
-    
+    public path_sid:string='';
+    public phoneNumber:string='';
+
     constructor(public server: AppServer,public uiHelper: UiHelper,public platform: Platform){
     }
 

@@ -1,13 +1,16 @@
 ﻿@page
 @model ZiadBooking.Pages.ManagementUsersModel
+@using Syncfusion.EJ2
 @{
     ViewData["Title"] = "Management Users";
 }
 
-@{
-    List<Models.Admin> users = (List<Models.Admin>)ViewData["Users"];
-}
 
+@{ 
+    List<Models.Admin> users = (List<Models.Admin>)ViewData["Users"];
+    List<object> commands = new List<object>();
+    commands.Add(new { type = "Edit", buttonOption = new { iconCss = "e-icons e-edit", cssClass = "e-flat" } });
+    commands.Add(new { type = "Delete", buttonOption = new { iconCss = "e-icons e-delete", cssClass = "e-flat" } });
 <div id="info-div">
     <div class="page-heading">
         Management Users
@@ -17,31 +20,72 @@
     </div>
     <div class="clearfix"></div>
 
-    <table class="table table-borderless table-success table-striped info-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email/Username</th>
-                <th>UserType</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var u in users)
-                {
-                    <tr>
-                        <td>@u.Name</td>
-                        <td>@u.Email</td>
-                        <td>@u.UserType.ToUpper()</td>
-                        <td>
-                            <a href="/ManagementUser?id=@u.Id"><i class="fa fa-edit"></i></a>
-                            &nbsp;&nbsp;
-                            <a href="/ManagementUser?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
+    <div class="control-section">
+        @Html.EJS().Grid("Search").DataSource((IEnumerable<object>)users).CommandClick("cmdClick").Columns(col =>
+   {
+       //col.Field("ImageUrl").Template("#imageURL").HeaderText("Image").Add();
+       col.Field("Name").HeaderText("Name").Add();
+       col.Field("Email").HeaderText("Email").Add();
+       col.Field("UserType").Template("#userType").HeaderText("UserType").Add();
+
+
+       col.Field("Actions").Commands(commands).Add();
+   }).AllowPaging().PageSettings(page => page.PageCount(2)).Toolbar(new List<string>() { "Search" }).Render()
+    </div>
+    @*<table class="table table-borderless table-success table-striped info-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email/Username</th>
+                    <th>UserType</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var u in users)
+                    {
+                        <tr>
+                            
+                            <td>@u.Name</td>
+                            <td>@u.Email</td>
+                            <td>@u.UserType.ToUpper()</td>
+                            <td>
+                                <a href="/ManagementUser?id=@u.Id"><i class="fa fa-edit"></i></a>
+                                &nbsp;&nbsp;
+                                <a href="/ManagementUser?id=@(u.Id)&action=delete" onclick="return confirm('Are you sure you want to delete?');" style="color:#FF0000;"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>*@
 </div>
+<script id="imageURL" type="text/x-template">
+    <div class="image">
+        <img src="${ImageUrl}" alt="${ImageUrl}" />
+    </div>
+</script>
+
+<script id="userType" type="text/x-template">
+    <div style="text-transform:uppercase">
+        ${UserType}
+    </div>
+</script>
+<script type="text/javascript">
+    function cmdClick(args) {
+        var data = args.rowData;
+        if (args.commandColumn.type === "Edit") {
+
+            location.href = "/ManagementUser?id=" + data.Id;
+
+        }
+        if (args.commandColumn.type === "Delete") {
+            if (confirm('Are you sure you want to delete?')) {
+                local.href = "/ManagementUser?id=" + data.Id + "&action=delete";
+            }
+        }
+    }
+
+</script>
+    }

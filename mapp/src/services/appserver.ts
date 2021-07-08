@@ -13,11 +13,11 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AppServer {
-    
-    //public BASE_URL="https://localhost:44322/api/";
-    public BASE_URL="http://eightbitssarl-001-site1.atempurl.com/api/";
+
+     public BASE_URL="https://localhost:44322/api/";
+    // public BASE_URL="http://eightbitssarl-001-site1.atempurl.com/api/";
     //public BASE_URL="http://ziadabboud-001-site1.itempurl.com/api/";
-    
+
     constructor (private http: Http) {}
 
     getImageSaveUrl(){
@@ -53,7 +53,30 @@ export class AppServer {
         let url=this.BASE_URL+"user/login";
         return this.http.post(url, bodyString, options);
     }
+    getUserDetails(loginData) {
+    	console.log("geteditProfile");
+        // let bodyString = "user_id="+encodeURI(loginData.user_id);
 
+        // console.log(bodyString);
+        let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        let options = new RequestOptions({ headers: headers });
+        let url=this.BASE_URL+"user/";
+        url+="?user_id="+encodeURI(loginData.id);
+        return this.http.get(url, options);
+    }
+    sendCode(phoneNumber) {
+    	console.log("sendVerification Code");
+        // let bodyString = "user_id="+encodeURI(loginData.user_id);
+
+        // console.log(bodyString);
+        let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        let options = new RequestOptions({ headers: headers });
+        let url=this.BASE_URL+"user/sendcode";
+        
+        var res=encodeURIComponent(phoneNumber);
+         url+="?phone_no="+res;
+        return this.http.get(url, options);
+    }
     verifyPhone(loginData) {
     	console.log("verifyPhone");
         let bodyString = "user_id="+encodeURI(loginData.user_id);
@@ -65,10 +88,11 @@ export class AppServer {
         return this.http.post(url, bodyString, options);
     }
 
-    verifyCode(loginData) {
+    verifyCode(path_sid,loginData) {
     	console.log("verifyCode");
-        let bodyString = "user_id="+encodeURI(loginData.user_id);
+        let bodyString = "path_sid="+encodeURI(path_sid);
         bodyString+="&code="+encodeURI(loginData.code);
+        bodyString+="&phone_no="+encodeURIComponent(loginData.phone_no);
         console.log(bodyString);
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         let options = new RequestOptions({ headers: headers });

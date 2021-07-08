@@ -83,6 +83,15 @@ namespace ZiadBooking.Models
             {
                 if (tp.CompareTo("reception") == 0)
                 {
+                    
+                    return true;
+
+                }
+            }
+            if (ut.CompareTo("trainer") == 0)
+            {
+                if (tp.CompareTo("Trainer") == 0 || tp.CompareTo("trainer")==0)
+                {
                     return true;
                 }
             }
@@ -90,7 +99,10 @@ namespace ZiadBooking.Models
             {
                 return true;
             }
-
+            else if (ut.CompareTo("Client Management") == 0 && tp=="users")
+            {
+                return true;
+            }
             return false;
         }
     }
