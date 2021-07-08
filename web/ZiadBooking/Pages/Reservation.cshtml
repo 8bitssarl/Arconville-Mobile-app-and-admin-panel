@@ -1,0 +1,88 @@
+﻿@page
+@model ZiadBooking.Pages.ReservationModel
+@using Syncfusion.EJ2
+@{
+    ViewData["Title"] = "Resevation";
+}
+
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+
+@{
+    Models.GenericModel user = null;
+    List<object> packages = new List<object>();
+    List<object> days = new List<object>();
+    List<object> hours = new List<object>();
+
+    //user = (Models.GenericModel)ViewData["Reservations"];
+    packages = (List<object>)ViewData["packages"];
+
+    days = (List<object>) ViewData["days"];
+    hours = (List<object>)ViewData["hours"];
+    }
+}
+
+<div id="info-div">
+
+    @if (user != null)
+    {
+        <div class="page-heading">Edit Reservation</div>
+    }
+    else
+    {
+        <div class="page-heading">Add New Reservation</div>
+    }
+    <div class="clearfix"></div>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-4">
+                <label class="col-md-12">Select Package</label>
+                <div class="col-md-12">
+
+                    @Html.EJS().DropDownList("package").DataSource((IEnumerable<object>)packages).Fields(new Syncfusion.EJ2.DropDowns.DropDownListFieldSettings { Value = "Key",Text="Value" }).AllowFiltering(true).Render()
+                </div>
+
+
+            </div>
+           
+          
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-4">
+                <label class="col-md-12"> Select Date </label>
+                <div class="col-md-12">
+                    @Html.EJS().DropDownList("date").DataSource((IEnumerable<object>)days).Fields(new Syncfusion.EJ2.DropDowns.DropDownListFieldSettings { Value = "Key", Text = "Value" }).AllowFiltering(true).Render()
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-4">
+                <label class="col-md-12"> Select Time </label>
+                <div class="col-md-12">
+                    @Html.EJS().DropDownList("time").DataSource((IEnumerable<object>)hours).Fields(new Syncfusion.EJ2.DropDowns.DropDownListFieldSettings { Value = "Key", Text = "Value" }).AllowFiltering(true).Render()
+                </div>
+
+
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-4">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</div>
