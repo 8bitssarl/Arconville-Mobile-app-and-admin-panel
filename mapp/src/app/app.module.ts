@@ -31,8 +31,21 @@ import { SettingsPage } from '../pages/settings/settings';
 import { PackageDetailPage } from '../pages/package-detail/package-detail';
 import { ReservationDetailPage } from '../pages/reservation-detail/reservation-detail';
 import { FamilyDetailPage } from '../pages/family-detail/family-detail';
-import { RameezTranslatorPipe } from '../pipes/rameez-translator/rameez-translator';
+
 import {ContactUSPage} from '../pages/contact-us/contact-us';
+
+
+// importing @ngx-translate/core (13.9k)
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+
 @NgModule({
     declarations: [
         MyApp,
@@ -53,12 +66,19 @@ import {ContactUSPage} from '../pages/contact-us/contact-us';
         FamilyDetailPage,
         SettingsPage,
         EditProfilePage,
-        RameezTranslatorPipe,
     ],
     imports: [
         BrowserModule,
         HttpModule,
-        IonicModule.forRoot(MyApp)
+        IonicModule.forRoot(MyApp),
+        HttpClientModule,
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+        }
+      }) // adding it to the imports, this is neccesary for loading in every component and pages of the app.
     ],
     bootstrap: [IonicApp],
     entryComponents: [

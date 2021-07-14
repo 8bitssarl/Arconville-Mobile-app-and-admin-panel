@@ -1,7 +1,7 @@
 <ion-header class="blue-header">
     <ion-navbar>
         <ion-title>
-            {{ 'reservation' | rameezTranslator: globals.userLanguage }}
+            {{ 'reservation' | translate }}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -20,22 +20,22 @@
         </div>
     </ion-scroll>
     <div padding class="dates-container">
-        <div class="pick-heading">{{ 'pick_date' | rameezTranslator: globals.userLanguage }}</div>
+        <div class="pick-heading">{{ 'pick_date' | translate }}</div>
         <div class="single-day" [ngClass]="{'selected':d.selected}" *ngFor="let d of days" (click)="dayClick(d)">
             {{d.value}}
         </div>
     </div>
     <div padding class="times-container">
-        <div class="pick-heading">{{ 'pick_time' | rameezTranslator: globals.userLanguage }}*</div>
+        <div class="pick-heading">{{ 'pick_time' | translate }}*</div>
         <div class="single-time" [ngClass]="{'selected':d.selected}" *ngFor="let d of times" (click)="timeClick(d)">
             <div class="time-text">
                 {{d.start}}
             </div>
             <div *ngIf="d.reserved" class="time-reserved">
-                {{ 'reserved' | rameezTranslator: globals.userLanguage }}
+                {{ 'reserved' | translate }}
             </div>
             <div *ngIf="!d.reserved" class="time-free">
-                {{ 'free' | rameezTranslator: globals.userLanguage }}
+                {{ 'free' | translate }}
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
     <ion-row padding class="buttons-container">
         <ion-col>
             <div>
-                <button ion-button class="common-button primary-button" (tap)="saveClick()">{{ 'reserve' | rameezTranslator: globals.userLanguage }}</button>
+                <button ion-button class="common-button primary-button" (tap)="saveClick()">{{ 'reserve' | translate }}</button>
             </div>
         </ion-col>
         <!--<ion-col>

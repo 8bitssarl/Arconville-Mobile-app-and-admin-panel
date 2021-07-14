@@ -8,32 +8,32 @@
     </div>
     <div class="signup-input-container">
         <div class="signup-with-text">
-            {{ 'login_with' | rameezTranslator: globals.userLanguage }}
+            {{ 'login_with' | translate }}
         </div>
         <div class="google-button">
             <img src="assets/imgs/google_round.png" (tap)="googleLoginClick()" />
         </div>
         <div class="or-text">
-            {{ 'or' | rameezTranslator: globals.userLanguage }}
+            {{ 'or' | translate }}
         </div>
         <div class="input-label">
-            {{ 'email' | rameezTranslator: globals.userLanguage }}
+            {{ 'email' | translate }}
         </div>
         <ion-item class="input-field field-below-label" no-lines>
             <ion-input type="email" maxlength="255" [(ngModel)]="loginData.email" placeholder=""></ion-input>
         </ion-item>
         <div class="input-label input-below">
-            {{ 'password' | rameezTranslator: globals.userLanguage }}
+            {{ 'password' | translate }}
         </div>
         <ion-item class="input-field field-below-label" no-lines>
             <ion-input type="password" maxlength="16" [(ngModel)]="loginData.password" placeholder="********"></ion-input>
         </ion-item>
     </div>
     <div class="login-button">
-        <button ion-button class="common-button primary-button" (tap)="loginClick()">{{ 'login' | rameezTranslator: globals.userLanguage }}</button>
+        <button ion-button class="common-button primary-button" (tap)="loginClick()">{{ 'login' | translate }}</button>
     </div>
     <div class="no-account-text">
-        {{ 'dont_have_an_account' | rameezTranslator: globals.userLanguage }} ?&nbsp;<span class="signup-text" (tap)="signupClick()">{{ 'signup' | rameezTranslator: globals.userLanguage }}</span>
+        {{ 'dont_have_an_account' | translate }} ?&nbsp;<span class="signup-text" (tap)="signupClick()">{{ 'signup' | translate }}</span>
     </div>
     <div class="person-bottom">
         <img src="assets/imgs/player.png" />

@@ -8,19 +8,19 @@
     </div>
     <div class="signup-input-container">
         <div class="input-label">
-            {{ 'name' | rameezTranslator: globals.userLanguage }}
+            {{ 'name' | translate }}
         </div>
         <ion-item class="input-field field-below-label" no-lines>
             <ion-input type="text" [(ngModel)]="loginData.name" maxlength="100" placeholder=""></ion-input>
         </ion-item>
         <div class="input-label input-below">
-            {{ 'email' | rameezTranslator: globals.userLanguage }}
+            {{ 'email' | translate }}
         </div>
         <ion-item class="input-field field-below-label" no-lines>
             <ion-input type="email" [(ngModel)]="loginData.email" maxlength="255" placeholder=""></ion-input>
         </ion-item>
         <div class="input-label input-below">
-            {{ 'password' | rameezTranslator: globals.userLanguage }}
+            {{ 'password' | translate }}
         </div>
         <ion-item class="input-field field-below-label" no-lines>
             <ion-input type="password" [(ngModel)]="loginData.password" maxlength="16" placeholder="********"></ion-input>
@@ -32,7 +32,7 @@
             <ion-input type="tel" [(ngModel)]="loginData.age" maxlength="3" placeholder="18"></ion-input>
         </ion-item>-->
         <div class="input-label input-below">
-            {{ 'date_of_birth' | rameezTranslator: globals.userLanguage }}
+            {{ 'date_of_birth' | translate }}
         </div>
         <ion-row class="field-below-label">
             <ion-col col-4>
@@ -58,7 +58,7 @@
             </ion-col>
         </ion-row>
         <div class="input-label input-below">
-            {{ 'gender' | rameezTranslator: globals.userLanguage }}
+            {{ 'gender' | translate }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-select [(ngModel)]="loginData.gender">
@@ -67,7 +67,7 @@
         </ion-item>
     </div>
     <div class="option-button">
-        <button ion-button class="common-button primary-button" (tap)="signupClick()">{{ 'signup' | rameezTranslator: globals.userLanguage }}</button>
+        <button ion-button class="common-button primary-button" (tap)="signupClick()">{{ 'signup' | translate }}</button>
     </div>
     <div class="person-bottom">
         <img src="assets/imgs/player.png" />

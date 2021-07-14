@@ -19,11 +19,11 @@ export class SplashPage {
 
     constructor(public zone: NgZone, public platform: Platform, public navCtrl: NavController,public events: Events,public globals: AppGlobals,public geolocation: Geolocation,public server: AppServer,public uiHelper: UiHelper) {
         //this.globals.setUser(null);
-        this.globals.currentUser=this.globals.getUser();
-        this.showGetStartedButton=this.globals.currentUser==null;
+      this.globals.currentUser=this.globals.getUser();
+      this.showGetStartedButton = this.globals.currentUser == null;
     }
 
-    ionViewDidLoad(){
+    ionViewDidLoad() {
         let that=this;
         that.doLocationThing();
         that.hasCalendarReadWritePermissions();
@@ -86,7 +86,7 @@ export class SplashPage {
                                 that.events.publish('location_permission_denied');
                             });
                         }
-                        
+
                     }else{
                         that.doLocationThing();
                     }

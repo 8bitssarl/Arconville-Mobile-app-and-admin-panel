@@ -1,7 +1,7 @@
 <ion-header class="blue-header">
     <ion-navbar>
         <ion-title>
-            {{ 'my_reservations' | rameezTranslator: globals.userLanguage }}
+            {{ 'my_reservations' | translate }}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -12,15 +12,15 @@
         </button>
     </ion-fab>-->
     <div class="bottom-button">
-        <button ion-button class="common-button primary-button" (tap)="addReservationClick()">{{ 'reserve' | rameezTranslator: globals.userLanguage }}</button>
+        <button ion-button class="common-button primary-button" (tap)="addReservationClick()">{{ 'reserve' | translate }}</button>
     </div>
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">
-                {{ 'upcoming' | rameezTranslator: globals.userLanguage }}
+                {{ 'upcoming' | translate }}
             </ion-segment-button>
             <ion-segment-button value="previous">
-                {{ 'previous' | rameezTranslator: globals.userLanguage }}
+                {{ 'previous' | translate }}
             </ion-segment-button>
         </ion-segment>
     </div>

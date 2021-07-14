@@ -18,23 +18,23 @@
         <ion-list class="menu-list">
             <button ion-item (click)="openPage(tabFeed)">
                 <ion-icon name="md-alarm"></ion-icon>
-                &nbsp;{{ 'reservations' | rameezTranslator: globals.userLanguage }}
+                &nbsp;{{ 'reservations' | translate }}
             </button>
             <button ion-item (click)="openPage(tabFamily)">
                 <ion-icon name="ios-people"></ion-icon>
-                &nbsp;{{ 'family' | rameezTranslator: globals.userLanguage }}
+                &nbsp;{{ 'family' | translate }}
             </button>
             <button ion-item (click)="openPage(tabProfile)">
                 <ion-icon name="md-person"></ion-icon>
-                &nbsp;{{ 'profile' | rameezTranslator: globals.userLanguage }}
+                &nbsp;{{ 'profile' | translate }}
             </button>
             <button ion-item (click)="openPage(tabContactUS)">
               <ion-icon name="md-person"></ion-icon>
-              &nbsp;{{ 'Contact US' | rameezTranslator: globals.userLanguage }}
+              &nbsp;{{ 'Contact US' | translate }}
           </button>
             <button ion-item class="logout" (click)="logoutClick()">
                 <ion-icon name="md-log-out"></ion-icon>
-                &nbsp;{{ 'logout' | rameezTranslator: globals.userLanguage }}
+                &nbsp;{{ 'logout' | translate }}
             </button>
       </ion-list>
     </ion-content>

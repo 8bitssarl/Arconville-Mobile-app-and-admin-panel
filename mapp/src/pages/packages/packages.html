@@ -4,7 +4,7 @@
             <ion-icon name='menu'></ion-icon>
         </button>
         <ion-title>
-            {{ 'my_subscription' | rameezTranslator: globals.userLanguage }}
+            {{ 'my_subscription' | translate }}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -20,10 +20,10 @@
     <div class="after-header-drop">
         <ion-segment [(ngModel)]="feedType" color="orange" (ionChange)="feedTypeChanged($event)">
             <ion-segment-button value="upcoming">
-                {{ 'packages' | rameezTranslator: globals.userLanguage }}
+                {{ 'packages' | translate }}
             </ion-segment-button>
             <ion-segment-button value="previous">
-                {{ 'on_going' | rameezTranslator: globals.userLanguage }}
+                {{ 'on_going' | translate }}
             </ion-segment-button>
         </ion-segment>
     </div>
@@ -60,8 +60,8 @@
                 </div>
                 <div class="item-location">
                     <ion-icon name="pin"></ion-icon>
-                    <button ion-button class="hyperlink-button" (tap)="urlClick(st)">{{ 'Click here' | rameezTranslator: globals.userLanguage }}</button>
-                 
+                    <button ion-button class="hyperlink-button" (tap)="urlClick(st)">{{ 'Click here' | translate }}</button>
+
                     <!-- {{st.location_text}} -->
                 </div>
                 <div class="item-time">
@@ -73,10 +73,10 @@
                 </div>
             </div>
             <div class="item-sub-button" *ngIf="feedType=='upcoming' && st.has_sub_request">
-                <button ion-button class="common-button primary-button unsub-button" (tap)="unsubClick(st)">{{ 'unsubscribe' | rameezTranslator: globals.userLanguage }}</button>
+                <button ion-button class="common-button primary-button unsub-button" (tap)="unsubClick(st)">{{ 'unsubscribe' | translate }}</button>
             </div>
             <div class="item-sub-button" *ngIf="feedType=='upcoming' && !st.has_sub_request">
-                <button ion-button class="common-button primary-button" (tap)="subClick(st)">{{ 'subscribe' | rameezTranslator: globals.userLanguage }}</button>
+                <button ion-button class="common-button primary-button" (tap)="subClick(st)">{{ 'subscribe' | translate }}</button>
             </div>
             <!--<div class="forward-icon" *ngIf="feedType!='previous'">
                 <ion-icon name="ios-arrow-forward"></ion-icon>

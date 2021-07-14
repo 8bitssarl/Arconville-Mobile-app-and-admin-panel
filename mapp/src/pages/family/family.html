@@ -1,7 +1,7 @@
 <ion-header class="blue-header">
     <ion-navbar>
         <ion-title>
-            {{ 'family_members' | rameezTranslator: globals.userLanguage }}
+            {{ 'family_members' | translate }}
         </ion-title>
         <ion-buttons end>
         </ion-buttons>
@@ -12,13 +12,13 @@
     </div>
     <div padding class="input-fields-container">
         <div class="input-label">
-            {{ 'title' | rameezTranslator: globals.userLanguage }}
+            {{ 'title' | translate }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-input type="text" [(ngModel)]="name" maxlength="50" placeholder=""></ion-input>
         </ion-item>
         <div class="input-label input-below">
-            {{ 'relation' | rameezTranslator: globals.userLanguage }}
+            {{ 'relation' | translate }}
         </div>
         <ion-item class="input-field field-below-label relation-item">
             <ion-select [(ngModel)]="relation">
@@ -26,17 +26,17 @@
             </ion-select>
         </ion-item>
         <div class="input-label input-below">
-            {{ 'phone_number' | rameezTranslator: globals.userLanguage }}
+            {{ 'phone_number' | translate }}
         </div>
         <ion-item class="input-field field-below-label">
             <ion-input type="tel" [(ngModel)]="phoneNumber" maxlength="20" placeholder="018xxxxx"></ion-input>
         </ion-item>
     </div>
     <div padding class="signup-button">
-        <button ion-button class="common-button primary-button" (tap)="saveClick()">{{ 'enroll' | rameezTranslator: globals.userLanguage }}</button>
+        <button ion-button class="common-button primary-button" (tap)="saveClick()">{{ 'enroll' | translate }}</button>
     </div>
     <div padding class="close-button">
-      <button ion-button class="common-button " (tap)="closeClick()">{{ 'Close' | rameezTranslator: globals.userLanguage }}</button>
+      <button ion-button class="common-button " (tap)="closeClick()">{{ 'Close' | translate }}</button>
   </div>
     <div class="all-items-container" *ngIf="feedType=='family'">
         <div *ngFor="let st of family" class="item-single" (tap)="familyClick(st)">
@@ -50,10 +50,10 @@
             </div>
             <div class="clearfix"></div>
             <div class="status-box approved" *ngIf="st.is_pending=='0'">
-                {{ 'approved' | rameezTranslator: globals.userLanguage }}
+                {{ 'approved' | translate }}
             </div>
             <div class="status-box pending" *ngIf="st.is_pending=='1'">
-                {{ 'pending' | rameezTranslator: globals.userLanguage }}
+                {{ 'pending' | translate }}
             </div>
         </div>
     </div>
