@@ -17,23 +17,26 @@ export class SplashPage {
 
     private showGetStartedButton:boolean = false;
 
-    constructor(public zone: NgZone, public platform: Platform, public navCtrl: NavController,public events: Events,public globals: AppGlobals,public geolocation: Geolocation,public server: AppServer,public uiHelper: UiHelper) {
-        //this.globals.setUser(null);
+    constructor(public zone: NgZone, public platform: Platform, public navCtrl: NavController,public events: Events, public globals: AppGlobals, public geolocation: Geolocation,public server: AppServer,public uiHelper: UiHelper) {
+
+      console.log(this.globals);
+
+      //this.globals.setUser(null);
       this.globals.currentUser=this.globals.getUser();
       this.showGetStartedButton = this.globals.currentUser == null;
     }
 
     ionViewDidLoad() {
-        let that=this;
-        that.doLocationThing();
-        that.hasCalendarReadWritePermissions();
-        if (!this.showGetStartedButton){
-            /*setTimeout(function(){
-                that.moveForward();
-            },2000);*/
-            //load packages
-            this.getStores();
-        }
+      this.doLocationThing();
+      this.hasCalendarReadWritePermissions();
+
+      if (!this.showGetStartedButton) {
+        /*setTimeout(function(){
+            that.moveForward();
+        },2000);*/
+        //load packages
+        this.getStores();
+      }
     }
 
     moveForward(){
@@ -60,42 +63,47 @@ export class SplashPage {
         that.events.publish('location_changed');
     }
 
-    doLocationThing(){
-        let that=this;
-        setTimeout(function(){
-            try{
-                (<any>window).navigator.geolocation.getCurrentPosition(function(data){
-                    console.log("Location: "+data.coords.latitude+","+data.coords.longitude);
-                    that.locationChanged(data);
-                },function(error){
-                    console.error("Error getting location: "+JSON.stringify(error));
-                    //permission denied
-                    if (error.code==1){
-                        if (that.platform.is('android')){
-                            let ddl=that.uiHelper.showConfirmBox3("",that.globals.appName+this.globals.getTranslatedText(" is unable to work without location services"),"Ok",()=>{
-                            });
-                            ddl.onDidDismiss(()=>{
-                                that.globals.cannotDetectLocation=true;
-                                that.events.publish('location_permission_denied');
-                            });
-                        }else{
-                            let ddl=that.uiHelper.showConfirmBox3("",that.globals.appName+this.globals.getTranslatedText(" requires location access to function"),"Ok",()=>{
-                            });
-                            ddl.onDidDismiss(()=>{
-                                that.globals.cannotDetectLocation=true;
-                                that.events.publish('location_permission_denied');
-                            });
-                        }
+    doLocationThing() {
+      let that = this;
 
-                    }else{
-                        that.doLocationThing();
+      const isAndroid = this.platform.is("android");
+
+      const { uiHelper, globals, events } = this;
+
+      setTimeout(() => {
+          try{
+              (<any>window).navigator.geolocation.getCurrentPosition((data) => {
+                console.log("Location: " + data.coords.latitude + "," + data.coords.longitude);
+
+                that.locationChanged(data);
+              },function(error){
+                  console.error("Error getting location: "+ JSON.stringify(error));
+                  //permission denied
+                  if (error.code==1) {
+                    if (isAndroid) {
+                      let ddl= uiHelper.showConfirmBox3("", globals.appName + globals.getTranslatedText(" is unable to work without location services"),"Ok",() => {});
+
+                      ddl.onDidDismiss(() => {
+                        globals.cannotDetectLocation = true;
+                        events.publish('location_permission_denied');
+                      });
+                    } else {
+                      let ddl=uiHelper.showConfirmBox3("", globals.appName + globals.getTranslatedText(" requires location access to function"),"Ok",() => {
+                      });
+                      ddl.onDidDismiss(()=>{
+                        globals.cannotDetectLocation = true;
+                        events.publish('location_permission_denied');
+                      });
                     }
-                },{ timeout: 10000, enableHighAccuracy: true });
-            }catch(e){
-                console.log("Error: "+e.message);
-                that.uiHelper.showMessageBox("","Exception doLocationThing: "+e.message);
-            }
-        },1500);
+                  }else {
+                    that.doLocationThing();
+                  }
+              }, { timeout: 10000, enableHighAccuracy: true });
+          } catch(e) {
+            console.log("Error: "+ e.message);
+            uiHelper.showMessageBox("","Exception doLocationThing: "+e.message);
+          }
+      },1500);
     }
 
     //again, this is no longer needed with plugin version 4.5.0 and up
