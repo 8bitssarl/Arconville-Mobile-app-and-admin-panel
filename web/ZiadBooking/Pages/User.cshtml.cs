@@ -28,18 +28,18 @@ namespace ZiadBooking.Pages
                 family.Add(gm);
             }
             reader.Close();
-            query = "SELECT f.id as id, f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending,f.relation FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
-            comm = (MySqlCommand)db.Connection.CreateCommand();
-            comm.CommandText = query;
-            comm.Parameters.AddWithValue("@user_id", userId);
-            reader = comm.ExecuteReader();
-            while (reader.Read())
-            {
-                Models.GenericModel gm = new Models.GenericModel();
-                gm.CreateFromReader(reader);
-                family.Add(gm);
-            }
-            reader.Close();
+            //query = "SELECT distinct f.id as id, f.name,'' AS profile_pic_url,f.phone_number,'1' AS is_pending,f.relation FROM familyrequest f WHERE f.user_id=@user_id ORDER BY f.name";
+            //comm = (MySqlCommand)db.Connection.CreateCommand();
+            //comm.CommandText = query;
+            //comm.Parameters.AddWithValue("@user_id", userId);
+            //reader = comm.ExecuteReader();
+            //while (reader.Read())
+            //{
+            //    Models.GenericModel gm = new Models.GenericModel();
+            //    gm.CreateFromReader(reader);
+            //    family.Add(gm);
+            //}
+            //reader.Close();
             db.Close();
             ViewData["Family"] = family;
         }

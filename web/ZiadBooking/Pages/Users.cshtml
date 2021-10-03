@@ -72,7 +72,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="control-section">
-                @Html.EJS().Grid("Search").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.isActive.Equals(true) && u.subscription > 0).ToList()).CommandClick("cmdClick").Columns(col =>
+                @Html.EJS().Grid("Search").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.isSuspended.Equals(false) && u.subscription > 0).ToList()).CommandClick("cmdClick").Columns(col =>
            {
                col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
                col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();
@@ -97,7 +97,7 @@
 
             <div class="clearfix"></div>
             <div class="control-section">
-                @Html.EJS().Grid("InActiveUsersTable").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.isActive.Equals(false) && u.subscription > 0).ToList()).CommandClick("cmdClick").Columns(col =>
+                @Html.EJS().Grid("InActiveUsersTable").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.isSuspended.Equals(true)).ToList()).CommandClick("cmdClick").Columns(col =>
            {
                col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
                col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();
@@ -120,7 +120,7 @@
 
             <div class="clearfix"></div>
             <div class="control-section">
-                @Html.EJS().Grid("NewUsersTable").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.subscription == 0).ToList()).CommandClick("cmdClick").Columns(col =>
+                @Html.EJS().Grid("NewUsersTable").DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").DataSource((IEnumerable<object>)users.Where(u => u.subscription == 0 && u.isSuspended==false).ToList()).CommandClick("cmdClick").Columns(col =>
            {
                col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
                col.Field("identification_image").Template("#idImage").HeaderText("Identification Image").Add();

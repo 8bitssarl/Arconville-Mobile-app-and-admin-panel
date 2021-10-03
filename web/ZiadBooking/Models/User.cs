@@ -222,7 +222,9 @@ namespace ZiadBooking.Models
         {
             try
             {
-                string query = "SELECT (select Count(s.user_id) from subscriptionrequest s where s.user_id=u.Id) as subscription, u.* FROM `user` u ORDER BY name";
+                string query = @"SELECT (select Count(s.user_id) from usersubscription s where s.user_id=u.Id 
+       and Now() < DATE_ADD(Date(From_UnixTime(s.start_ts)), INTERVAL s.num_months Month)
+       ) as subscription, u.* FROM `user` u ORDER BY name";
                 MySqlCommand comm = (MySqlCommand)conn.CreateCommand();
                 comm.CommandText = query;
                 IDataReader reader = comm.ExecuteReader();

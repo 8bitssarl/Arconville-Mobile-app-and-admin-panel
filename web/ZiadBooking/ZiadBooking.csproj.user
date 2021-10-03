@@ -13,7 +13,11 @@
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <_SelectedScaffolderID>ModelBasedRazorPageScaffolder</_SelectedScaffolderID>
     <_SelectedScaffolderCategoryPath>root/Common/RazorPage</_SelectedScaffolderCategoryPath>
-    <NameOfLastUsedPublishProfile>D:\Projects\Ziad Ionic App\Arconville-Mobile-app-and-admin-panel\web\ZiadBooking\Properties\PublishProfiles\FolderProfile2.pubxml</NameOfLastUsedPublishProfile>
-    <ShowAllFiles>true</ShowAllFiles>
+    <NameOfLastUsedPublishProfile>D:\Projects\Ziad\Arconville-Mobile-app-and-admin-panel\web\ZiadBooking\Properties\PublishProfiles\FolderProfile3.pubxml</NameOfLastUsedPublishProfile>
+    <ShowAllFiles>false</ShowAllFiles>
+    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using System.Linq;
 
 namespace ZiadBooking.Pages
 {
@@ -127,11 +128,15 @@ namespace ZiadBooking.Pages
                 db.Open();
                 string userId = "0";
                 MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
-                comm.CommandText = "SELECT * FROM user WHERE LOWER(name) like '%"+name+"%'";
+                comm.CommandText = $"SELECT (select Count(s.user_id) from usersubscription s where s.user_id=u.Id "+
+       $" and Now() < DATE_ADD(Date(From_UnixTime(s.start_ts)), INTERVAL s.num_months Month) "+
+      $" ) as subscription, u.* FROM `user` u where LOWER(name) like '%{name}%' or email like '%{name}%'  ORDER BY name ";
                 comm.Parameters.AddWithValue("@name", name.ToLower());
                 IDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                List<Models.User> usrList = new List<Models.User>();
+                while (reader.Read())
                 {
+
                     Models.User usr = new Models.User()
                     {
                         Id = reader["id"].ToString(),
@@ -139,56 +144,93 @@ namespace ZiadBooking.Pages
                         Email = reader["email"].ToString(),
                         PhoneNumber = reader["phone_number"].ToString(),
                         ProfilePicUrl = reader["profile_pic_url"].ToString(),
-                        isActive = Convert.ToBoolean(reader["isActive"]),
+                        subscription= Convert.ToInt32( reader["subscription"].ToString()),
                         isSuspended = Convert.ToBoolean(reader["isSuspended"]),
                     };
-                    ViewData["User"] = usr;
-                    userId = usr.Id;
-                }
-                else
-                {
-                    reader.Close();
-                    //ViewData["Message"] = "User not found with the name "+name;
-                    comm = (MySqlCommand)db.Connection.CreateCommand();
-                    comm.CommandText = "SELECT * FROM user WHERE LOWER(email)=@name";
-                    comm.Parameters.AddWithValue("@name", name.ToLower());
-                    reader = comm.ExecuteReader();
-                    if (reader.Read())
+                    if(usr.subscription>0 && usr.isSuspended == false)
                     {
-                        Models.User usr = new Models.User()
-                        {
-                            Id = reader["id"].ToString(),
-                            Name = reader["name"].ToString(),
-                            Email = reader["email"].ToString(),
-                            PhoneNumber = reader["phone_number"].ToString(),
-                            ProfilePicUrl = reader["profile_pic_url"].ToString(),
-                        };
-                        ViewData["User"] = usr;
-                        userId = usr.Id;
-                    }
-                    else
+                        usr.isActive = true;
+
+                    }else if (usr.isSuspended == true)
                     {
-                        ViewData["Message"] = "User not found with the name or email: " + name;
+                        usr.isActive = false;
+                    }else
+                        if (usr.subscription == 0)
+                    {
+                       usr.isActive= false;
                     }
+                    usrList.Add(usr);
+              
+                    
                 }
+                ViewData["Users"] = usrList;
+                
+                //else
+                //{
+                //    reader.Close();
+                //    //ViewData["Message"] = "User not found with the name "+name;
+                //    comm = (MySqlCommand)db.Connection.CreateCommand();
+                //    comm.CommandText = "SELECT * FROM user WHERE LOWER(email)=@name";
+                //    comm.Parameters.AddWithValue("@name", name.ToLower());
+                //    reader = comm.ExecuteReader();
+                //    if (reader.Read())
+                //    {
+                //        Models.User usr = new Models.User()
+                //        {
+                //            Id = reader["id"].ToString(),
+                //            Name = reader["name"].ToString(),
+                //            Email = reader["email"].ToString(),
+                //            PhoneNumber = reader["phone_number"].ToString(),
+                //            ProfilePicUrl = reader["profile_pic_url"].ToString(),
+                //        };
+                //        ViewData["User"] = usr;
+                //        userId = usr.Id;
+                //    }
+                //    else
+                //    {
+                //        ViewData["Message"] = "User not found with the name or email: " + name;
+                //    }
+                //}
                 reader.Close();
+                userId = usrList.FirstOrDefault().Id;
                 if (userId.CompareTo("0") != 0)
                 {
-                    if (Request.Form["status"].Count>0)
+                    var statusRequest = Request.Form["status"];
+                    if (!string.IsNullOrEmpty(statusRequest))
                     {
                         string status = Request.Form["status"];
+                        
                         string reservationId = Request.Form["reservation_id"];
                         comm = (MySqlCommand)db.Connection.CreateCommand();
                         string nowTs = Models.Helper.UnixTimestampFromDateTime(DateTime.Now).ToString();
                         if (status.CompareTo("checkin") == 0)
                         {
-                            comm.CommandText = "UPDATE reservation SET checkin_at="+nowTs+" WHERE id=" + reservationId;
+                            if (!string.IsNullOrEmpty(reservationId))
+                            {
+
+                            }
+
+                            string q1 = $"UPDATE reservation SET checkin_at= '{nowTs}' WHERE Date(From_UnixTime(reserve_ts)) = Date(From_UnixTime('{nowTs}')) and user_id={userId} and checkout_at is null";
+                                
+                          
+                            comm.CommandText = q1;
+
+                            int count = comm.ExecuteNonQuery();
+                            if (count == 0)
+                            {
+                                comm.CommandText = $"INSERT INTO `reservation`(`user_id`, `service_id`,  `reserve_ts`, `start_ts`, `checkin_at`,`num_hours`) VALUES ({userId},0,'{nowTs}','{nowTs}','{nowTs}',2)";
+                                comm.ExecuteNonQuery();
+                            }
                         }
                         else if (status.CompareTo("checkout") == 0)
                         {
-                            comm.CommandText = "UPDATE reservation SET checkout_at="+nowTs+" WHERE id=" + reservationId;
+                            
+                          string q2   = $"UPDATE reservation SET checkout_at= '{nowTs}' WHERE Date(From_UnixTime(reserve_ts)) <= Date(From_UnixTime('{nowTs}')) and user_id={userId} and checkout_at is null";
+                            
+                            comm.CommandText = q2;
+                            int count=  comm.ExecuteNonQuery();
                         }
-                        comm.ExecuteNonQuery();
+                        
                     }
                     GenerateDataModel(userId, db);
                 }

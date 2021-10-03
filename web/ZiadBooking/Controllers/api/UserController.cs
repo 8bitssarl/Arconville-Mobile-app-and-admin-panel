@@ -492,7 +492,9 @@ namespace ZiadBooking.Controllers.api
         public ApiResponseModel AddToFamily()
         {
             string Id = Request.Query["user_id"];
-            string userId = Request.Form["user_id"]; //this user is adding userId2 as a family
+            string userId = Request.Form["user_id"];
+            string childId = Request.Form["child_id"];
+            //this user is adding userId2 as a family
             string phone = Request.Form["phone"]; //this user is being added as a family by userId1
             string name = Request.Form["name"]; //name of the user that is being added as a family by userId1
             string relation = Request.Form["relation"]; //relation of the user that is being added as a family
@@ -505,7 +507,7 @@ namespace ZiadBooking.Controllers.api
                 DatabaseHelper db = new DatabaseHelper();
                 db.Open();
                 //check if there is already a pending request for this phone number by this userid
-                string query = "SELECT * FROM `user` WHERE phone_number=@phone";
+                string query = "SELECT * FROM `familyrequest` WHERE phone_number=@phone";
                 MySqlCommand comm = (MySqlCommand)db.Connection.CreateCommand();
                 comm.CommandText = query;
                 comm.Parameters.AddWithValue("@phone", phone);
@@ -522,18 +524,18 @@ namespace ZiadBooking.Controllers.api
                     return CreateApiResponseModel(403, "Request already pending", null);
                 }
                 //check if user with phone exists
-                query = "SELECT * FROM `user` WHERE phone_number=@phone";
-                comm = (MySqlCommand)db.Connection.CreateCommand();
-                comm.CommandText = query;
-                comm.Parameters.AddWithValue("@phone", phone);
-                reader = comm.ExecuteReader();
+                //query = "SELECT * FROM `user` WHERE phone_number=@phone";
+                //comm = (MySqlCommand)db.Connection.CreateCommand();
+                //comm.CommandText = query;
+                //comm.Parameters.AddWithValue("@phone", phone);
+                //reader = comm.ExecuteReader();
                 bool canInsertRequest = true;
                 bool isAlreadFamily = false;
-                string childId = "0";
-                if (reader.Read())
-                {
-                    childId = reader["id"].ToString();
-                }
+                
+                //if (reader.Read())
+                //{
+                //    //childId = reader["id"].ToString();
+                //}
                 reader.Close();
                 //check if user is already a family
                 if (childId.CompareTo("0") != 0)
@@ -559,7 +561,8 @@ namespace ZiadBooking.Controllers.api
                 {
                     //insert into family request and send sms to this user
                     query = "INSERT INTO familyrequest(user_id,phone_number,name,relation,request_ts)";
-                    query += " VALUES(@user_id,@phone_number,@name,@relation,@request_ts)";
+                    query += " VALUES(@user_id,@phone_number,@name,@relation,@request_ts);";
+                   query  += $" Insert into Family (user_id,child_id,relation) values(@user_id,{childId},@relation)";
                     comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@user_id", userId);
@@ -567,7 +570,7 @@ namespace ZiadBooking.Controllers.api
                     comm.Parameters.AddWithValue("@name", name);
                     comm.Parameters.AddWithValue("@relation", relation);
                     comm.Parameters.AddWithValue("@request_ts", Models.Helper.UnixTimestampFromDateTime(DateTime.Now));
-                    comm.ExecuteNonQuery();
+                    comm.ExecuteScalar();
                 }
                 db.Close();
                 return CreateApiResponseModel(200, "", null);
@@ -752,5 +755,61 @@ namespace ZiadBooking.Controllers.api
                 return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
             }
         }
+
+        [HttpPost]
+        [Route("ReservationTiming")]
+        public ApiResponseModel ReservationTiming()
+        {
+            var model = new ReservationTiming();
+            var chk = Request.Form["chk[]"];
+            var sService = Request.Form["sService"];
+            var rDate = Request.Form["rDate"];
+            var user_id = Request.Form["user_id"];
+
+           model.chk= Array.ConvertAll(chk.ToArray(), int.Parse);
+            model.rDate = rDate;
+            model.sService = Convert.ToInt32( sService);
+            model.user_id = Convert.ToInt32(user_id);
+            int count = 0;
+            try
+            {
+                string reserveTs = Helper.UnixTimestampFromDateTime(Convert.ToDateTime(rDate)).ToString();
+                DatabaseHelper db = new DatabaseHelper();
+                db.Open();
+                foreach (var item in model.chk)
+                {
+                    string query = $"INSERT INTO `selected_reservationtiming` (`fk_reservationtimeId`, `fk_reservationId`,`fk_userId`,`created_dt`,`reserve_ts`) " +
+$" SELECT '{item}', '{model.sService}','{model.user_id}','{DateTime.Now}','{reserveTs}' FROM DUAL " +
+$" WHERE NOT EXISTS (SELECT * FROM `selected_reservationtiming` " +
+$"      WHERE `fk_reservationtimeId` IN({item}) and `fk_reservationId` IN({model.sService}) and `reserve_ts` IN ('{reserveTs}'));";
+
+                    
+                    //query=    "SELECT us.*,bs.name AS service_name FROM usersubscription us,bookingservice bs WHERE bs.id=us.service_id AND us.user_id=" + userId;
+                    //query += " UNION SELECT us.*,bs.title AS service_name FROM usersubscription us,package bs WHERE bs.id=us.package_id AND us.user_id=" + userId + " ORDER BY start_ts DESC";
+                    IDbCommand comm = db.Connection.CreateCommand();
+                    comm.CommandText = query;
+                  int result =  comm.ExecuteNonQuery();
+                    count =count+ result;
+                    comm.Dispose();
+                    
+                }
+                string query1 = $"INSERT INTO `reservation`( `user_id`, `service_id`, `num_hours`,  `reserve_ts`) " +
+                    $" VALUES ({user_id},{sService},{chk.Count},'{reserveTs}')";
+                IDbCommand comm1 = db.Connection.CreateCommand();
+                comm1.CommandText = query1;
+                comm1.ExecuteNonQuery();
+                    
+                comm1.Dispose();
+                db.Close();
+
+                return CreateApiResponseModel(200,"Save Successfully", null);
+                
+            }
+            catch (Exception ex)
+            {
+                return CreateApiResponseModel(500, "Exception: " + ex.Message, null);
+            }
+        }
+      
     }
 }

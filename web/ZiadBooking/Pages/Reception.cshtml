@@ -1,5 +1,7 @@
 ﻿@page
 @model ZiadBooking.Pages.ReceptionModel
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Inputs
 @{
     ViewData["Title"] = "Reception";
     string userName = "";
@@ -8,6 +10,7 @@
         userName = (string)ViewData["UserName"];
     }
 }
+<link href="~/css/Reception.css" rel="stylesheet" />
 
 @{
     if (ViewData["Message"] != null)
@@ -34,284 +37,268 @@
     {
         family = new List<Models.GenericModel>();
     }
+
 }
+<style>
+    .addDefaultColor{
+        background-color:#fafafa !important;
 
-        <div id="info-div">
+    }
+</style>
 
-            <div class="page-heading">Search User</div>
+<div id="info-div">
+    <div class=".lding" style="display:none">
+        <img src="/images/Loading.gif" />
+    </div>
+    <div id="dialog"></div>
+    <form method="post" style="width:80%;margin:auto">
+        <div class="page-heading">Search User</div>
+        <div class="clearfix"></div>
+        <input type="text" id="searchField" autocomplete="off" class="form-control" name="name" value="@userName" placeholder="Full name or email of user" />
+        @*@Html.EJS().TextBox("searchField").Placeholder("Search").CssClass("e-filled").FloatLabelType(FloatLabelType.Auto).Render()*@
+        <button class="btn btn-success btn-block"  style="margin-top: 15px;">Search</button>
+    </form>
+
+    @{
+        if (ViewData["Users"] != null)
+        {
+            List<Models.User> usr = (List<Models.User>)ViewData["Users"];
             <div class="clearfix"></div>
-            <form method="post">
-                <input type="text" autocomplete="off" class="form-control" name="name" value="@userName" placeholder="Full name or email of user" />
-                <button class="btn btn-success btn-block" style="margin-top: 15px;">Search</button>
-            </form>
+            <div class="control-section" style="width: 80%; margin: auto; padding-top: 2em;">
+                @Html.EJS().Grid("UserGrid").DataSource(usr.ToList()).DetailTemplate("#detailtemplate").DetailDataBound("detailDataBound").RecordDoubleClick("AddEditReservation").Columns(col =>
+                     {
+                         col.Field("isActive").DisplayAsCheckBox(true).HeaderText("Status").Add();
+                         col.Field("ProfilePicUrl").Template("#imageURL").HeaderText("User Image").Add();
 
-            @{
-                if (ViewData["User"] != null)
-                {
-                    Models.User usr = (Models.User)ViewData["User"];
-
-
-<div class="page-heading">Personal Details</div><div class="clearfix"></div><table class="table table-bordered table-success table-striped info-table">
-                        <thead>
-                            <tr>
-                                <th>Profile Image</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (usr.isActive)
-                            {
-                                <tr>
-                                    <td>
-                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
-                                        {
-                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
-                                        }
-                                    </td>
-                                    <td>@usr.Name</td>
-                                    <td>@usr.Email</td>
-                                    <td>@usr.PhoneNumber</td>
+                         col.Field("Name").HeaderText("Name").Add();
+                         col.Field("Email").HeaderText("Email").Add();
+                         col.Field("PhoneNumber").HeaderText("Phone").Add();
 
 
 
-                                    <td></td>
+                     }).AllowPaging().PageSettings(page => page.PageCount(2)).Render()
 
+            </div>
+     
+        }
+    }
+</div>
+<script id="imageURL" type="text/x-template">
+    <div class="image">
+        <img src="${ProfilePicUrl}" alt="${ProfilePicUrl}" />
+    </div>
+</script>
+<script>
+    var count = 0;
+    var user = "";
 
-
-
-
-                                </tr>
-                            }
-                            else if (!usr.isActive)
-                            {
-                                <tr style="background-color:red;font-weight:bold">
-                                    <td>
-                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
-                                        {
-                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
-                                        }
-                                    </td>
-                                    <td>@usr.Name</td>
-                                    <td>@usr.Email</td>
-                                    <td>@usr.PhoneNumber</td>
-
-                                    <td>InActive</td>
-
-
-
-
-                                </tr>
-                            }
-                            else if (!usr.isSuspended)
-                            {
-                                <tr>
-                                    <td>
-                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
-                                        {
-                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
-                                        }
-                                    </td>
-                                    <td>@usr.Name</td>
-                                    <td>@usr.Email</td>
-                                    <td>@usr.PhoneNumber</td>
-
-
-
-                                    <td></td>
-
-
-
-
-
-                                </tr>
-                            }
-                            else if (usr.isSuspended)
-                            {
-                                <tr style="background-color:red;font-weight:bold">
-                                    <td>
-                                        @if (usr.ProfilePicUrl.CompareTo("") != 0)
-                                        {
-                                            <img src="@usr.ProfilePicUrl" style="width: 60px;" />
-                                        }
-                                    </td>
-                                    <td>@usr.Name</td>
-                                    <td>@usr.Email</td>
-                                    <td>@usr.PhoneNumber</td>
-
-                                    <td>Suspended</td>
-
-
-
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                    <div class="page-heading">Subscriptions</div>
-                    <div class="clearfix"></div>
-
-                    <table class="table table-bordered table-success table-striped info-table">
-                        <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th>Start (YYYY-MM-DD)</th>
-                                <th>Months</th>
-                                <th>Expires At</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                foreach (var x in subscriptions)
-                                {
-                                    string color = "#00FF00";
-                                    if (x.ExpiredAt.Contains("EXPIRED"))
-                                    {
-                                        color = "#FF0000";
-                                    }
-                                    <tr>
-                                        <td>@x.ServiceName</td>
-                                        <td>@x.StartDate</td>
-                                        <td>@x.NumMonths</td>
-                                        <td><span style="color:@(color);font-weight: 600;">@(x.ExpiredAt)</span></td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-
-                    <div class="page-heading">Reservations &nbsp;&nbsp; <a href="/Reservation?user_id=@usr.Id">Add New Reservation</a> </div><div class="clearfix"></div><table class="table table-bordered table-success table-striped info-table">
-                        <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th>User</th>
-                                <th>From</th>
-                                <th>Till</th>
-                                <th>Hours</th>
-                                <th>Reserved On</th>
-                                <th>Checkin At</th>
-                                <th>Checkout At</th>
-                                <th>Edit</th>
-                                <th colspan="2">Check In/Out</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{ if (reservations.Count > 0)
-                                {
-                                    foreach (var x in reservations)
-                                    {
-                                        <tr>
-                                            <td>@x.ServiceName</td>
-                                            <td>@x.UserName</td>
-                                            <td>@x.StartDate</td>
-                                            <td>@x.EndDate</td>
-                                            <td>@x.NumHours</td>
-                                            <td>@x.ReserveDate</td>
-                                            <td>@x.CheckinAtDate</td>
-                                            <td>@x.CheckoutAtDate</td>
-                                            <td><a href="/Reservation?Id=@x.Id&user_id=@x.UserId">Edit</a></td>
-                                            <td>
-                                                @if (usr.isActive)
-                                                {
-
-                                                    @if (string.IsNullOrEmpty(x.CheckinAtDate) || !string.IsNullOrEmpty(x.CheckoutAtDate))
-                                                    {
-                                                        <form method="post">
-                                                            <input type="hidden" value="@x.Id" name="reservation_id" />
-                                                            <input type="hidden" value="checkin" name="status" />
-                                                            <input type="hidden" value="@usr.Name" name="name" />
-                                                            <button type="submit">CHECKIN</button>
-                                                        </form>
-
-                                                    }
-                                                    else
-                                                    { <button disabled type="button">CHECKIN</button>}
-                                                }
-                                                else
-                                                { <button disabled type="button">CHECKIN</button>}
-
-
-                                            </td>
-                                            <td>
-                                                @if (usr.isActive)
-                                                {
-                                                    @if (!string.IsNullOrEmpty(x.CheckinAtDate) || string.IsNullOrEmpty(x.CheckoutAtDate))
-                                                    {
-                                                        <form method="post">
-                                                            <input type="hidden" value="@x.Id" name="reservation_id" />
-                                                            <input type="hidden" value="checkout" name="status" />
-                                                            <input type="hidden" value="@usr.Name" name="name" />
-                                                            <button type="submit">CHECKOUT</button>
-                                                        </form>
-                                                    }
-                                                    else
-                                                    { <button disabled type="button">CHECKOUT</button>}
-                                                }
-                                                else
-                                                { <button disabled type="button">CHECKOUT</button>}
-
-
-
-
-
-                                            </td>
-
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <button disabled type="button">CHECKIN</button>
-                                <button disabled type="button">CHECKOUT</button>
-                            </td>
-                        </tr>
-                                        }
-
-                                        }
-                                </tbody>
-                    </table>
-
-                    <div class="page-heading">Family</div>
-                    <div class="clearfix"></div>
-
-                    <table class="table table-bordered table-success table-striped info-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Relation</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                foreach (var x in family)
-                                {
-                                    <tr>
-                                        <td>@x.values["name"].ToString()</td>
-                                        <td>@x.values["email"].ToString()</td>
-                                        <td>@x.values["phone_number"].ToString()</td>
-                                        <td>@x.values["relation"].ToString().ToUpper()</td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                }
+    function detailDataBound(args) {
+        var pageUrl = '/newMoreDetails?user_id=' + args.data.Id;
+        
+        //$("#moreDetails").load(pageUrl)
+        $.ajax({
+            url: pageUrl,
+            beforeSend: function () {
+                $(".moreDetails_" + args.data.Id).html('<img src="/images/Loading.gif" />');
             }
-        </div>
+        }).done(function (result) {
+            $(".moreDetails_" + args.data.Id).html('');
+
+            $(".moreDetails_" + args.data.Id).html(result);
+
+        });
+    }
+    function AddEditReservation(Id) {
+        $(".lding").show()
+        var demo;
+        var dlgContent;
+        var dropDownListObj = new ej.dropdowns.DropDownList({
+            // bind the DataManager instance to dataSource property
+            dataSource: new ej.data.DataManager({
+                url: '/api/reservation/UserSelectedPackages?user_id='+Id,
+                adaptor: new ej.data.WebApiAdaptor(),
+                crossDomain: true
+            }),
+            // bind the Query instance to query property
+            /*query: new ej.data.Query().select(['data.services']),*/
+            
+            // map the appropriate columns to fields property
+            fields: { text: 'service_name', value: 'service_id' },
+            // sort the resulted items
+            sortOrder: 'Ascending',
+            // set the placeholder to DropDownList input element
+            placeholder: 'Select Service',
+            // set the height of the popup element
+            popupHeight: '200px'
+        });
+        
+        var datepicker = new ej.calendars.DatePicker({
+            format: 'yyyy-MM-dd',
+
+            change: function (args) {
+                //$('.chk:checkbox:checked').prop("checked",false);
+                $('input:checkbox').removeAttr('checked');
+                $('input:checkbox').removeAttr('disabled');
+                $('.e-btn').addClass("addDefaultColor")
+                
+                var user_id = $("#user_id").val();
+                var sService = $("#sService_hidden").val();
+                var rDate = $("#rDate").val();
+                if (user_id && rDate && sService) {
+                    
+                    var data = { "user_id": user_id, "sService": sService, "rDate": rDate }
+                    $.ajax({
+                        url: '/api/Reservation/UserReservations',
+                        type: 'POST',
+                        data: data,
+                        success: function (result) {
+                            debugger;
+                            var data = result.map(x => x.values);
+                            for (var i = 0; i < data.length; i++) {
+                                var d = data[i];
+                                if (d.fk_reservationId === parseInt( sService)) {
+                                    if (d.fk_userId == user_id) {
+                                        $('.e-btn').removeClass("addDefaultColor")
+                                        $("#dt_" + d.fk_reservationtimeId).prop("checked", true);
+                                        $("#dt_" + d.fk_reservationtimeId).prop("disabled", "disabled");
+                                    } else {
+                                        $('.e-btn').removeClass("addDefaultColor")
+                                        $("#dt_" + d.fk_reservationtimeId).prop("disabled", "disabled");
+                                    }
+                                }
+                              
+                            }
+                        }, error: function (errorMessage) {
+
+                        }
+
+                    })
+                }
+
+            }
+        });
+        
+        $.ajax({
+            url: '/newEditReservation?user_id=' + Id,
+            Type: 'GET',
+            success: function (result) {
+                dlgContent = result;
+                $(".lding").hide()
+
+                $("#dialog").html("");
+                var dlgObj = new ej.popups.Dialog({
+                    header: 'Reservations  <span style="margin-left:50%;font-size:11px;background-color:#fff;border-radius:7px;color:#000;padding:0 2em;width:auto;"> ' + $('.name_' + Id).val()
+                        + '</span><input type="hidden" id="user_id" value="'+Id+'"/>',
+                    content: dlgContent,
+                    target: document.getElementById('target'),
+                    showCloseIcon: true,
+                    //buttons: [
+                    //    {
+                    //        click: fnc_Submit,
+                    //        buttonmodel: { content: 'Submit', isprimary: true }
+                    //    }],
+                    width: '600px',
+                    height: 'auto',
+                    
+                    animationSettings: { effect: 'none' },
+                    allowDragging: true, isModal: true,
+                });
+
+
+                dlgObj.appendTo('#dialog');
+                dropDownListObj.appendTo('#sService');
+                /*$("#dtUpload").html('');*/
+                $("#edtReservation").html("New Reservation")
+                datepicker.appendTo('#rDate');
+                $("#btnLoad").html('<button  onclick="fnc_Submit()" class="col-md-12 btn btn-success" id="btnSubmit" >Submit</button>');
+            }
+        })
+    }
+    function dlgButtonClick(args) {
+
+    }
+ 
+    $(document).on('click', '.ed1', function () {
+        var Id = this.id;
+  
+        
+        $.ajax({
+            url: '/api/Reservation/GetById?rsr_id=' + Id,
+            type: "Get",
+            dataType: 'json',
+            contentType:'application/json',
+            success: function (result) {
+                var data = result.data.values;
+                debugger;
+                var serviceId = data.service_id;
+                
+                var drpdwnObj = document.getElementById("sService").ej2_instances[0];
+                //drpdwnObj.value = serviceId;
+                $("#edtReservation").html("Edit Reservation")
+                $("#rDate").val(data.reserve_ts);
+                var index = drpdwnObj.getIndexByValue(parseInt(serviceId));
+                drpdwnObj.index = index;
+             
+            }, error: function (error) {
+                alert(error["responseText"]);
+            }
+        })
+    });
+    $(document).on('click', '.familyAll', function () {
+        
+        $.ajax({
+            url: '/api/reservation/FamilyAllCheckInOut?user_id=' + this.id,
+            type: 'POST',
+            success: function (result) {
+                location.reload();
+            }, error: function (error) {
+                alert("Error: Unknown")
+            }
+        })
+
+    })
+    function fnc_Delete(Id) {
+
+    }
+    function fnc_Submit() {
+        
+        
+        var chk = $('.chk:checkbox:checked');
+        var user_id = $("#user_id").val();
+      
+        var sService = $("#sService_hidden").val();
+        var rDate = $("#rDate").val();
+        var arr = [];
+        for (var i = 0; i < chk.length; i++) {
+            arr.push(parseInt(chk[i].value));
+        }
+        var data = { "chk": arr, "user_id": user_id, "sService": sService, "rDate": rDate }
+        if (chk.length > 2) {
+            alert("Please select any 2 hours");
+            
+        } else {
+            $.ajax({
+                url: '/api/User/ReservationTiming',
+                type: 'POST',
+                data: data,
+                success: function (result) {
+                    alert(result);
+                }, error: function (errorMessage) {
+
+                }
+
+            })
+
+        }
+      
+    }
+    function fnc_DateChange() {
+   
+
+    }
+</script>
+<script type="text/x-template" id="detailtemplate">
+
+    <div class="moreDetails_${Id}"></div>
+
+</script>

@@ -43,7 +43,7 @@
                 <div class="links-divs">
                     <a class="header-nav-links" href="/Users">CLIENT MANAGEMENT</a>
                 </div>
-              
+
             }
         }
         @{
@@ -52,7 +52,7 @@
                 <div class="links-divs">
                     <a class="header-nav-links" href="/Reception">RECEPTION</a>
                 </div>
-              
+
             }
         }
 
@@ -62,7 +62,16 @@
                 <div class="links-divs">
                     <a class="header-nav-links" href="/Reports">REPORTS</a>
                 </div>
-              
+
+            }
+        }
+        @{
+            if (Models.SessionHelper.CanSeePage(Context, "reports") || Models.SessionHelper.CanSeePage(Context, "trainer"))
+            {
+                <div class="links-divs">
+                    <a class="header-nav-links" href="/Trainers">TRAINERS</a>
+                </div>
+
             }
         }
         @{
@@ -71,7 +80,7 @@
                 <div class="links-divs">
                     <a class="header-nav-links" href="/ManagementUsers">MANAGEMENT USERS</a>
                 </div>
-                
+
             }
         }
         @{
@@ -80,7 +89,7 @@
                 <div class="links-divs">
                     <a class="header-nav-links" href="/CEOManagement">CEO</a>
                 </div>
-                
+
             }
         }
         <button id="logout-button" onclick="window.location='/Logout';">LOGOUT</button>
