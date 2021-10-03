@@ -1,0 +1,106 @@
+﻿@page
+@model ZiadBooking.Pages.newEditReservation
+@using Syncfusion.EJ2
+
+@{
+    Layout = null;
+}
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+@{
+    List<Models.Reservation> reservations = (List<Models.Reservation>)ViewData["Reservations"];
+    if (reservations == null)
+    {
+        reservations = new List<Models.Reservation>();
+    }
+    List<Models.GenericModel> rsrTimingList = (List<Models.GenericModel>)ViewData["reservationtimings"];
+
+}
+
+
+
+<div class="row" style="background-color: gray; padding:0.5em 0;">
+    <div class="col-md-12">
+        Active Resevations
+    </div>
+</div>
+<div class="container" style="background-color: #EFEFEF ">
+    @{
+        foreach (var item in reservations)
+        {
+            <div class="row">
+                <div class="col-md-5 edit-reservation">
+                    <span style="float:left">
+                        <b>@item.ServiceName</b>  &nbsp;&nbsp;
+                        @item.StartDate - @item.EndDate &nbsp;&nbsp;
+                    </span>
+                    <div>
+                        <div class="ed1" id="ed_@item.Id"></div><div class="dl1"  id="dl_@item.Id"></div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        <div class="row" style="background-color: gray; padding:0.5em 0;">
+            <div class="col-md-12" id="edtReservation">
+                New Reservation
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>Activty</label>
+              <div id="sService"></div>
+            </div>
+            <div class="col-md-3" id="dtUpload">
+                @*<div id="rDate"></div>*@
+                <label>Date</label><input id="rDate" type="text" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="iconandtext" class="e-btn-group">
+                    @{
+
+                        foreach (var item in rsrTimingList)
+                        {
+                            <div class="col-md-4 ">
+
+
+                                <input type="checkbox" id="dt_@item.values["id"]" class="chk" name="fontstyle" value="@item.values["id"]" />
+                                <label class="e-btn btn btnDefault" for="dt_@item.values["id"]">
+                                    <span class="e-btn-icon bg-icons e-btngrp-bold e-icon-left"></span>@item.values["timing"]
+                                </label>
+                            </div>
+                        }
+
+
+
+                    }
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top:0.5em">
+            <div class="col-md-6" id="btnLoad">
+               
+                
+
+            </div>
+        </div>
+    }
+
+</div>
+
+
+

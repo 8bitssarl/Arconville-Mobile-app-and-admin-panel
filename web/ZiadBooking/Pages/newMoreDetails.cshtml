@@ -1,0 +1,300 @@
+﻿@page
+@model ZiadBooking.Pages.newMoreDetails
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Inputs
+@{
+    Layout = null;
+}
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+@{
+    List<Models.Reservation> reservations = (List<Models.Reservation>)ViewData["Reservations"];
+    if (reservations == null)
+    {
+        reservations = new List<Models.Reservation>();
+    }
+    //List<Models.UserSubscription> subscriptions = (List<Models.UserSubscription>)ViewData["Subscriptions"];
+    //if (subscriptions == null)
+    //{
+    //    subscriptions = new List<Models.UserSubscription>();
+    //}
+    List<Models.GenericModel> family = (List<Models.GenericModel>)ViewData["Family"];
+    List<Models.GenericModel> lstCurrentAllUserReservation = (List<Models.GenericModel>)ViewData["CurrentAllUserReservation"];
+    if (family == null)
+    {
+        family = new List<Models.GenericModel>();
+    }
+    //List<Models.UserPayment> payments = (List<Models.UserPayment>)ViewData["Payments"];
+    //if (payments == null)
+    //{
+    //    payments = new List<Models.UserPayment>();
+    //}
+    Models.GenericModel user = (Models.GenericModel)ViewData["User"];
+    //ViewData["UserTodayReservation"]
+    Models.GenericModel userTodayReservation = (Models.GenericModel)ViewData["UserTodayReservation"];
+    Models.GenericModel CurrentUserReservation = (Models.GenericModel)ViewData["CurrentUserReservation"];
+    //ViewData["FamilyTodayReservation"]
+    List<Models.GenericModel> familyTodayReservation = (List < Models.GenericModel>)ViewData["FamilyTodayReservation"];
+}
+
+
+
+
+
+<div class="container" style="background-color: #EFEFEF ">
+    @{
+        if (userTodayReservation != null)
+        {
+                <div class="row">
+                        <div class="col-md-2">
+                            <div class="image">
+                                <img src="/@user.values["profile_pic_url"]" />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <a href="javascript:AddEditReservation(@user.values["id"])">Reservation</a>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-md-8" style="padding:2em 0px">
+                        <div class="row">
+                            <div class="col-md-2 hdrUser" >
+                                @user.values["name"]
+                               
+                            </div>
+                            <div class="col-md-8 dtlUser name_@user.values["name"]" >
+                                @user.values["email"],@user.values["phone_number"]
+                            </div>
+                        </div>
+                        <div class="row" style="padding:0.5em 0">
+                            <div class="12">
+                              <div class="ex1"></div> <span class="stsUser">Active Reservation</span> 
+                            </div>
+                        </div>
+                        <div class="row">
+                         
+                            
+                            <div class="col-md-2">
+                                
+                                <form method="post">
+                                    <input type="hidden" value="@user.values["id"]" name="reservation_id" />
+                                    <input type="hidden" value="checkout" name="status" />
+                                    <input type="hidden" value="@user.values["name"]" name="name" />
+                                    <button type="submit" class="btn btn-success"> Check Out</button>
+                                </form>
+
+                            </div>
+                            <div class="col-md-8">
+                                @if (userTodayReservation == null && familyTodayReservation == null)
+                                {
+                                    <button class="btn btn-default" id='family_@user.values["id"]' name="familyAll"> CheckIN All Family</button>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+        }
+        else
+        {
+            if (user != null)
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="image">
+                            <img src="/@user.values["profile_pic_url"]" />
+                        </div>
+                        @if (Convert.ToInt32(user.values["subscription"]) > 0 && Convert.ToBoolean(user.values["isSuspended"]) == false)
+                        {
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <a style="padding:0 2em;" href="javascript:AddEditReservation(@user.values["id"])">Reservation</a>
+                                </div>
+                            </div>
+                        }
+                        </div>
+                    <div class="col-md-8" style="padding:2em 0px">
+                        <div class="row">
+                            <div class="col-md-2 hdrUser">
+                                @user.values["name"]
+                                <input class="name_@user.values["id"]" value="@user.values["name"]" type="hidden" />
+                            </div>
+                            <div class="col-md-8 dtlUser">
+                                @user.values["email"],@user.values["phone_number"]
+                            </div>
+                        </div>
+                        <div class="row" style="padding:0.5em 0">
+                            <div class="col-md-12">
+                                @if (CurrentUserReservation != null)
+                                {
+
+
+                                    <div class="ex1"></div>
+
+                                    <span class="stsUser">Active Reservation</span>
+                                }
+                                else
+                                {
+                                    <div class="ex2"></div> <span class="stsUser">There is no Active Reservation</span>
+                                }
+
+                            </div>
+                        </div>
+                        @if (Convert.ToInt32(user.values["subscription"]) > 0 && Convert.ToBoolean(user.values["isSuspended"])==false)
+                        {
+                            <div class="row">
+                                <div class="col-md-2">
+
+                                    <form method="post">
+                                        <input type="hidden" value="@user.values["id"]" name="reservation_id" />
+                                        <input type="hidden" value="checkin" name="status" />
+                                        <input type="hidden" value="@user.values["name"]" name="name" />
+                                        <button type="submit" class="btn btn-default"> CheckIN</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-8">
+                                    <button class="btn btn-default familyAll" id="@user.values["id"]"> CheckIN All Family</button>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            }
+
+
+
+
+        }
+
+
+    }
+
+</div>
+
+<div class="page-heading">Family</div>
+
+
+<table style="background-color:white" class="table table-borderless table-success table-striped info-table">
+
+    @{
+
+        <tr>
+            @foreach (var item in family)
+            {
+                <td>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="image">
+                                <img src="@item.values["profile_pic_url"]" />
+                            </div>
+                            <div class="center-block name_@item.values["name"]" style="font-weight:bold;padding:0.5em 2em;">@item.values["name"]</div>
+                            @{
+                                if (lstCurrentAllUserReservation != null)
+                                {
+                                    var currentAI = lstCurrentAllUserReservation.Find(u => u.values["user_id"].ToString() == item.values["id"].ToString());
+                                    if (currentAI != null)
+                                    {
+
+
+                                        <div class="ex1"></div>
+
+
+
+                                        <span class="stsUser">Active Reservation</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="ex2"></div> <span class="stsUser">There is no Active Reservation</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="ex2"></div> <span class="stsUser">There is no Active Reservation</span>
+                                }
+                            }
+                            @if (Convert.ToInt32(item.values["subscription"]) > 0 && Convert.ToBoolean(item.values["isSuspended"]) == false)
+                            {
+                                <div>
+                                    @if (familyTodayReservation != null)
+                                    {
+                                        if (familyTodayReservation.Count > 0)
+                                        {
+                                            var fId = item.values["id"];
+                                            var dFId = familyTodayReservation.Where(u => u.values["id"] == item.values["id"]).Count();
+                                            if (dFId > 0)
+                                            {
+                                                <form method="post">
+
+                                                    <input type="hidden" value="@item.values["id"]" name="user_id" />
+                                                    <input type="hidden" value="checkin" name="status" />
+                                                    <input type="hidden" value="@item.values["name"]" name="name" />
+                                                    <button type="submit" class="btn btn-default"> CheckIN</button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form method="post">
+
+                                                    <input type="hidden" value="@item.values["id"]" name="user_id" />
+                                                    <input type="hidden" value="checkout" name="status" />
+                                                    <input type="hidden" value="@item.values["name"]" name="name" />
+                                                    <button type="submit" class="btn btn-success"> CheckOut</button>
+                                                </form>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <form method="post">
+
+                                                <input type="hidden" value="@item.values["id"]" name="user_id" />
+                                                <input type="hidden" value="checkin" name="status" />
+                                                <input type="hidden" value="@item.values["name"]" name="name" />
+                                                <button type="submit" class="btn btn-default"> CheckIN</button>
+                                            </form>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <form method="post">
+
+                                            <input type="hidden" value="@item.values["id"]" name="user_id" />
+                                            <input type="hidden" value="checkin" name="status" />
+                                            <input type="hidden" value="@item.values["name"]" name="name" />
+                                            <button type="submit" class="btn btn-default"> CheckIN</button>
+                                        </form>
+                                    }
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <a href="javascript:AddEditReservation(@item.values["id"])">Reservation</a>
+                                    </div>
+                                </div>
+                            }
+                            </div>
+                       
+                    </div>
+
+
+
+                </td>
+            }
+
+        </tr>
+
+
+
+    }
+
+</table>
+
