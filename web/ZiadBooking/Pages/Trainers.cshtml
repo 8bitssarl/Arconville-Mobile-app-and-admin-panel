@@ -1,0 +1,295 @@
+﻿@page
+@model ZiadBooking.Pages.TrainersModel
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Inputs
+@{
+    ViewData["Title"] = "Trainers";
+    string userName = "";
+    if (ViewData["UserName"] != null)
+    {
+        userName = (string)ViewData["UserName"];
+    }
+}
+<link href="~/css/Reception.css" rel="stylesheet" />
+
+@{
+    if (ViewData["Message"] != null)
+    {
+        <div class="error-msg">
+            @ViewData["Message"].ToString()
+        </div>
+    }
+}
+
+@{
+    List<Models.GenericModel> ActivityList = (List<Models.GenericModel>)ViewData["Activity"];
+    List<Models.GenericModel> TimeList = (List<Models.GenericModel>)ViewData["Time"];
+    string selectedTime = (string)@ViewData["selectedTime"];
+    string selectedActivity = (string)@ViewData["selectedActivity"];
+    string n = "";
+    string m = "";
+    string p = "";
+    string c = "";
+    if (selectedTime == "today") n = "checked"; else n = "";
+    if (selectedTime == "tomorrow") m = "checked"; else m = ""; 
+      if (selectedTime == "aftertomorrow") p = "checked"; else p = ""; 
+
+}
+<style>
+    .e-btn-group .e-btn, .e-css.e-btn-group .e-btn {
+        box-shadow: none;
+    }
+
+    .e-btn, .e-css.e-btn {
+        -webkit-tap-highlight-color: transparent;
+        background-color: #fafafa;
+        border-color: transparent;
+        box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+        color: rgba(0,0,0,0.87);
+        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .e-btn, .e-css.e-btn {
+        -webkit-font-smoothing: antialiased;
+        border: 1px solid black;
+        border-radius: 7px;
+        /* box-sizing: border-box; */
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Roboto","Segoe UI","GeezaPro","DejaVu Serif","sans-serif","-apple-system","BlinkMacSystemFont";
+        font-size: 14px;
+        font-weight: 500;
+        -ms-flex-pack: center;
+        justify-content: center;
+        line-height: 1.8em;
+        outline: none;
+        padding: 6px 12px 4px;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        vertical-align: middle;
+        white-space: nowrap;
+        margin: 0 6px;
+        width: 15%;
+    }
+
+    .e-btn {
+        border-radius: 7px !important;
+    }
+
+    .image img {
+        height: 125px;
+        width: 125px;
+        border: 2px solid black;
+        border-radius: 12px;
+        box-shadow: inset 0 0 2px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+        float: left;
+    }
+
+    .dt-box {
+        min-height: inherit; /* <-- use min-height here */
+        height: 100%;
+        width: 125px;
+        /*border: 2px solid black;*/
+        /*border-radius: 12px;*/
+        box-shadow: inset 0 0 2px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+        float: left;
+        margin-left: 0;
+        margin-right: 1em;
+    }
+</style>
+<div id="info-div">
+    <div class=".lding" style="display:none">
+        <img src="/images/Loading.gif" />
+    </div>
+    <div id="dialog"></div>
+    <form method="post" id="myform" style="width:100%;margin:auto">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-12">
+                <div class="page-heading">Trainer Name</div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="row" style="background-color: gray; padding: 0.2em 0; margin: 1em 0px;">
+            <div class="col-md-offset-2 col-md-12" style="width:100%;">
+                Find Rservations
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-12">
+                <div style="float:left;font-weight:bold;margin-right:2em;line-height:2.8em">Time</div>
+                <div id="text" class="e-btn-group" style="box-shadow: none !important;">
+                    <input type="radio" id="today" name="align" value="today" @n />
+                    <label class="e-btn" for="today">TODAY</label>
+                    <input type="radio" id="tomorrow" name="align" value="tomorrow"  @m />
+                    <label class="e-btn" for="tomorrow">TOMORROW</label>
+                    <input type="radio" id="aftertomorrow" name="align" value="aftertomorrow" @p />
+                    <label class="e-btn" for="aftertomorrow">AFTER TOMORROW</label>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="background-color: gray; padding: 0.06em 0; margin: 1em 0px;">
+
+            <div class="clearfix"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="float:left;font-weight:bold;margin-right:2em;line-height:2.8em">Activity</div>
+                <div id="text" class="e-btn-group" style="box-shadow: none !important;">
+                    @foreach (var item in ActivityList)
+                    {
+                        if (item.values["id"].ToString() == selectedActivity)
+                        {
+                            c = "checked";
+                        }
+                        else
+                        {
+                            c = "";
+                        }
+                        <input type="radio" id="ac_@item.values["id"]" name="activity" value="@item.values["id"]" @c />
+                        <label class="e-btn" for="ac_@item.values["id"]">@item.values["name"]</label>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+    @{
+        if (TimeList.Count > 0)
+        {
+            List<object> lst = new List<object>();
+            TimeList.OrderBy(u => u.values["fk_reservationtimeId"]);
+            foreach (var x in TimeList.Select((value, index) => new { value, index }))
+            {
+
+                if (!lst.Contains((int)x.value.values["fk_reservationtimeId"]))
+                {
+                    <div class="row" style="margin: 1em; border: 1px solid black; background-color: #04AA6D;border-radius:12px">
+                        <div class="col-md-1" style="color: white; font-weight: 700;">
+                            <div style=" padding: 5em 1em;">
+                                <span>@TimeList[x.index].values["timing"]</span>
+                                @{lst.Add((int)TimeList[x.index].values["fk_reservationtimeId"]);
+                                }
+                                @if (TimeList.Count > x.index + 1)
+                                {
+                                    
+                                    lst.Add((int)TimeList[x.index + 1].values["fk_reservationtimeId"]);
+                                    <span>@TimeList[x.index + 1].values["timing"]</span>
+
+
+                                }
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-11" style="float:right;background-color:white;padding:1em;border-radius:10px">
+
+                            @foreach (var item in TimeList)
+                            {
+
+                                if (x.value.values["Date"] == item.values["Date"])
+                                {
+                                    <div class="col-md-1" style="width: 11.333333%" onclick="fnc_Popup(@item.values["fk_userId"])">
+                                        <div class="image">
+                                            <img src="@item.values["profile_pic_url"]" alt="@item.values["profile_pic_url"]" />
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="font-weight:100">
+                                                @item.values["username"]
+                                            </div>
+                                            <div style="font-weight:100">
+                                                &nbsp;&nbsp;
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+
+            }
+        }
+
+    }
+</div>
+<script id="imageURL" type="text/x-template">
+    <div class="image">
+        <img src="${ProfilePicUrl}" alt="${ProfilePicUrl}" />
+    </div>
+</script>
+<script>
+    $("input[type=radio]").click(function () {
+
+        if ($("input[name=align]:checked").val() && $("input[name=activity]:checked").val()) {
+            $('#myform').submit();
+        }
+
+    })
+    function fnc_Popup(Id) {
+        
+            $(".lding").show()
+            var demo;
+            var dlgContent;
+      
+
+            $.ajax({
+                url: '/api/User?user_id=' + Id,
+                Type: 'GET',
+                success: function (result) {
+                    
+                    debugger;
+                    dlgContent =
+                       ' <div class="row">'+
+                            '<div class="col-md-12" style="margin: 1em;"><div class="col-md-3"><div class="image"><img src="'+result.data.profilePicUrl+'"></div>'+
+                    '</div><div class="col-md-6" style="margin-top: 3em;margin-left: 1em;font-weight: 600;"><div class="row">' + result.data.name + '</div>' +
+                        '<div class="row">'+result.data.email+'</div>'+
+                    '</div >' +
+                    '<div class="row" ><div class"col-md-12" id="btnLoad"></div></div>' +
+                    '</div >' +
+                        
+                    '</div > '
+                        ;
+                    $(".lding").hide()
+
+                    $("#dialog").html("");
+                    var dlgObj = new ej.popups.Dialog({
+                        header:'',
+                        content: dlgContent,
+                        target: document.getElementById('target'),
+                        showCloseIcon: true,
+                        //buttons: [
+                        //    {
+                        //        click: fnc_Submit,
+                        //        buttonmodel: { content: 'Submit', isprimary: true }
+                        //    }],
+                        width: '600px',
+                        height: 'auto',
+
+                        animationSettings: { effect: 'none' },
+                        allowDragging: true, isModal: true,
+                    });
+
+
+                    dlgObj.appendTo('#dialog');
+              
+                    $("#btnLoad").html('<button  onclick="fnc_Submit()" class="col-md-10 btn btn-outline-primary" style="margin-left: 2em;margin-top: 1em;color:red;background-color:white;border:1px solid red;" id="btnSubmit" >Did Not Show up for Training</button>');
+                }
+            })
+        
+    }
+</script>
