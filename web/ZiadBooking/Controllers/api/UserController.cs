@@ -563,6 +563,7 @@ namespace ZiadBooking.Controllers.api
                     query = "INSERT INTO familyrequest(user_id,phone_number,name,relation,request_ts)";
                     query += " VALUES(@user_id,@phone_number,@name,@relation,@request_ts);";
                    query  += $" Insert into Family (user_id,child_id,relation) values(@user_id,{childId},@relation)";
+                   query  += $"  Insert into Family (user_id,child_id,relation) values({childId},@user_id,@relation) ";
                     comm = (MySqlCommand)db.Connection.CreateCommand();
                     comm.CommandText = query;
                     comm.Parameters.AddWithValue("@user_id", userId);
